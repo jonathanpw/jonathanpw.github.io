@@ -3,7 +3,5 @@
 # Edit theme's home layout instead if you wanna make some changes
 # See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 layout: home
-title: Jonathan P Williams | NCSU Statistics
-		<!-- Favicon head tag -->
-		<link rel="icon" href="favicon.ico" type="image/x-icon">
+title: Jonathan P Williams | UNC Statistics
 ---
