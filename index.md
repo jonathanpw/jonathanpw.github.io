@@ -4,4 +4,5 @@
 # See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 layout: home
 title: Jonathan P Williams | NCSU Statistics
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 ---
