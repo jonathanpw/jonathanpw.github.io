@@ -114,9 +114,120 @@ x = runif( n=n, min=a, max=b)
 hist( x=x, freq=F, main='uniform empirical pdf')
 
 # Lastly compute and plot the emirical cumulative distribution function
+pdf = c( a, hist( x=x, plot=F)$counts) / n
+x_grid = hist( x=x, plot=F)$breaks
+cdf = cumsum(pdf)
+plot( x=x_grid, cdf, ylim=0:1, type='l', main='uniform empirical cdf')
+dev.off()
+# -----------------------------------------------------------------------------
+
+
+# Exponential random variable -------------------------------------------------
+# First simulate a sample of realizations with rate parameter 1
+n = 100
+lambda = 1
+x = rexp( n=n, rate=lambda)
+# Next look at the empirical mass function of the sample
+hist( x=x, freq=F, main='exponential empirical pdf')
+
+# Observe how the empirical density converges to the true density as the sample
+# size gets larger
+n = 1000
+x = rexp( n=n, rate=lambda)
+hist( x=x, freq=F, main='exponential empirical pdf')
+
+n = 1000000
+x = rexp( n=n, rate=lambda)
+hist( x=x, freq=F, main='exponential empirical pdf')
+
+# Lastly compute and plot the emirical cumulative distribution function
+pdf = c( 0, hist( x=x, plot=F)$counts) / n
+x_grid = hist( x=x, plot=F)$breaks
+cdf = cumsum(pdf)
+plot( x=x_grid, cdf, ylim=0:1, type='l', main='exponential empirical cdf')
+dev.off()
+# -----------------------------------------------------------------------------
+
+
+# Gamma random variable -------------------------------------------------------
+# First simulate a sample of realizations with shape parameter 3 and rate 1
+n = 100
+alpha = 3
+lambda = 1
+x = rgamma( n=n, shape=alpha, rate=lambda)
+# Next look at the empirical mass function of the sample
+hist( x=x, freq=F, main='gamma empirical pdf')
+
+# Observe how the empirical density converges to the true density as the sample
+# size gets larger
+n = 1000
+x = rgamma( n=n, shape=alpha, rate=lambda)
+hist( x=x, freq=F, main='gamma empirical pdf')
+
+n = 1000000
+x = rgamma( n=n, shape=alpha, rate=lambda)
+hist( x=x, freq=F, main='gamma empirical pdf')
+
+# Lastly compute and plot the emirical cumulative distribution function
+pdf = c( 0, hist( x=x, plot=F)$counts) / n
+x_grid = hist( x=x, plot=F)$breaks
+cdf = cumsum(pdf)
+plot( x=x_grid, cdf, ylim=0:1, type='l', main='gamma empirical cdf')
+dev.off()
+# -----------------------------------------------------------------------------
+
+
+# Normal random variable ------------------------------------------------------
+# First simulate a sample of realizations with mean 0 and standard deviation 1
+n = 100
+mu = 0
+sd = 1
+x = rnorm( n=n, mean=mu, sd=sd)
+# Next look at the empirical mass function of the sample
+hist( x=x, freq=F, main='normal empirical pdf')
+
+# Observe how the empirical density converges to the true density as the sample
+# size gets larger
+n = 1000
+x = rnorm( n=n, mean=mu, sd=sd)
+hist( x=x, freq=F, main='normal empirical pdf')
+
+n = 1000000
+x = rnorm( n=n, mean=mu, sd=sd)
+hist( x=x, freq=F, main='normal empirical pdf')
+
+# Lastly compute and plot the emirical cumulative distribution function
 pdf = hist( x=x, plot=F)$counts / n
 x_grid = hist( x=x, plot=F)$mids
 cdf = cumsum(pdf)
-plot( x=x_grid, cdf, ylim=0:1, type='l', main='poisson empirical cdf')
+plot( x=x_grid, cdf, ylim=0:1, type='l', main='normal empirical cdf')
+dev.off()
+# -----------------------------------------------------------------------------
+
+
+# Beta random variable --------------------------------------------------------
+# First simulate a sample of realizations with both shape paremeters equal to .5
+n = 100
+alpha = .5
+beta = .5
+x = rbeta( n=n, shape1=alpha, shape2=beta)
+# Next look at the empirical mass function of the sample
+hist( x=x, freq=F, main='beta empirical pdf')
+
+# Observe how the empirical density converges to the true density as the sample
+# size gets larger
+n = 1000
+x = rbeta( n=n, shape1=alpha, shape2=beta)
+hist( x=x, freq=F, main='beta empirical pdf')
+
+n = 1000000
+x = rbeta( n=n, shape1=alpha, shape2=beta)
+hist( x=x, freq=F, main='beta empirical pdf')
+
+# Lastly compute and plot the emirical cumulative distribution function
+pdf = c( 0, hist( x=x, plot=F)$counts) / n
+x_grid = hist( x=x, plot=F)$breaks
+cdf = cumsum(pdf)
+plot( x=x_grid, cdf, ylim=0:1, type='l', main='beta empirical cdf')
 dev.off()
 # -----------------------------------------------------------------------------
