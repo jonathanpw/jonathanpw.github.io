@@ -65,3 +65,48 @@ cat('empirical mean of the empirical mean = ',mean(x_bar),'\n')
 
 dev.off()
 # -----------------------------------------------------------------------------
+
+
+
+# Convergence in distribution of Poisson(lambda_n) to N(0,1) with 
+# lambda_n --> infinity -------------------------------------------------------
+sample_size = 10000
+lambda_seq = c(1,3,10,100,10000,100000)
+par(mfrow=c(2,3))
+for(i in 1:length(lambda_seq)){
+	
+	lambda = lambda_seq[i]
+	z = ( rpois( n=1000, lambda=lambda) - lambda ) / sqrt(lambda)
+	hist( z, xlim=c(-4,4), ylim=c(0,.8), main=paste0('lambda = ', lambda), freq=F)
+	x_grid = seq(-4,4,by=.1)
+	lines( x_grid, dnorm( x=x_grid, mean=0, sd=1, log=F))
+}
+# -----------------------------------------------------------------------------
+
+
+
+# Example Monte Carlo integration code for the example from lecture -----------
+indicator_A = function( x, y) return(as.integer(x^2 + y^2 < 1))
+
+n = 1000000
+sample_mean = 0
+for(i in 1:n){
+	
+	x_i = runif( n=1, min=-2, max=2)
+	y_i = runif( n=1, min=-2, max=2)
+	
+	sample_mean = sample_mean + indicator_A( x_i, y_i) / n
+}
+
+cat('Estimated P(A) = ', sample_mean, ' versus true P(A) = ', pi/16, '\n')
+# -----------------------------------------------------------------------------
+
+# Seth's elegant solution to the Monte Carlo integration example from lecture -
+n<-1000000
+x<-runif(n,-2,2)
+y<-runif(n,-2,2)
+mean( x^2 + y^2 <= 1 )
+# -----------------------------------------------------------------------------
+
+
+
