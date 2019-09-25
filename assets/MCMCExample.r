@@ -1,7 +1,7 @@
-# ---------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Replicate the MCMC example in the accompanying slides
 # Jonathan Williams - jpwill@live.unc.edu - williams.jonathan1@mayo.edu
-# ---------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # Setting this seed should generate exactly what is shown in the slides.
 set.seed(27584)
@@ -25,6 +25,9 @@ MHRatio = function(lambda_new,lamba_curr,a,b){
 	return( numerator / denominator )
 }
 
+# Number of steps to run the MCMC algorithm for.
+steps = 10000
+
 # Create objects to store the MCMC output.
 proposal = rep(1,steps)
 ratios = rep(0,steps)
@@ -32,13 +35,12 @@ coinflip = rep(0,steps)
 trace = rep(0,steps)
 acceptRatio = 0
 
-# Number of steps to run the MCMC algorithm for.
-steps = 10000
+
 
 # Begin the algorithm at some arbitrary value of lambda, say lambda = 1.
 trace[1] = 1
 
-# The MCMC algorithm --------------------------------------------------------------------------------------------
+# The MCMC algorithm ----------------------------------------------------------
 for(ttt in 2:steps){ 
  
 	proposal[ttt] = trace[ttt-1] + rnorm(n=1, mean=0, sd=0.5)
@@ -54,28 +56,29 @@ for(ttt in 2:steps){
 	} else{ trace[ttt] = trace[ttt-1] }
  
 }
-# ---------------------------------------------------------------------------------------------------------------
-# ---------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 
 
-# ---------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Create and save the plots shown in the slides.
-# ---------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 for(k in 1:10){
 	pdf(paste('MCMCExamplePlots',k,'.pdf',sep=''))
-	plot( proposal[1:k], xlab='step', ylab='lamba', xlim=range(1,10), ylim=range(0.5,3), type='p', pch=19,
-	      col='orangered', xaxt='n')
-	lines( trace[1:k], xlab='step', ylab='lamba', xlim=range(1,10), type='o', lwd=3, pch=19, col='steelblue2',
-	       xaxt='n')
+	plot( proposal[1:k], xlab='step', ylab='lamba', xlim=range(1,10), 
+	      ylim=range(0.5,3), type='p', pch=19, col='orangered', xaxt='n')
+	lines( trace[1:k], xlab='step', ylab='lamba', xlim=range(1,10), type='o', 
+	       lwd=3, pch=19, col='steelblue2', xaxt='n')
 	axis( 1, at=seq(1,10,by=1))
 	dev.off()
 }
 
 pdf('MCMCExamplePlots.pdf')
 par(mfrow=c(1, 2))
-plot(trace,xlab='step',ylab='lamba',col='steelblue2')
-hist(trace,breaks=sqrt(steps),freq=FALSE,xlab='lambda',main=NA,xlim=range(2,3),col='steelblue2')
+plot( trace,xlab='step',ylab='lamba',col='steelblue2')
+hist( trace,breaks=sqrt(steps),freq=FALSE,xlab='lambda',main=NA,xlim=range(2,3),
+      col='steelblue2')
 posterior = dgamma(seq(from=2,to=3,by=0.01), shape=a+n, rate=b+sum(x))
 lines(seq(from=2,to=3,by=0.01) ,posterior,type='l',lwd=3)
 dev.off()
