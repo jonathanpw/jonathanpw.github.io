@@ -1,0 +1,34 @@
+
+Study guide of topics covered for Midterm 1
+ST 502
+Rice textbook chapters covered: 1 - 7.3
+
+--> Probability measures; definitions and properties
+--> Conditional probability; definition and law of total probability
+--> Bayes' rule, inverse probability 
+--> Independence; definition and consequences
+--> Random variables; discrete and continuous
+--> Probability mass and density functions; defining properties
+--> Cumulative distribution function; defining properties
+--> Limit theorems
+--> Notions of convergence; pointwise, in probability, in distribution, a.s.
+--> Law of large numbers
+--> Proof of the law of large numbers
+--> Markov's inequality and proof
+--> Central limit theorem
+--> Taylor expansions
+--> Moment generating functions and their relation to weak convergence
+--> Standardizing a random variable
+--> Monte Carlo sampling/integration; importance sampling
+--> Distributions derived from the normal distribution; chi-squared, t, and F
+--> Heavy tailed versus light tailed distributions
+--> Change of variables and transformations of random variables
+--> Properties of the sample mean and variance for iid Gaussian data
+--> Population parameters versus sample statistics
+--> Sampling distribution
+--> Finite population sampling, with and without replacement
+--> Finite population corrections to sample statistics (sampling without replacement)
+--> Expected value and variance of sample statistics
+--> Estimation of expected value and variance of sample statistics
+--> Normal approximations 
+--> Confidence intervals; derivation and interpretation
