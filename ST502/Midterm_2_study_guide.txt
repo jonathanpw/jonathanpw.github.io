@@ -1,0 +1,69 @@
+
+Study guide of topics covered for Midterm 2
+ST 502
+Rice textbook chapters covered: 1 - 9
+
+--> Probability measures; definitions and properties
+--> Conditional probability; definition and law of total probability
+--> Bayes' rule, inverse probability 
+--> Independence; definition and consequences
+--> Random variables; discrete and continuous
+--> Probability mass and density functions; defining properties
+--> Cumulative distribution function; defining properties
+--> Limit theorems
+--> Notions of convergence; pointwise, in probability, in distribution, a.s.
+--> Law of large numbers
+--> Proof of the law of large numbers
+--> Markov's inequality and proof
+--> Central limit theorem
+--> Taylor expansions
+--> Moment generating functions and their relation to weak convergence
+--> Standardizing a random variable
+--> Monte Carlo sampling/integration; importance sampling
+--> Distributions derived from the normal distribution; chi-squared, t, and F
+--> Heavy tailed versus light tailed distributions
+--> Change of variables and transformations of random variables
+--> Properties of the sample mean and variance for iid Gaussian data
+--> Population parameters versus sample statistics
+--> Sampling distribution
+--> Finite population sampling, with and without replacement
+--> Finite population corrections to sample statistics (sampling without replacement)
+--> Expected value and variance of sample statistics
+--> Estimation of expected value and variance of sample statistics
+--> Normal approximations 
+--> Confidence intervals; derivation and interpretation
+
+Topics after Midterm 1
+
+--> Parameter estimation
+--> Method of moments (MoM)
+--> Population moments versus sample moments
+--> Bootstrapping to estimate MoM sampling distributions
+--> Definition of consistency of an estimator (in probability)
+--> Method of maximum likelihood
+--> Likelihood and log-likelihood function
+--> Maximum likelihood estimate (MLE)
+--> Large sample theory for MLE (consistency and asymptotic normality)
+--> Fisher information
+--> Exact and approximate confidence intervals for MLE
+--> Concept of efficiency of an estimator
+--> Mean squared error (MSE) and variance/bias tradeoff
+--> Cramer-Rao lower bound
+--> Definition of a sufficient statistic
+--> Factorization theorem
+--> The Bayesian approach
+--> Prior and posterior distribution
+--> Conjugate prior
+--> Credible set/region
+--> Conditional posterior distribution
+--> Gibbs sampling
+--> Metropolis-Hastings algorithm 
+--> Hypothesis testing
+--> Likelihood ratio (LR)
+--> Prior and posterior odds ratio
+--> Neyman-Pearson paradigm
+--> Type I and type II error
+--> Level of significance and power
+--> LR test
+--> Simple versus composite hypothesis
+--> Neyman-Pearson lemma
