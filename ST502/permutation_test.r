@@ -1,6 +1,6 @@
 # Generate two data sets
 x = rnorm( n=33, mean=79, sd=5)
-y = rnorm( n=41, mean=79, sd=1)
+y = rnorm( n=41, mean=71, sd=5)
 
 # Calculate the test statistic
 test_stat = mean(x) - mean(y)
