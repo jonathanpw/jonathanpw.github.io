@@ -1,0 +1,59 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,color,float}
+\usepackage{graphicx,psfrag,epsf}
+\usepackage{natbib}
+
+
+\setlength{\oddsidemargin}{.15in} 
+\setlength{\textwidth}{6.25in}
+\setlength{\topmargin}{-0.25in}
+\setlength{\headheight}{-0.15in}
+\setlength{\textheight}{8.9in} 
+
+\linespread{1.25}
+
+
+\title{ST 705 Linear models and variance components \\ 
+        Homework problem set 3}
+
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+\item(2 points) Let $G(\beta) = (y - X\beta)'W(y - X\beta)$.  Derive $\partial{G} / \partial{\beta}$.
+
+\item(2 points) Let $A \in \mathbb{R}^{n\times p}$
+\begin{enumerate}
+\item Prove that if $A^{g}$ is a generalized inverse of $A$ (i.e., only satisfying $AA^{g}A = A$), then $(A^{g})'$ is a generalized inverse of $A'$.  Conclude from this fact that $P_{X} := X(X'X)^{g}X'$ is symmetric (this finishes the proof of a theorem about $P_{X}$ from lecture).
+\item Prove the existence \textbf{and} uniqueness of the Moore-Penrose generalized inverse, usually denoted $A^{+}$, of $A$.
+\item Show that if $A$ has full column rank, then $A^{+} = (A'A)^{-1}A'$.  
+\item Show that if $A$ has full row rank, then $A^{+} = A(AA')^{-1}$.
+\end{enumerate}
+
+\item(2 points) Let $S$ be a nonempty subset of an inner product space $V$.  The orthogonal complement to the set $S$ is defined as
+\[
+S^{\perp} := \{x \in V : \langle x,y\rangle = 0 \text{ for every } y \in S\}.
+\]
+\begin{enumerate}
+\item Show that $S^{\perp}$ is a subspace of $V$ for any $S \subseteq V$.
+\item Let $W \subseteq V$ be a finite dimensional subspace, and let $y \in V$.  Show that there exist \textbf{unique} vectors $u \in W$ and $z \in W^{\perp}$ such that $y = u + z$.
+\item Let $X \in \mathbb{R}^{n\times p}$.  Verify that column$(X)$ and null$(X')$ are orthogonal complements.
+\end{enumerate}
+
+\item(2 points) Exercise 2.8 from Monahan.
+
+\item(2 points) Exercise 2.9 from Monahan.
+
+\item(2 points) Exercise 2.11 from Monahan.
+
+
+\end{enumerate}
+
+
+
+
+
+
+\end{document}
