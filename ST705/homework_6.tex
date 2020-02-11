@@ -1,0 +1,64 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,color,float}
+\usepackage{graphicx,psfrag,epsf}
+\usepackage{natbib}
+
+
+\setlength{\oddsidemargin}{.15in} 
+\setlength{\textwidth}{6.25in}
+\setlength{\topmargin}{-0.25in}
+\setlength{\headheight}{-0.15in}
+\setlength{\textheight}{8.9in} 
+
+\linespread{1.25}
+
+
+\title{ST 705 Linear models and variance components \\ 
+        Homework problem set 6}
+
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+\item(2 points) Exercise 3.9 from Monahan.  Not necessary to do the ``(More practice)'' item. 
+
+\item(2 points) Consider the model $Y_{ijk} = \mu + \alpha_{i} + \beta_{j} + \theta_{ij} + U_{ijk}$, with $k \in \{1,\dots,m_{ij}\}$, $i \in \{1,\dots,n\}$, $j \in \{1,\dots,m\}$, and $E(U_{ijk}) = 0$.  Find necessary and sufficient conditions for which $\lambda'\gamma$ is estimable for 
+\[
+\gamma =
+\begin{pmatrix}
+\mu & \alpha_{1} & \cdots & \alpha_{n} & \beta_{1} & \cdots & \beta_{m} & \theta_{11} & \cdots & \theta_{nm} \\
+\end{pmatrix}'.
+\]
+
+\item(2 points) Prove the converse to Result 3.2 (recall that we saw two proofs of Result 3.2 in lecture).  That is, if the least squares estimator $\lambda'\widehat{\beta}$ is the same for all solutions $\widehat{\beta}$ to the normal equations, then $\lambda'\beta$ is estimable. 
+
+\item(2 points) Let $V$ be a finite-dimensional inner product space over $\mathbb{C}$, and let $\{v_{1},\dots,v_{n}\}$ be an orthonormal basis for $V$.  
+\begin{enumerate}
+\item Show that for any $x,y \in V$,
+\[
+\langle x,y\rangle = \sum_{i=1}^{n}\langle y,v_{i} \rangle\overline{\langle y,v_{i} \rangle}.
+\]
+This is called Parseval's identity.
+\item For $V = \mathbb{R}^{2}$ use Parseval's identity to prove the Pythagorean theorem.  Generalize this result to $\mathbb{R}^{n}$.
+\end{enumerate}
+
+\item(2 points) Let $V$ be an inner product space over $\mathbb{C}$, and let $\{v_{1},\dots,v_{n}\} \subset V$ be orthonormal.
+\begin{enumerate}
+\item Prove that for any $x \in V$,
+\[
+\|x\|^{2} \ge \sum_{i=1}^{n} |\langle x,v_{i}\rangle|^{2}.
+\]
+This is called Bessel's inequality.
+\item Show that Bessel's inequality is an equality if and only if $x \in \text{span}\{v_{1},\dots,v_{n}\}$.
+\end{enumerate}  
+
+\end{enumerate}
+
+
+
+
+
+
+\end{document}
