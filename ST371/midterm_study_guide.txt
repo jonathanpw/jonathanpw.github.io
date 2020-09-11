@@ -1,0 +1,64 @@
+
+Study guide of topics covered for Midterm 1
+ST 371
+Devore
+
+
+Textbook chapters covered: 1 - 2
+
+Notion of a population;
+Notion of a sample;
+Definition of a variable;
+Definition of a discrete variable;  
+Definition of a continuous variable;
+Frequency of data values;
+Relative frequency of data values;
+Density of data values;
+Bar plot of discrete data;
+Histogram of continuous data;
+Choosing the bins for histograms of continuous data;
+Describing the shape of a distribution (e.g., mode(s) and skew);
+Measures of location;
+Notion of a population mean;
+Definition of the sample mean;
+Notion of a population median;
+Definition of the sample median;
+Properties of the sample mean and sample median;
+Notion of robustness of statistics;
+Construction of other quantiles/quartiles/percentiles;
+Measures of variability;
+Deviations from the mean;
+Deviations from the median;
+Squared deviations;
+Definition of the sample variance;
+Definition of the sample standard deviation;
+Alternative expressions for the sample variance;
+Properties of the sample variance;
+Interquartile range (i.e., fourth spread);
+Notions of outliers and extreme data values;
+Box plots;
+Sample space of an experiment;
+Notions of outcomes and events;
+Relations from set theory (e.g., complement, union, intersection);
+Notion of mutually exclusive (or disjoint) events;  
+Definition of a probability measure from axioms;
+Properties of probability measures (derived from the axioms);
+Counting techniques;
+Product rules for counting;
+Combinations of sets;
+Permutations of sets;
+Definition of conditional probability;
+Multiplication rule for probabilities of intersections;
+Law of total probability (and proof);
+Bayes' Theorem (and proof);
+Notion of independence of two events;
+Notion of dependence of two events;
+Product rule for independent events;
+Necessary and sufficient conditions (and equivalent definitions) for independence;
+Notion of mutual independence of a finite collection of events;
+
+
+
+
+
+   
