@@ -1,10 +1,12 @@
 
-Study guide of topics covered for Midterm 1
+Study guide of topics covered for Midterm 2
 ST 371
 Devore
 
 
-Textbook chapters covered: 1 - 2
+Textbook chapters covered: 1 - 4.3
+
+Material covered before Midterm 1:
 
 Notion of a population;
 Notion of a sample;
@@ -58,7 +60,36 @@ Necessary and sufficient conditions (and equivalent definitions) for independenc
 Notion of mutual independence of a finite collection of events;
 
 
+Material covered after Midterm 1:
+
+Definition of a random variable;
+Distinction between a discrete and continuous random variable;
+Probability mass function (pmf) and defining properties;
+Parameter of a distribution;
+Cumulative distribution function (cdf) and defining properties;
+Uses of a pmf and cdf in evaluating probabilities;
+Expected value of a discrete random variable;
+Variance and standard deviation of a discrete random variable;
+Binomial distribution and properties (pmf, cdf, expected values, variance, etc.);
+Negative binomial distribution and properties (pmf, cdf, expected values, variance, etc.);
+Hypergeometric distribution and properties (pmf, cdf, expected values, variance, etc.);
+Poisson distribution and properties (pmf, cdf, expected values, variance, etc.);
+Relationship between Poisson and binomial distributions;
+Definition of a continuous random variable;
+Probability density function (pdf) and defining properties;
+Uses of a pdf and cdf in evaluating probabilities;
+Expected value of a continuous random variable;
+Variance and standard deviation of a continuous random variable;
+Uniform distribution and properties (pdf, cdf, expected values, variance, etc.);
+Standard uniform distribution;
+Gaussian distribution and properties (pdf, cdf, expected values, variance, etc.);
+Standard normal distribution;
+Standardization of a random variable;
+Relationship between Gaussian and binomial distributions;
 
 
 
-   
+
+
+
+
