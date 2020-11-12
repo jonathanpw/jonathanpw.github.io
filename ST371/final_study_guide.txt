@@ -1,0 +1,137 @@
+
+Study guide of topics covered for Final Exam
+ST 371
+Devore
+
+
+Textbook chapters covered: 1 - 5
+
+Material covered before Midterm 1:
+
+Notion of a population;
+Notion of a sample;
+Definition of a variable;
+Definition of a discrete variable;  
+Definition of a continuous variable;
+Frequency of data values;
+Relative frequency of data values;
+Density of data values;
+Bar plot of discrete data;
+Histogram of continuous data;
+Choosing the bins for histograms of continuous data;
+Describing the shape of a distribution (e.g., mode(s) and skew);
+Measures of location;
+Notion of a population mean;
+Definition of the sample mean;
+Notion of a population median;
+Definition of the sample median;
+Properties of the sample mean and sample median;
+Notion of robustness of statistics;
+Construction of other quantiles/quartiles/percentiles;
+Measures of variability;
+Deviations from the mean;
+Deviations from the median;
+Squared deviations;
+Definition of the sample variance;
+Definition of the sample standard deviation;
+Alternative expressions for the sample variance;
+Properties of the sample variance;
+Interquartile range (i.e., fourth spread);
+Notions of outliers and extreme data values;
+Box plots;
+Sample space of an experiment;
+Notions of outcomes and events;
+Relations from set theory (e.g., complement, union, intersection);
+Notion of mutually exclusive (or disjoint) events;  
+Definition of a probability measure from axioms;
+Properties of probability measures (derived from the axioms);
+Counting techniques;
+Product rules for counting;
+Combinations of sets;
+Permutations of sets;
+Definition of conditional probability;
+Multiplication rule for probabilities of intersections;
+Law of total probability (and proof);
+Bayes' Theorem (and proof);
+Notion of independence of two events;
+Notion of dependence of two events;
+Product rule for independent events;
+Necessary and sufficient conditions (and equivalent definitions) for independence;
+Notion of mutual independence of a finite collection of events;
+
+
+Material covered after Midterm 1:
+
+Definition of a random variable;
+Distinction between a discrete and continuous random variable;
+Probability mass function (pmf) and defining properties;
+Parameter of a distribution;
+Cumulative distribution function (cdf) and defining properties;
+Uses of a pmf and cdf in evaluating probabilities;
+Expected value of a discrete random variable;
+Variance and standard deviation of a discrete random variable;
+Binomial distribution and properties (pmf, cdf, expected values, variance, etc.);
+Negative binomial distribution and properties (pmf, cdf, expected values, variance, etc.);
+Hypergeometric distribution and properties (pmf, cdf, expected values, variance, etc.);
+Poisson distribution and properties (pmf, cdf, expected values, variance, etc.);
+Relationship between Poisson and binomial distributions;
+Definition of a continuous random variable;
+Probability density function (pdf) and defining properties;
+Uses of a pdf and cdf in evaluating probabilities;
+Expected value of a continuous random variable;
+Variance and standard deviation of a continuous random variable;
+Uniform distribution and properties (pdf, cdf, expected values, variance, etc.);
+Standard uniform distribution;
+Gaussian distribution and properties (pdf, cdf, expected values, variance, etc.);
+Standard normal distribution;
+Standardization of a random variable;
+Relationship between Gaussian and binomial distributions;
+
+
+Material covered after Midterm 2:
+
+Exponential distribution;
+Waiting times, inter-arrival times, and relationship between Poisson and exponential distributions;
+Definition of the gamma function;
+Gamma distribution;
+Standard gamma distribution;
+Relationship between the gamma and exponential distributions;
+Chi-squared distribution;
+Relationship between the Chi-squared and gamma distributions;
+Weibull distribution;
+Relationship between the Weibull and exponential distributions;
+Lognormal distribution;
+Beta distribution;
+Standard beta distribution;
+Relationship between the beta and uniform distributions;
+Joint pmf and pdf of two random variables;
+Marginal pmf and pdf of two random variables;
+Independence of two random variables;
+Joint pmf and pdf of finitely many random variables;
+Marginal pmf and pdf of finitely many random variables;
+Independence of finitely many random variables;
+Conditional pmf and pdf;
+Expected values of real-valued functions of jointly distributed random variables;
+Covariance between two random variables, and related properties;
+Correlation between two random variables, and related properties;
+Relationship between correlation/covariance and independence;
+Definition of a statistic;
+Definition of a random (iid) sample;
+Sampling distribution of a statistic;
+Mean and variance of a sample mean;
+Distribution of the sample mean of a Gaussian random sample;
+Central limit theorem and Gaussian approximations;
+Definition of a linear combination of finitely many random variables;
+Mean and variance of a linear combination of finitely many random variables;
+
+
+
+
+
+
+
+
+
+
+
+
