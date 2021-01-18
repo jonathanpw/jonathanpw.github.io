@@ -22,8 +22,12 @@ Instructions for submission of completed assignments:
     send the reviewer the assignment under review via email.
 
 (3) Reviewers will be given one week to complete the review of their assigned
-    assignment.  Upon completion, the reviewer will submit a typed report,
-    including a recommended numeric grade, to the AE via email.  
+    assignment.  Reviewers will have their own assignment grade recorded as long
+    as they have completed the review that they were assigned, each week.  If 
+    the reviewer fails to complete their review on time, then the TA will grade
+    the assignment that they were assigned.  Upon completion, the reviewer will 
+    submit a typed report, including a recommended numeric grade, to the AE via 
+    email.  
 		
     Instructions for grading assignments:
 	
