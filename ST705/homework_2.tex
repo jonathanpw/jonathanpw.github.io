@@ -1,0 +1,82 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,color,float}
+\usepackage{graphicx,psfrag,epsf}
+\usepackage{natbib}
+
+
+\setlength{\oddsidemargin}{.15in} 
+\setlength{\textwidth}{6.25in}
+\setlength{\topmargin}{-0.25in}
+\setlength{\headheight}{-0.15in}
+\setlength{\textheight}{8.9in} 
+
+\linespread{1.25}
+
+
+\title{ST 705 Linear models and variance components \\ 
+        Homework problem set 2}
+
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+\item Let $A$ be a positive definite matrix, and show that 
+\[
+\text{tr}(I - A^{-1}) \le \log\det(A) \le \text{tr}(A - I).
+\]
+
+\item Show that the covariance function defined for $X, Y \in \mathbb{R}^{p}$ by
+\[
+\text{Cov}(X,Y) := E[(X - E(X))(Y - E(Y))']
+\]
+satisfies the following properties.  For any $X, Y, Z \in \mathbb{R}^{p}$ and any $c \in \mathbb{R}$,
+\begin{enumerate}
+\item $\text{Cov}(X+Y,Z) = \text{Cov}(X,Z) + \text{Cov}(Y,Z)$
+\item $\text{Cov}(cX,Y) = c\cdot \text{Cov}(X,Y)$
+\item $\text{Cov}(X,Y)^{*} = \text{Cov}(Y,X)$
+\item $\text{Cov}(X,X) > 0$ if $X \ne 0$ a.s.
+\end{enumerate}
+Then, deduce that if $p = 1$ the covariance is an inner product, and if $p > 1$ the the function $f(X,Y) := \text{tr}\big(\text{Cov}(X,Y)\big)$ is an inner product.
+
+\item Exercise A.50 from Monahan.
+
+\item For matrices $A \in \mathbb{R}^{p\times q}$, the \textit{spectral} norm is defined as,
+\[
+\|A\|_{2} := \sqrt{\sup_{x\ne0}\frac{x'A'Ax}{x'x}}.
+\]
+Further, the eigenvalues of $A'A$ are the squares of the \textit{singular values} of $A$, so sometimes the definition of the spectral norm is expressed as
+ \[
+\|A\|_{2} := \sigma_{\max}(A),
+\]
+where $\sigma_{\max}$ denotes the largest singular value of $A$. 
+\begin{enumerate}
+\item Verify that the spectral norm is a norm.  Recall that a norm must satisfy the following axioms for any $A,B,C \in \mathbb{R}^{p\times q}$ and any $\alpha \in \mathbb{R}$.
+\begin{enumerate}
+\item $\|\alpha A\| = |\alpha|\|A\|$
+\item $\|A + B\| \le \|A\| + \|B\|$
+\item $\|A\| \ge 0$ with equality if and only if $A = 0$.
+\end{enumerate}
+\item Show that the spectral norm is sub-multiplicative for square matrices.  That is, for $A,B \in \mathbb{R}^{p\times p}$, $\|AB\|_{2} \le \|A\|_{2}\|B\|_{2}$.  
+\end{enumerate}
+
+\item Suppose you do not know that the rank of a matrix is equal to the number of nonzero singular values.  Show that the rank of a projection matrix is equal to its trace.  First think about how to show this in the symmetric case, and then consider the more general case of a non-symmetric idempotent matrix.
+
+\item Show that if $\text{rank}(BC) = \text{rank}(B)$, then $\text{col}(BC) = \text{col}(B)$, where col$(\cdot)$ denotes the column space.
+
+
+
+
+
+
+
+
+\end{enumerate}
+
+
+
+
+
+
+\end{document}
