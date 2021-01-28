@@ -31,14 +31,14 @@
 \[
 \text{Cov}(X,Y) := E[(X - E(X))(Y - E(Y))']
 \]
-satisfies the following properties.  For any $X, Y, Z \in \mathbb{R}^{p}$ and any $c \in \mathbb{R}$,
+satisfies the following properties.  For random variables $X, Y, Z \in \mathbb{R}^{p}$ with finite covariance, and any $c \in \mathbb{R}$,
 \begin{enumerate}
 \item $\text{Cov}(X+Y,Z) = \text{Cov}(X,Z) + \text{Cov}(Y,Z)$
 \item $\text{Cov}(cX,Y) = c\cdot \text{Cov}(X,Y)$
 \item $\text{Cov}(X,Y)^{*} = \text{Cov}(Y,X)$
-\item $\text{Cov}(X,X) > 0$ if $X \ne 0$ a.s.
+\item $\text{Cov}(X,X) \ge 0$ for all $X$, and $\text{Cov}(X,X) = 0$ implies that $X$ is constant a.s.
 \end{enumerate}
-Then, deduce that if $p = 1$ the covariance is an inner product, and if $p > 1$ the the function $f(X,Y) := \text{tr}\big(\text{Cov}(X,Y)\big)$ is an inner product.
+Then, deduce that if $p = 1$ the covariance is an inner product over some (quotient) vector space, and if $p > 1$ the the function $f(X,Y) := \text{tr}\big(\text{Cov}(X,Y)\big)$ is an inner product.
 
 \item Exercise A.50 from Monahan.
 
