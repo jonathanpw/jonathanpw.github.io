@@ -1,7 +1,7 @@
 
 Study guide of topics covered for Midterm 
 ST 705
-Monahan textbook chapters covered: 0 - 4
+Monahan textbook chapters covered: 0 - 2
 
 definition of a vector space;
 linearly dependent vectors and linearly independent vectors;
