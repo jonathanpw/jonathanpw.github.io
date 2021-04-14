@@ -1,0 +1,60 @@
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}[theorem]{Definition}\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,color,float}
+\usepackage{graphicx,psfrag,epsf}
+\usepackage{natbib}
+
+
+\setlength{\oddsidemargin}{.15in} 
+\setlength{\textwidth}{6.25in}
+\setlength{\topmargin}{-0.25in}
+\setlength{\headheight}{-0.15in}
+\setlength{\textheight}{8.9in} 
+
+\linespread{1.25}
+
+
+
+
+
+\title{ST 705 Linear models and variance components \\ 
+        Lab practice problem set 12}
+
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+\item Let $X \sim \text{N}_{p}(\mu, \Sigma)$.  Show that for any partition of components, i.e.,
+\[
+X = 
+\begin{pmatrix}
+X_{1} \\
+\vdots \\
+X_{m} \\
+\end{pmatrix}, \hspace{.25in}
+\mu = 
+\begin{pmatrix}
+\mu_{1} \\
+\vdots \\
+\mu_{m} \\
+\end{pmatrix}, \hspace{.25in}
+\Sigma = 
+\begin{pmatrix}
+\Sigma_{11}  & \cdots & \Sigma_{1m} \\
+\vdots & \ddots & \vdots \\
+\Sigma_{m1}  & \cdots & \Sigma_{mm} \\
+\end{pmatrix},
+\]
+$X_{1}, \dots, X_{m}$ are mutually independent if and only if $\Sigma_{ij} = 0$ for every $i \ne j$.
+
+\item Show that a $p\times p$ matrix $A$ is symmetric and idempotent with rank $s$ if and only if there exists a $p\times s$ matrix $G$ with orthonormal columns such that $A = GG'$.  Note that $G$ is called a {\em semi-orthogonal} matrix.
+
+\end{enumerate}
+
+
+
+
+
+\end{document}
