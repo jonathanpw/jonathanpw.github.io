@@ -153,7 +153,7 @@ eigenvector = function( A, lambda){
 
 
 # Test the function on a simple example
-A = daig(c(1,2,3,4,5))
+A = diag(c(1,2,3,4,5))
 
 eigenvector( A, 1)
 eigenvector( A, 2)
