@@ -169,9 +169,15 @@ A = matrix( c( 1, 2, 3,
 							 0, 0, 6), ncol=3, byrow=T)
 eigen(A)
 
+# There is also a built in function for solving systems of linear equations
+# Ax = b
+b = c( 0, 0, 0)
+solve( a=A, b=b)
 
-
-
+# If the argument for b is missing, then the matrix inverse is returned
+A_inverse = solve(A)
+A %*% A_inverse
+A_inverse %*% A
 
 
 
