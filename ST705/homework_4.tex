@@ -1,0 +1,69 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,color,float}
+\usepackage{graphicx,psfrag,epsf}
+\usepackage{natbib}
+
+
+\setlength{\oddsidemargin}{.15in} 
+\setlength{\textwidth}{6.25in}
+\setlength{\topmargin}{-0.25in}
+\setlength{\headheight}{-0.15in}
+\setlength{\textheight}{8.9in} 
+
+\linespread{1.25}
+
+
+\title{ST 705 Linear models and variance components \\ 
+        Homework problem set 4}
+
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+\item Let $V$ be a finite-dimensional inner product space over $\mathbb{C}$, and let $\{v_{1},\dots,v_{n}\}$ be an orthonormal basis for $V$.  
+\begin{enumerate}
+\item Show that for any $x,y \in V$,
+\[
+\langle x,y\rangle = \sum_{i=1}^{n}\langle x,v_{i} \rangle\overline{\langle y,v_{i} \rangle}.
+\]
+This is called Parseval's identity.
+\item For $V = \mathbb{R}^{2}$ use Parseval's identity to prove the Pythagorean theorem.  Generalize this result to $\mathbb{R}^{n}$.
+\end{enumerate}
+
+\item Let $V$ be an inner product space over $\mathbb{C}$, and let $\{v_{1},\dots,v_{n}\} \subset V$ be orthonormal.
+\begin{enumerate}
+\item Prove that for any $x \in V$,
+\[
+\|x\|^{2} \ge \sum_{i=1}^{n} |\langle x,v_{i}\rangle|^{2}.
+\]
+This is called Bessel's inequality.
+\item Show that Bessel's inequality is an equality if and only if $x \in \text{span}\{v_{1},\dots,v_{n}\}$.
+\end{enumerate}  
+
+\item The defining property of a projection matrix $A$ is that $A^{2} = A$ (recall the definition of the square of a matrix from your linear algebra course).  Establish the following facts.
+\begin{enumerate}
+\item If $A$ is a projection matrix, then all of its eigenvalues are either zero or one. 
+\item If $A \in \mathbb{R}^{p\times p}$ is a projection and symmetric (i.e., an orthogonal projection matrix), then for every vector $v$ the projection $Av$ is orthogonal to $v - Av$.
+\item $\text{tr}(A + B) = \text{tr}(A) + \text{tr}(B)$.
+\item $\text{tr}(AB) = \text{tr}(BA)$.
+\end{enumerate}
+
+\item Show that a $p\times p$ matrix $A$ is symmetric and idempotent with rank $s$ if and only if there exists a $p\times s$ matrix $G$ with orthonormal columns such that $A = GG'$.  Note that $G$ is called a {\em semi-orthogonal} matrix.
+
+\item Exercise 2.8 from Monahan.
+
+\item Exercise 2.9 from Monahan.
+
+\item Exercise 2.11 from Monahan.
+
+
+\end{enumerate}
+
+
+
+
+
+
+\end{document}
