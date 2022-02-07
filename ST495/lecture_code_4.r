@@ -90,7 +90,7 @@ rasterImage( image=M, xleft=0, ybottom=0, xright=1, ytop=ratio)
 # Reconstruct the grayscale picture using successively more singular values
 # Save as a .pdf file
 pdf("dim_reduction.pdf")
-for(num_sigma in 2:150){ 
+for(num_sigma in 2:40){ 
 	U = spectral_decomp$u[,1:num_sigma]; dim(U)
 	D = diag(spectral_decomp$d[1:num_sigma]); dim(D)
 	V = spectral_decomp$v[,1:num_sigma]; dim(V)
