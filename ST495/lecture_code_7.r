@@ -6,8 +6,27 @@ L = function( p, x)  return( p^sum(x) * (1-p)^sum(1 - x) )
 L = Vectorize( L, vectorize.args="p")
 
 # Input data from the coin toss experiment
-x_pseudo = c( rep( 1, ), rep( 0, ))
-x_real = c( rep( 1, ), rep( 0, ))
+x_pseudo = c( 1, 1, 0, 1, 0, 1, 0, 0, 0, 1,
+	            1, 0, 0, 1, 0, 1, 1, 1, 1, 1,
+							0, 0, 0, 0, 1, 0, 0, 0, 1, 1,
+							0, 1, 0, 1, 1, 1, 1, 0, 1, 1,
+							0, 0, 0, 0, 0, 0, 1, 1, 0, 1,
+							1, 0, 0, 1, 0, 1, 0, 1, 1, 0,
+							1, 0, 0, 1, 1, 0, 1, 0, 1, 1,
+							1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
+							0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 
+							1, 1, 1, 1, 1, 1, 1, 0, 0, 1)
+
+x_real =   c( 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 
+              1, 1, 1, 1, 1, 0, 0, 1, 1, 0,
+              1, 0, 0, 0, 0, 0, 1, 1, 1, 0,
+              0, 0, 0, 1, 0, 1, 0, 0, 1, 0,
+              0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 
+              0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 
+              1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 
+              0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 
+              1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+              1, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 # Which observed data has a higher likelihood consistent with p=.5?
 L( .5, x_pseudo)
@@ -16,12 +35,12 @@ L( .5, x_real)
 # Plot the likelihood for both data sets over a grid of values of p to determine
 # value most consistent with the data
 p_grid = seq( 0, 1, by=.01)
-plot( p_grid, L( p_grid, x_pseudo), xlab="p", ylab="likelihood", type="l",lwd=3)
-lines( p_grid, L( p_grid, x_real), col="green", lwd=3)
+plot( p_grid, L( p_grid, x_real), xlab="p", ylab="likelihood", type="l",lwd=3)
+lines( p_grid, L( p_grid, x_pseudo), col="green", lwd=3)
 
 # Next, generate synthetic coin tosses for different values of p
-n = 100
-x = (runif(n) < .5)
+n = 30
+x = (runif(n) < .9)
 #x = (runif(n) < .1)
 #x = (runif(n) < .9)
 
@@ -35,7 +54,7 @@ abline( v=p_hat, col="green", lwd=3)
 n = 30
 mu = 0
 sigma_sq = 2
-x = rnorm( n=n, mean=mu, sd=ssqrt(sigma_sq))
+x = rnorm( n=n, mean=mu, sd=sqrt(sigma_sq))
 
 L = function( mu, sigma_sq, x){
 	return( prod(exp(-.5*(x - mu)^2/sigma_sq) / sqrt(2 * pi * sigma_sq)) )
@@ -49,7 +68,7 @@ L_mu_vec = Vectorize( L, vectorize.args="mu")
 mu_grid = seq( -5, 5, by=.01)
 plot( mu_grid, L_mu_vec( mu=mu_grid, sigma=sigma_sq, x), xlab="mu", 
       ylab="likelihood", type="l", lwd=3)
-mu_hat = mean(x)
+#mu_hat = mean(x)
 #abline( v=mu_hat, col="green", lwd=3)
 
 
@@ -58,7 +77,7 @@ L_sigma_sq_vec = Vectorize( L, vectorize.args="sigma_sq")
 sigma_sq_grid = seq( 0, 10, by=.01)
 plot( sigma_sq_grid, L_sigma_sq_vec( mu=mu, sigma_sq=sigma_sq_grid, x), 
       xlab="sigma_sq", ylab="likelihood", type="l", lwd=3)
-sigma_sq_hat = mean((x - mean(x))^2)
+#sigma_sq_hat = mean((x - mean(x))^2)
 #abline( v=sigma_sq_hat, col="green", lwd=3)
 
 
