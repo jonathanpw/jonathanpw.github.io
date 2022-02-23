@@ -68,8 +68,8 @@ L_mu_vec = Vectorize( L, vectorize.args="mu")
 mu_grid = seq( -5, 5, by=.01)
 plot( mu_grid, L_mu_vec( mu=mu_grid, sigma=sigma_sq, x), xlab="mu", 
       ylab="likelihood", type="l", lwd=3)
-#mu_hat = mean(x)
-#abline( v=mu_hat, col="green", lwd=3)
+mu_hat = mean(x)
+abline( v=mu_hat, col="green", lwd=3)
 
 
 # Assume that mu is fixed, and plot over a grid of sigma^2 values
@@ -77,8 +77,8 @@ L_sigma_sq_vec = Vectorize( L, vectorize.args="sigma_sq")
 sigma_sq_grid = seq( 0, 10, by=.01)
 plot( sigma_sq_grid, L_sigma_sq_vec( mu=mu, sigma_sq=sigma_sq_grid, x), 
       xlab="sigma_sq", ylab="likelihood", type="l", lwd=3)
-#sigma_sq_hat = mean((x - mean(x))^2)
-#abline( v=sigma_sq_hat, col="green", lwd=3)
+sigma_sq_hat = mean((x - mean(x))^2)
+abline( v=sigma_sq_hat, col="green", lwd=3)
 
 
 
