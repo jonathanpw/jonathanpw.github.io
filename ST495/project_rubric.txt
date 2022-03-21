@@ -1,0 +1,55 @@
+3 points -- Complete 10 page report as a .pdf file, double spaced (defined as 26 lines of text per page).
+
+3 points -- Correct spelling and grammar throughout the report.
+
+3 points -- Description of the real data set that is being analyzed, as well as a citation/url.
+
+3 points -- Included summary statistics and exploratory plots of the data.  Discussion of unique features.
+
+3 points -- Discussion of the variables of interest, and their relationships being studied.
+
+3 points -- Discussion of a statistical model for estimating population features/relationships from the data.
+
+3 points -- Description of how to generate synthetic data from the proposed statistical model.
+
+3 points -- Description of the computational/algorithmic approach to fitting the statistical model.
+
+3 points -- Discussion of the results of a simulation study to determine if the true population features can
+            be estimated from the synthetic data.  Description of how to set the values of the true population 
+            features/parameters for generating the synthetic data.
+
+3 points -- Summary plots/tables for analyzing the results of the simulation study (e.g., histogram of the 
+            sampling distribution of the statistic used for estimation, with a line indicating the true 
+            parameter value).  
+
+3 points -- Conduct and interpret any relevant hypothesis test and confidence intervals.
+
+3 points -- The sampling distributions of the statistic(s) considered are centered on the true parameter 
+            values for the simulation study.  If not, then something went wrong.
+
+3 points -- Justification of the number of synthetic data sets generated for the simulation study (i.e, size of
+            N).
+
+3 points -- Justification of the sample size and number of features included in the synthetic data sets. These
+            should be set similar to the real data set.
+
+3 points -- Discussion of the fitted model and estimates on the real data set.  Does your simulation study 
+            lend confidence to the model and estimation procedure implemented on the real data?
+
+3 points -- Discussion of the broader implications/inference learned from the model fit to the real data.  Do
+            the implications seem reasonable, plausible, believable, etc.?
+
+3 points -- Discussion of possible limitations of the model, and why it may be too simplistic for explaining
+            relationships in the real data (e.g., maybe there are confounding or omitted variables, or maybe
+            the structural relationship may not be appropriate).
+
+3 points -- All R code submitted as separate .r files, with comments (not counted as part of the report).
+
+3 points -- Code is organized into separate simulate.r, run_file.r, and out_file.r script files.
+
+3 points -- A "workflow" text file is included, which enumerates lines of code needed for reproducing all of the 
+            results presented in the 10 page report.
+
+3 points -- Random number generator seeds are used, and used appropriately. 
+
+3 points -- No R packages were used (unless an a-priori exception was given by the instructor).
