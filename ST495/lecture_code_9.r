@@ -35,7 +35,7 @@ GD = function( gradient, f, eta=.01, x0, epsilon=10^-6, max_iter=10^4){
 # to observe the sampling distribution of the MLE of the coefficients computed
 # via gradient descent
 n = 1000
-p = 4
+p = 2
 beta = runif( n=p, min=1, max=5) * (-1)^(runif(p) < .5)
 X = cbind( 1, matrix( rnorm(n*(p-1)), ncol=p-1))
 
@@ -119,7 +119,7 @@ df_r = function( b, index){
 }
 
 b0 = runif(p) * 2*sqrt(6/p) + (-sqrt(6/p))
-trace = SGD( r=400, n=n, gradient=df_r, x0=b0); tail( trace, 2); beta
+trace = SGD( r=100, n=n, gradient=df_r, x0=b0); tail( trace, 2); beta
 
 # Plot the trace of the negative log-likelihood
 neg_l_r = function( b, index){
@@ -143,7 +143,7 @@ for(k in 1:num_sims){
 	y = c(runif(n) < py)
 
 	b0 = runif(p) * 2*sqrt(6/p) + (-sqrt(6/p))
-	trace = SGD( r=400, n=n, gradient=df_r, x0=b0)
+	trace = SGD( r=1000, n=n, gradient=df_r, x0=b0)
 	sampling_dist[k,] = tail( trace, 1)
 	
 	print(k)
@@ -206,7 +206,7 @@ trace = MBGD( r=100, n=n, gradient=df_r, x0=b0); tail( trace, 2); beta
 # Plot the trace of the negative log-likelihood
 profile = rep( NA, nrow(trace))
 for(t in 1:nrow(trace)) profile[t] = neg_l_r( b=trace[t,], index=1:n)
-plot( profile[-c(1:10)], main="Trace plot", xlab="iteration", ylab=NA, type="l")
+plot( profile[-c(1:1000)], main="Trace plot", xlab="iteration", ylab=NA, type="l")
 
 
 # Generate synthetic logistic regrerssion data and implement a simulation study 

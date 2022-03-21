@@ -33,7 +33,7 @@ GD = function( gradient, f, eta=.01, x0, epsilon=10^-6, max_iter=10^4){
 
 
 # Generate synthetic training data from a logistic regression model
-n = 1000
+n = 100
 p = 2
 beta = runif( n=p, min=1, max=5) * (-1)^(runif(p) < .5)
 X = cbind( 1, matrix( rnorm(n*(p-1)), ncol=p-1))
@@ -103,11 +103,10 @@ lines( FPR_test, TPR_test, lwd=2, type="l", col="blue")
 
 
 # Let's verify that random guessing corresponds to the 45 degree line
-y_coin = c(runif(n) < .5) # random prediction guesses
 FPR_coin = rep( NA, length(grid))
 TPR_coin = rep( NA, length(grid))
 for(k in 1:length(grid)){
-	y_coin = (rep( .5, n) < grid[k])
+	y_coin = (rep( .5, n) > grid[k])
 	FPR_coin[k] = sum(y_coin[y_test == 0] == 1) / sum(y_test == 0)
 	TPR_coin[k] = sum(y_coin[y_test == 1] == 1) / sum(y_test == 1)
 }

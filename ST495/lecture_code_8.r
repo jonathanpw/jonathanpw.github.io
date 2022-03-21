@@ -4,13 +4,13 @@
 gradient_descent = function( gradient, eta=.1, x0, epsilon=10^-10){
 
 	t = 2
-	trace = c( x0, x0 + 2*epsilon)
+	trace = rbind( x0, x0 + 2*epsilon)
 	# Begin the gradient descent algorithm
-	while( sum((trace[t] - trace[t-1])^2)^.5 >= epsilon ){
+	while( sum((trace[t,] - trace[t-1,])^2)^.5 >= epsilon ){
 		
 		# Update the parameters
-		trace = c( trace, trace[t] - eta * gradient(trace[t]))
-	  #print(trace[t])		 
+		trace = rbind( trace, trace[t,] - eta * gradient(trace[t,]))
+	  #print(trace[t,])		 
 		t = t +1
 	}
 	
