@@ -59,3 +59,72 @@ coverage = coverage / N
 plot( nominal_coverage, coverage, xlab="nominal coverage", 
       ylab="empirical coverage")
 lines( c(0,1), c(0,1), col="green")
+
+
+# Prediction interval for linear regression
+n = 100
+p = 2
+beta = runif( n=p, min=1, max=5) * (-1)^(runif(p) < .5)
+sigma = 1
+
+X = cbind( 1, matrix( rnorm(n*(p-1)), ncol=p-1))
+Y = X %*% beta + rnorm( n, sd=sigma)
+
+beta_hat = solve(t(X) %*% X) %*% t(X) %*% Y
+
+x_test = cbind( 1, matrix( rnorm(1*(p-1)), ncol=p-1))
+Y_test = x_test %*% beta + rnorm( 1, sd=sigma)
+
+# Construct a level 1-alpha prediction interval
+alpha = .05
+critical_z = qnorm(1 - alpha/2)
+se_y_pred = sigma * sqrt(x_test %*% solve(t(X) %*% X) %*% t(x_test) + 1)
+lower = x_test %*% beta_hat - critical_z * se_y_pred; lower
+upper = x_test %*% beta_hat + critical_z * se_y_pred; upper
+Y_test
+
+# Verify that the 1-alpha prediction interval achieves its nominal 1-alpha level
+# of coverage by simulating sythetic data
+N = 1000  # Number of simulated data sets
+critical_z = qnorm(1 - alpha/2)
+coverage = 0
+for(k in 1:N){
+	
+	x_test = cbind( 1, matrix( rnorm(1*(p-1)), ncol=p-1))
+	Y_test = x_test %*% beta + rnorm( 1, sd=sigma)
+	
+	se_y_pred = sigma * sqrt(x_test %*% solve(t(X) %*% X) %*% t(x_test) + 1)
+	lower = x_test %*% beta_hat - critical_z * se_y_pred
+	upper = x_test %*% beta_hat + critical_z * se_y_pred
+	
+	if( lower < Y_test & Y_test < upper)  coverage = coverage +1
+}
+coverage = coverage / N; coverage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
