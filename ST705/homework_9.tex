@@ -1,0 +1,63 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,color,float}
+\usepackage{graphicx,psfrag,epsf}
+\usepackage{natbib}
+
+
+\setlength{\oddsidemargin}{.15in} 
+\setlength{\textwidth}{6.25in}
+\setlength{\topmargin}{-0.25in}
+\setlength{\headheight}{-0.15in}
+\setlength{\textheight}{8.9in} 
+
+\linespread{1.25}
+
+
+\title{ST 705 Linear models and variance components \\ 
+        Homework problem set 9}
+
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+
+\item Exercise 4.2 from Monahan.
+
+\item Exercise 4.3 from Monahan.
+
+\item Exercise 4.9 from Monahan.
+
+\item Exercise 4.12 from Monahan.
+
+\item The problem of least squares regression can be understood as a special case of the more general problem of ridge regression.  For an $n$-dimensional column vector $y$ and an $n\times p$ design matrix $X$, the problem of ridge regression is to solve for the parameter vector $b$ that minimizes
+\[
+a\|b\|_{2}^{2} + \|y - Xb\|_{2}^{2},
+\]
+where $a \ge 0$ is fixed.
+\begin{enumerate}
+\item Derive a closed-form expression of the ridge regression solution.
+\item Assume that $X$ has full column rank, and suppose that $y$ is an observed instance of the random vector $Y = X\beta + U$, where $\beta \in \mathbb{R}^{p}$ is fixed and $U$ satisfies the Gauss-Markov assumptions.  Under what condition(s) is the ridge regression solution the best linear unbiased estimator (BLUE) for any $\beta$?
+\end{enumerate}
+
+
+\item Show that if $X$ is a $p$-dimensional random vector with mean $\mu$ and covariance $\Sigma$, $A$ is a $p\times p$ matrix, and $Y = X'AX$, then $E(Y) = \text{tr}(A\Sigma) + \mu'A\mu$.
+
+\item For a random vector $Y$, with finite second moment, verify the following properties.
+\begin{enumerate}
+\item $\text{E}(a'Y) = a'\text{E}(Y)$, for a fixed vector $a$.
+\item $\text{Var}(a'Y) = a'\text{Var}(Y)a$, for a fixed vector $a$.
+\item $\text{Cov}(a'Y,c'Y) = a'\text{Var}(Y)c$, for fixed vectors $a$ and $c$.
+\item $\text{Var}(A'Y) = A'\text{Var}(Y)A$, for a fixed matrix $A$.
+\end{enumerate}
+
+
+\end{enumerate}
+
+
+
+
+
+
+\end{document}
