@@ -11,7 +11,7 @@ x = rnorm(n)
 y = beta[1] + beta[2]*x + rnorm( n, sd=sigma)
 
 # Construct a level 1-alpha confidence interval
-alpha = .05
+alpha = .2
 beta_1_hat = sum((x - mean(x))*y) / sum((x - mean(x))^2)
 se_beta_1_hat = sigma / sqrt(sum((x - mean(x))^2))
 critical_z = qnorm(1 - alpha/2)  # qnorm gives the inverse Gaussian CDF
@@ -61,6 +61,9 @@ plot( nominal_coverage, coverage, xlab="nominal coverage",
 lines( c(0,1), c(0,1), col="green")
 
 
+
+
+
 # Prediction interval for linear regression
 n = 100
 p = 2
@@ -69,7 +72,6 @@ sigma = 1
 
 X = cbind( 1, matrix( rnorm(n*(p-1)), ncol=p-1))
 Y = X %*% beta + rnorm( n, sd=sigma)
-
 beta_hat = solve(t(X) %*% X) %*% t(X) %*% Y
 
 x_test = cbind( 1, matrix( rnorm(1*(p-1)), ncol=p-1))
@@ -101,6 +103,34 @@ for(k in 1:N){
 }
 coverage = coverage / N; coverage
 
+# Repeat the above simulation study over the grid of 1-alpha {.01,.02, ..., .99}
+nominal_coverage = seq( .01, .99, by=.01)
+coverage = rep( 0, length(nominal_coverage))
+for(k in 1:N){
+	
+	# This can be done with or without generating new training data
+	#Y = X %*% beta + rnorm( n, sd=sigma)
+	#beta_hat = solve(t(X) %*% X) %*% t(X) %*% Y
+	
+	x_test = cbind( 1, matrix( rnorm(1*(p-1)), ncol=p-1))
+	Y_test = x_test %*% beta + rnorm( 1, sd=sigma)
+	
+	se_y_pred = sigma * sqrt(x_test %*% solve(t(X) %*% X) %*% t(x_test) + 1)	
+	for(r in 1:length(nominal_coverage)){
+		
+		alpha = 1-nominal_coverage[r]
+		critical_z = qnorm(1 - alpha/2)
+		lower = x_test %*% beta_hat - critical_z * se_y_pred
+		upper = x_test %*% beta_hat + critical_z * se_y_pred
+		
+		if( lower < Y_test & Y_test < upper)  coverage[r] = coverage[r] +1
+	}
+}
+coverage = coverage / N
+
+plot( nominal_coverage, coverage, xlab="nominal coverage", 
+      ylab="empirical coverage")
+lines( c(0,1), c(0,1), col="green")
 
 
 

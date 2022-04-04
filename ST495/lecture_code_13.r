@@ -8,7 +8,7 @@ mu = 30
 sigma = 3
 x = rnorm(n, mean=mu, sd=sigma)
 
-m = 300
+m = 100
 num_boot_samples = 300
 bootstrap_means = rep( NA, num_boot_samples)
 for(k in 1:num_boot_samples){
@@ -24,13 +24,15 @@ abline( v=mu, col="green", lwd=3)
 # Compare the histogram to the actual sampling distribution of the sample mean 
 # for Gaussian data
 grid = seq( mu-3, mu+3, by=.01)
-lines( grid, dnorm( grid, mean=mu, sd=1/sqrt(n)), lwd=3)
+lines( grid, dnorm( grid, mean=mu, sd=sigma/sqrt(n)), lwd=3)
 
 # Repeat the above analysis for varying sample sizes n and subsample sizes m
 
 
 # Next, consider the sampling distribution of the sample standard deviation
-m = 300
+x = rnorm(n, mean=mu, sd=sigma)
+
+m = 100
 num_boot_samples = 300
 bootstrap_sd = rep( NA, num_boot_samples)
 for(k in 1:num_boot_samples){
@@ -56,20 +58,20 @@ lines( grid, (n-1)*dchisq( (n-1)*grid/sigma^2, df=n-1)/sigma^2, lwd=3)
 # Percentile bootstrap confidence interval for the mean
 alpha = .05
 lower = quantile( bootstrap_means, probs=alpha/2); lower
-upper = lower = quantile( bootstrap_means, probs=1-alpha/2); upper
+upper = quantile( bootstrap_means, probs=1-alpha/2); upper
 mu
 
 # Percentile bootstrap confidence interval for the standard deviation
 alpha = .05
 lower = quantile( bootstrap_sd, probs=alpha/2); lower
-upper = lower = quantile( bootstrap_sd, probs=1-alpha/2); upper
+upper = quantile( bootstrap_sd, probs=1-alpha/2); upper
 sigma
 
 # How about the coverage of these confidence intervals?
 
 # Confidence interval for mu
 num_sims = 300
-m = 300
+m = 1000
 num_boot_samples = 1000
 nominal_coverage = seq( .01, .99, by=.01)
 coverage = rep( 0, length(nominal_coverage))
@@ -98,7 +100,7 @@ lines( c(0,1), c(0,1), col="green")
 
 # Confidence interval for sigma
 num_sims = 300
-m = 300
+m = 700
 num_boot_samples = 300
 nominal_coverage = seq( .01, .99, by=.01)
 coverage = rep( 0, length(nominal_coverage))

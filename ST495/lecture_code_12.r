@@ -43,9 +43,9 @@ hist( p_vals, freq=F, breaks=floor(sqrt(num_sims)), main="H_0 true")
 
 # In this case of H_0 true how many type 1 errors are observed at level alpha?
 alpha = seq( 0, 1, by=.01)
-empirical_coverage = rep( NA, length(alpha))
-for(k in 1:length(alpha)) empirical_coverage[k] = mean(p_vals < alpha[k])
-plot( alpha, empirical_coverage, ylab="empirical coverage", xlab="alpha", 
+prop_reject = rep( NA, length(alpha))
+for(k in 1:length(alpha)) prop_reject[k] = mean(p_vals < alpha[k])
+plot( alpha, prop_reject, ylab="empirical coverage", xlab="alpha", 
 			main="type 1 errors: z test, Gaussian data")
 lines( alpha, alpha, col="green")
 
@@ -94,7 +94,7 @@ for(i in 1:num_sims){
 	
 		t[k] = abs(mean(x_tilde) - mean(y_tilde))
 	}
-	p_vals[i] = 2 * mean(t_n < t)
+	p_vals[i] = mean(t_n <= t)
 	
 	print(i)
 }
@@ -129,7 +129,7 @@ for(i in 1:num_sims){
 	
 		t[k] = abs(mean(x_tilde) - mean(y_tilde))
 	}
-	p_vals[i] = 2 * mean(t_n < t)
+	p_vals[i] = mean(t_n <= t)
 	
 	print(i)
 }
