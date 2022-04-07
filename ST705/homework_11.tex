@@ -1,0 +1,81 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,color,float}
+\usepackage{graphicx,psfrag,epsf}
+\usepackage{natbib}
+
+
+\setlength{\oddsidemargin}{.15in} 
+\setlength{\textwidth}{6.25in}
+\setlength{\topmargin}{-0.25in}
+\setlength{\headheight}{-0.15in}
+\setlength{\textheight}{8.9in} 
+
+\linespread{1.25}
+
+
+\title{ST 705 Linear models and variance components \\ 
+        Homework problem set 11}
+
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+
+\item Exercise 4.28 from Monahan.
+
+\item Exercise 5.2 from Monahan.
+
+\item Exercise 5.6 from Monahan.
+
+\item Exercise 5.9 from Monahan.
+
+\item Exercise 5.10 from Monahan.
+
+\item Let $U$ and $V$ be independent $\text{N}(0,1)$ random variables, and define $Y := V$ and 
+\[
+X := 
+\begin{cases}
+U & \text{if } UV \ge 0 \\
+-U & \text{if } UV < 0 \\
+\end{cases}
+\]
+\begin{enumerate}
+\item Show that $X$ and $Y$ each follow the standard normal distribution, but that $(X, Y)$ is not bivariate normal.
+\item Show that $X^{2}$ and $Y^{2}$ are independent.
+\end{enumerate}
+
+\item Suppose that $Y = X\beta + \varepsilon$, where $\varepsilon \sim \text{N}_{n}(0,I_{n})$, $I_{n}$ is the $n\times n$ identity matrix, and $X$ is an $n\times p$ matrix with full column rank.  Further, let $W$ be an $n\times q$ matrix with $\text{Col}(W) \supseteq \text{Col}(X)$ and $\text{rank}(W) = q > p$, where $\text{Col}(\cdot)$ denotes the column space of a matrix argument.
+\begin{enumerate}
+\item For a full column rank matrix $A$, denote $P_{A} := A(A^{\prime}A)^{-1}A^{\prime}$.  Is $P_{W} - P_{X}$ an orthogonal projection matrix?  If so, show.  If not, then demonstrate why not.
+\item Derive the Chernoff bound for a $\chi^{2}_{k}$ random variable $V$.  That is, show that for any $s > 0$ and $t \in (0, \frac{1}{2})$,
+\[
+P(V > s) \le e^{-ts}(1-2t)^{-\frac{k}{2}}.
+\] 
+Recall that the moment generating function of a $\chi^{2}_{k}$ random variable is $m(t) =  (1-2t)^{-\frac{k}{2}}$ for $t < \frac{1}{2}$.
+\item Show that for any $s > 0$,
+\[
+P\bigg(\bigg|\frac{Y^{\prime}(I - P_{X})Y}{Y^{\prime}(I - P_{W})Y} - 1\bigg| > s \bigg) = P\bigg(\frac{Y^{\prime}(P_{W} - P_{X})Y}{Y^{\prime}(I - P_{W})Y} > s \bigg) < c(s) e^{-g(n,s)},
+\]
+for fixed $q$ and $p$, for some function, $g(n,s)$, that is increasing in $n$, and for some nonnegative function, $c(s)$, that does not depend on $n$.  Recall that the density function of a $\chi^{2}_{k}$ random variable is 
+\[
+f(x) = \frac{1}{2^{\frac{k}{2}}\Gamma(\frac{k}{2})} x^{\frac{k}{2}-1}e^{-\frac{x}{2}},
+\] 
+for $x > 0$, and the Stirling inequality for the gamma function gives,
+\[
+\Gamma(x) \ge \sqrt{2\pi} x^{x-\frac{1}{2}}e^{-x},
+\]
+for $x > 0$.
+\end{enumerate}
+
+
+
+\end{enumerate}
+
+
+
+
+
+
+\end{document}
