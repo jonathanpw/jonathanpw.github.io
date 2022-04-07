@@ -14,21 +14,18 @@ bootstrapped confidence intervals similar to your parametric confidence interval
 
 
 
-General outline of the simulation study:
+General outline of the bootstrap study:
 
-(1) Generate 1 synthetic data set from the model statistical model
+(1) Generate 1 bootstrapped data set from the real data and statistical model
 (2) Implement an estimation procedure (i.e., MLE, EM, MCMC,...)
-(3) Evaluate the estimated model (i.e., RMSE, AIC, BIC,... on test set)
-(4) Repeat steps (1)-(3) N times (larger N is better, but may not be feasible)
-(5) Use the output from (4) to produce plots and/or tables as in the paper
+(3) Repeat steps (1)-(2) N times (larger N is better, but may not be feasible)
+(4) Use the output from (3) to produce plots and/or tables as in the paper
 
 Organize the simulation study into 3 script files:
-(a) simulate.r  # This script contains code for generating the data 
-(b) run_file.r  # This script contains code for running the estimation procedure
-(c) out_file.r  # This script contains code for producing the plots/tables
+(a) bootstrap.r  # This script contains code for bootstrapping the data 
+(b) out_file.r  # This script contains code for producing the plots/tables
  
-The output from simulate.r should be saved and then loaded by run_file.r.  Next,
-the output from run_file.r should be saved and then loaded by out_file.r.  And,
+The output from bootstrap.r should be saved and then loaded by out_file.r. And,
 the output from out_file.r should be saved, and then loaded (or copy-and-pasted)
 into your LaTex file to be compiled into the pdf file of the write-up of your 
 project.
@@ -43,8 +40,7 @@ example, it will look something like:
 
 for seed in {1..N}
 do
-Rscript simulate.r arg_1 arg_2 ...
-Rscript run_file.r arg_1 arg_2 ...
+Rscript bootstrap.r arg_1 arg_2 ...
 done
 
 Rscript out_file.r arg_1 arg_2 ...
@@ -57,5 +53,5 @@ skills fit into the broader application of problem solving in industry and
 academia.  
 
 Finally, your project write-up will include a 10 page summary describing the
-statistical model, estimation procedure, and inference on your simulation study.
+statistical model, estimation procedure, and inference on your bootstrap study.
 You will also need to send me all script files INCLUDING your workflow file.
