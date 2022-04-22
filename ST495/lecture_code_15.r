@@ -5,7 +5,7 @@ alpha = .01
 critical_z = qnorm(1-alpha)
 
 num_sims = 1000
-mu_grid = seq( 0, 1, by=.01)
+mu_grid = seq( .01, 1, by=.01)
 prop_reject = rep( 0, length(mu_grid))
 power = rep( NA, length(mu_grid))
 for(i in 1:length(mu_grid)){
