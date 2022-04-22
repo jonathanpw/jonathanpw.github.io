@@ -38,8 +38,7 @@
 3 points -- All R code submitted as separate .r files, with comments (not counted as part of 
             the report).
 
-3 points -- Code is organized into separate simulate.r, run_file.r, and out_file.r script 
-            files.
+3 points -- Code is organized into separate bootstrap.r and out_file.r script files.
 
 3 points -- A "workflow" text file is included, which enumerates lines of code needed for 
             reproducing all of the results presented in the 10 page report.
