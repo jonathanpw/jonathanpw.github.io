@@ -1,0 +1,69 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,color,float}
+\usepackage{graphicx,psfrag,epsf}
+\usepackage{natbib}
+
+
+\setlength{\oddsidemargin}{.15in} 
+\setlength{\textwidth}{6.25in}
+\setlength{\topmargin}{-0.25in}
+\setlength{\headheight}{-0.15in}
+\setlength{\textheight}{8.9in} 
+
+\linespread{1.25}
+
+
+\title{ST 705 Linear models and variance components \\ 
+        Homework problem set 3}
+
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+\item Let $V$ be a convex subset of some vector space.  Recall that a function $f : V \to \mathbb{R}$ is said to be $convex$ if for every $x, y \in V$ and every $\lambda \in [0,1]$,
+\[
+f(\lambda x + (1-\lambda)y) \le \lambda f(x) + (1-\lambda) f(y).
+\]
+Show, by definition, that the sum of squared errors function
+\[
+Q(\beta) := \|Y - X\beta\|_{2}^{2}
+\]
+is convex.
+
+\item Show that if $\text{rank}(BC) = \text{rank}(B)$, then $\text{col}(BC) = \text{col}(B)$, where col$(\cdot)$ denotes the column space.
+
+\item Let $A \in \mathbb{R}^{n\times p}$ with rank$(A) = p$.  Further, suppose  $X \in \mathbb{R}^{n\times q}$ with $\text{col}(X) = \text{col}(A)$.  Show that there exists a unique matrix $S$ so that $X = AS$.
+
+\item Show that the $R^{2}$ value for a simple linear regression can never achieve 1 if the observed data consists of repeated (different) observations of the response, $y$, at the same value of the predictor, $x$.
+
+\item Suppose that the $m\times n$ matrix $A$ has the form 
+\[
+A = 
+\begin{pmatrix}
+A_{1} \\
+A_{2} \\
+\end{pmatrix}
+\]
+where $A_{1}$ is an $n\times n$ nonsingular matrix, and $m > n$.  Define $A^{+} := (A'A)^{-1}A'$, and prove that $\|A^{+}\|_{2} \le \|A_{1}^{-1}\|_{2}$.
+
+\item Let $X \in \mathbb{R}^{n\times p}$, $u \in \mathbb{R}^{n}$, and $v \in \mathbb{R}^{p}$.  
+\begin{enumerate}
+\item Prove that
+\[
+|u'Xv| \le \bigg(\max_{1\le j\le p}\Big\{\sum_{i=1}^{n}|X_{i,j}|\Big\}\bigg)^{\frac{1}{2}} \bigg(\max_{1\le i\le n}\Big\{\sum_{j=1}^{p}|X_{i,j}|\Big\}\bigg)^{\frac{1}{2}} \cdot \|u\|_{2} \cdot \|v\|_{2}.
+\]
+\item Show that the Cauchy-Schwarz inequality is a special case of the inequality given in part (a).
+\end{enumerate}
+
+
+
+\end{enumerate}
+
+
+
+
+
+
+\end{document}
