@@ -1,0 +1,79 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,color,float}
+\usepackage{graphicx,psfrag,epsf}
+\usepackage{natbib}
+
+
+\setlength{\oddsidemargin}{.15in} 
+\setlength{\textwidth}{6.25in}
+\setlength{\topmargin}{-0.25in}
+\setlength{\headheight}{-0.15in}
+\setlength{\textheight}{8.9in} 
+
+\linespread{1.25}
+
+
+\title{ST 705 Linear models and variance components \\ 
+        Homework problem set 5}
+
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+\item Let $S$ be a nonempty subset of an inner product space $V$.  The orthogonal complement to the set $S$ is defined as
+\[
+S^{\perp} := \{x \in V : \langle x,y\rangle = 0 \text{ for every } y \in S\}.
+\]
+\begin{enumerate}
+\item Show that $S^{\perp}$ is a subspace of $V$ for any $S \subseteq V$.
+\item Let $W \subseteq V$ be a finite dimensional subspace, and let $y \in V$.  Show that there exist \textbf{unique} vectors $u \in W$ and $z \in W^{\perp}$ such that $y = u + z$.
+\item Let $X \in \mathbb{R}^{n\times p}$.  Verify that col$(X)$ and null$(X')$ are orthogonal complements.
+\end{enumerate}
+
+\item Denote by $W$ a matrix with $\text{col}(W) = \text{null}(P')$.  Show that $\text{null}(W') = \text{col}(P)$. 
+
+\item Let $V$ be a finite-dimensional inner product space over $\mathbb{C}$, and let $\{v_{1},\dots,v_{n}\}$ be an orthonormal basis for $V$.  
+\begin{enumerate}
+\item Show that for any $x,y \in V$,
+\[
+\langle x,y\rangle = \sum_{i=1}^{n}\langle x,v_{i} \rangle\overline{\langle y,v_{i} \rangle}.
+\]
+This is called Parseval's identity.
+\item For $V = \mathbb{R}^{2}$ use Parseval's identity to prove the Pythagorean theorem.  Generalize this result to $\mathbb{R}^{n}$.
+\end{enumerate}
+
+\item Let $V$ be an inner product space over $\mathbb{C}$, and let $\{v_{1},\dots,v_{n}\} \subset V$ be orthonormal.
+\begin{enumerate}
+\item Prove that for any $x \in V$,
+\[
+\|x\|^{2} \ge \sum_{i=1}^{n} |\langle x,v_{i}\rangle|^{2}.
+\]
+This is called Bessel's inequality.
+\item Show that Bessel's inequality is an equality if and only if $x \in \text{span}\{v_{1},\dots,v_{n}\}$.
+\end{enumerate}  
+
+\item Show that a $p\times p$ matrix $A$ is symmetric and idempotent with rank $s$ if and only if there exists a $p\times s$ matrix $G$ with orthonormal columns such that $A = GG'$.  Note that $G$ is called a {\em semi-orthogonal} matrix.
+
+\item Suppose that $v_{1},\dots,v_{p} \in \mathbb{R}^{n}$ are a set of linearly independent vectors, and $w_{1},\dots,w_{p} \in \mathbb{R}^{n}$ are the orthogonal vectors obtained from $v_{1},\dots,v_{p}$ by the Gram-Schmidt process.  Furthermore, denote by $u_{1},\dots,u_{p}$ the normalized vectors corresponding to $w_{1},\dots,w_{p}$, and define the matrix $R \in \mathbb{R}^{p\times p}$ by
+\[
+R_{ij} :=
+\begin{cases}
+\|w_{j}\| & \text{if } i=j \\
+\langle v_{j}, u_i\rangle & \text{if } i<j \\
+0 & \text{if } i>j \\
+\end{cases}.
+\]
+Prove that $V = UR$, where $V$ is the matrix with columns $v_{1},\dots,v_{p}$ and $U$ is the matrix with columns $u_{1},\dots,u_{p}$.
+
+
+
+\end{enumerate}
+
+
+
+
+
+
+\end{document}
