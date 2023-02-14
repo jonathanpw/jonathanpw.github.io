@@ -2,23 +2,26 @@
 # assuming Gaussian errors
 
 
-#n = 100
-#n = 300
-n = 1000
+
 p = 4
 sigma = .25
 #sigma = 1
 #sigma = 2
 
 beta = runif( n=p, min=1, max=5) * (-1)^(runif(p) < .5)
+
+#n = 10
+#n = 300
+n = 1000
+
 X = cbind( 1, matrix( runif(n*(p-1)), ncol=p-1))
 XtX_inv = solve(t(X) %*% X)
 
 
 # Simulate a large number of data sets and least squares estimators 
 #num_sims = 100
-#num_sims = 300
-num_sims = 10000
+num_sims = 300
+#num_sims = 10000
 beta_hat_mat = matrix( NA, nrow=num_sims, ncol=p)
 for(k in 1:num_sims){
 	y = X %*% beta + rnorm( n, mean=0, sd=sigma)
@@ -35,7 +38,7 @@ for(j in 1:p){
 	grid = seq( beta[j]-.5, beta[j]+.5, by=.01)
 	
 	hist( beta_hat_mat[,j], freq=F, main=paste0("beta_hat_",j), xlab=NULL,
-	      xlim=c(beta[j]-.5,beta[j]+.5), breaks=floor(sqrt(n)))
+	      xlim=c(beta[j]-.5,beta[j]+.5), breaks=floor(sqrt(num_sims)))
 	abline( v=beta[j], col="green", lwd=3)
 	
 	sd_beta_j = sigma * sqrt(XtX_inv[j,j])
