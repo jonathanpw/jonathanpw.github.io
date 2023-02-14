@@ -1,0 +1,54 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,color,float}
+\usepackage{graphicx,psfrag,epsf}
+\usepackage{natbib}
+
+
+\setlength{\oddsidemargin}{.15in} 
+\setlength{\textwidth}{6.25in}
+\setlength{\topmargin}{-0.25in}
+\setlength{\headheight}{-0.15in}
+\setlength{\textheight}{8.9in} 
+
+\linespread{1.25}
+
+
+\title{ST 705 Linear models and variance components \\ 
+        Homework problem set 6}
+
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+\item Monahan exercise 2.11
+
+\item Monahan exercise 2.12
+
+\item Monahan exercise 2.14
+
+\item Suppose that there exists a solution to the system of equations $Ax = c$.  Then the general form of a solution is
+\[
+x_{z} = Gc + (I - GA)z,
+\]
+where $z$ is an arbitrary vector of appropriate dimension and $G := (A'A)^{g}A'$ (do NOT need to show).  Find the $z$ that minimizes the Euclidean norm of $x_{z}$.
+
+\item In the simple linear regression model $y_{i} = \beta_{0} + x_{i}\beta_{1} + u_{i}$ for $i \in \{1,\dots,n\}$, show that $\beta_{0}$ is estimable \textbf{by finding} a vector $a$ and scalar $c$ such that $E(c + a'y) = \beta_{0}$.
+
+\item Prove that if $\lambda^{(1)'}\beta,\dots,\lambda^{(k)'}\beta$ are estimable, then so is 
+\[
+\sum_{j=1}^{k}d_{j}\lambda^{(j)'}\beta,
+\]
+for any scalar constants $d_{1},\dots,d_{k}$.
+
+\item Show that if the least squares estimator $\lambda'\widehat{\beta}$ is the same for all solutions $\widehat{\beta}$ to the normal equations, then $\lambda'\beta$ is estimable.
+
+\end{enumerate}
+
+
+
+
+
+
+\end{document}
