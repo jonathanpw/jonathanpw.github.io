@@ -1,0 +1,59 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,color,float}
+\usepackage{graphicx,psfrag,epsf}
+\usepackage{natbib}
+
+
+\setlength{\oddsidemargin}{.15in} 
+\setlength{\textwidth}{6.25in}
+\setlength{\topmargin}{-0.25in}
+\setlength{\headheight}{-0.15in}
+\setlength{\textheight}{8.9in} 
+
+\linespread{1.25}
+
+
+\title{ST 705 Linear models and variance components \\ 
+        Homework problem set 8}
+
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+\item Monahan exercise 4.1
+
+\item Monahan exercise 4.2
+
+\item Monahan exercise 4.3
+
+\item Monahan exercise 4.9
+
+\item Suppose that $Y_{1},\dots,Y_{n} \overset{\text{iid}}{\sim} \text{Uniform}(0,2\theta)$, and define $U_{i} := Y_{i} - \theta$ for $i \in \{1,\dots,n\}$.
+\begin{enumerate}
+\item Find the mean and variance of $U := (U_{1},\dots,U_{n})'$.
+\item Show that $Y := (Y_{1},\dots,Y_{n})'$ is generated according to a linear model that satisfies the Gauss-Markov assumptions.
+\item Find the BLUE of $\theta$, and denote the BLUE by $\hat{\theta}_{\text{OLS}}$.
+\item Find $c$ so that the estimator $\hat{\theta} = cY_{(n)}$ is unbiased for $\theta$, where $Y_{(i)}$ denotes the $i$th order statistic, and compute the variance of $\hat{\theta}$.
+\item Compare the variances of $\hat{\theta}_{\text{OLS}}$ and $\hat{\theta}$, and provide intuition for your finding.
+\end{enumerate}
+
+\item The problem of least squares regression can be understood as a special case of the more general problem of ridge regression.  For an $n$-dimensional column vector $y$ and an $n\times p$ design matrix $X$, the problem of ridge regression is to solve for the parameter vector $b$ that minimizes
+\[
+a\|b\|_{2}^{2} + \|y - Xb\|_{2}^{2},
+\]
+where $a \ge 0$ is fixed.
+\begin{enumerate}
+\item Derive a closed-form expression of the ridge regression solution.
+\item Assume that $X$ has full column rank, and suppose that $y$ is an observed instance of the random vector $Y = X\beta + U$, where $\beta \in \mathbb{R}^{p}$ is fixed and $U$ satisfies the Gauss-Markov assumptions.  Under what condition(s) is the ridge regression solution the best linear unbiased estimator (BLUE) for any $\beta$?
+\end{enumerate}
+
+\end{enumerate}
+
+
+
+
+
+
+\end{document}
