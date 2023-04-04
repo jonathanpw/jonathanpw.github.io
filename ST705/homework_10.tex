@@ -1,0 +1,73 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,color,float}
+\usepackage{graphicx,psfrag,epsf}
+\usepackage{natbib}
+
+
+\setlength{\oddsidemargin}{.15in} 
+\setlength{\textwidth}{6.25in}
+\setlength{\topmargin}{-0.25in}
+\setlength{\headheight}{-0.15in}
+\setlength{\textheight}{8.9in} 
+
+\linespread{1.25}
+
+
+\title{ST 705 Linear models and variance components \\ 
+        Homework problem set 10}
+
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+\item Monahan exercise 5.2
+
+\item Monahan exercise 5.3a-c
+
+\item Monahan exercise 5.6
+
+\item Monahan exercise 5.9
+
+\item Let
+\[
+Y \sim \text{N}_{2}\left\{
+\begin{pmatrix}
+1 \\
+1 \\
+\end{pmatrix},
+\begin{pmatrix}
+4 & 0 \\
+0 & 1 \\
+\end{pmatrix}\right\},
+\]
+\[
+A = \frac{1}{8}
+\begin{pmatrix}
+1 & 2 \\
+2 & 4 \\
+\end{pmatrix},
+\]
+and $B = (1, -2)'$.  Find the joint distribution of $Y'AY$ and $B'Y$.
+
+\item Suppose that $(X, Y)$ has a bivariate distribution ({\bf not necessarily Gaussian}) with mean $(\mu_{X}, \mu_{Y})'$ and covariance matrix
+\[
+\begin{pmatrix}
+\sigma_{X}^{2} & \sigma_{X,Y} \\
+\sigma_{Y, X} & \sigma_{Y}^{2} \\
+\end{pmatrix}.
+\]
+\begin{enumerate}
+\item Show that if $E(Y\mid X) = \beta_{0} + \beta_{1}X$, then $\beta_{1} = \sigma_{Y, X} / \sigma_{X}^{2}$ and $\beta_{0} = \mu_{Y} - \beta_{1}\mu_{X}$.
+\item Show that if $E(Y\mid X) = \beta_{0} + \beta_{1}X$ and $\text{Var}(Y\mid X) = \tau^{2}$, then $\tau^{2} = \sigma_{Y}^{2} - \sigma_{Y, X}^{2} / \sigma_{X}^{2}$.
+\end{enumerate}
+
+\end{enumerate}
+
+
+
+
+
+
+\end{document}
