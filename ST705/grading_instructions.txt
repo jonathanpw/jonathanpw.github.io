@@ -14,7 +14,7 @@ Associate Editor (AE): TBD (course TA)
 Instructions for submission of completed assignments:
 
 (1) Each (weekly) assignment must be turned in to the editor on time 
-    via email. Otherwise, the assignment will not be sent to the AE, 
+    via Moodle. Otherwise, the assignment will not be sent to the AE, 
     and will not be published (this is commonly referred to as a 
     "desk reject"). Unpublished assignments receive a grade of zero 
     points.
