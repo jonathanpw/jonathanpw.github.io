@@ -1,0 +1,67 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,color,float}
+\usepackage{graphicx,psfrag,epsf}
+\usepackage{natbib}
+
+
+\setlength{\oddsidemargin}{.15in} 
+\setlength{\textwidth}{6.25in}
+\setlength{\topmargin}{-0.25in}
+\setlength{\headheight}{-0.15in}
+\setlength{\textheight}{8.9in} 
+
+\linespread{1.25}
+
+
+\title{ST 705 Linear models and variance components \\ 
+        Homework problem set 2}
+
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+\item Monahan exercise A.50.
+
+\item Let $A \in \mathbb{R}^{p\times p}$ be symmetric.  Use the spectral decomposition of $A$ to show that 
+\[
+\sup_{x\in\mathbb{R}^{p}\setminus\{0\}} \frac{x'Ax}{x'x} = \lambda_{\max},
+\]
+where $\lambda_{\max}$ is the largest eigenvalue of $A$.  Observe that this is a special case of the Courant-Fischer theorem (see \verb1https://en.wikipedia.org/wiki/Min-max_theorem1).
+
+\item Construct an $n\times n$ matrix $A$ such that $\lambda_{\max}(A) \ne \sup\limits_{v\ne0}\big\{\frac{v'Av}{v'v}\big\}$, where $\lambda_{\max}(\cdot)$ denotes the maximum eigenvalue of its argument.  Why does your counter example not violate the Courant-Fischer theorem?
+
+\item Let $A$ be an $m\times n$ matrix with rank $m$.  Prove that there exists an $n\times m$ matrix $B$ such that $AB = I_{m}$.
+
+\item Let $A$ be an $m\times n$ matrix and $B$ be an $n\times p$ matrix.  Prove that $AB$ can be written as a sum of $n$ matrices of rank at most one.  Hint: think about empirical covariance matrices.   
+
+\item Let $V$ be a finite-dimensional inner product space over $\mathbb{C}$, and let $\{v_{1},\dots,v_{n}\}$ be an orthonormal basis for $V$.  
+\begin{enumerate}
+\item Show that for any $x,y \in V$,
+\[
+\langle x,y\rangle = \sum_{i=1}^{n}\langle x,v_{i} \rangle\overline{\langle y,v_{i} \rangle}.
+\]
+This is called Parseval's identity.
+\item For $V = \mathbb{R}^{2}$ use Parseval's identity to prove the Pythagorean theorem.  Generalize this result to $\mathbb{R}^{n}$.
+\end{enumerate}
+
+\item Let $V$ be an inner product space over $\mathbb{C}$, and let $\{v_{1},\dots,v_{n}\} \subset V$ be orthonormal.
+\begin{enumerate}
+\item Prove that for any $x \in V$,
+\[
+\|x\|^{2} \ge \sum_{i=1}^{n} |\langle x,v_{i}\rangle|^{2}.
+\]
+This is called Bessel's inequality.
+\item Show that Bessel's inequality is an equality if and only if $x \in \text{span}\{v_{1},\dots,v_{n}\}$.
+\end{enumerate}  
+
+
+\end{enumerate}
+
+
+
+
+
+
+\end{document}
