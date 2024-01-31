@@ -42,7 +42,7 @@ eigen_decom
 eigen(A%*%A)
 
 # The square root of the eigenvalues of t(A) %*% A should be the same as the 
-# singular values of 
+# singular values of A
 sqrt(eigen(A%*%A)$values)
 
 # For a non-square matrix X, let's see that X can be reconstructed from its SVD
