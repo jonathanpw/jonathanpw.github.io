@@ -1,0 +1,50 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,color,float}
+\usepackage{graphicx,psfrag,epsf}
+\usepackage{natbib}
+
+
+\setlength{\oddsidemargin}{.15in} 
+\setlength{\textwidth}{6.25in}
+\setlength{\topmargin}{-0.25in}
+\setlength{\headheight}{-0.15in}
+\setlength{\textheight}{8.9in} 
+
+\linespread{1.25}
+
+
+\title{ST 705 Linear models and variance components \\ 
+        Homework problem set 5}
+
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+\item Monahan exercise 2.8.
+
+\item Monahan exercise 2.9.
+
+\item In lecture, we proved a lemma that $(X'X)^{g}X'$ is a generalized inverse of $X$.
+\begin{enumerate}
+\item Verify that $X(X'X)^{g}$ is a generalized inverse of $X'$.
+\item We proved that $P_{X} := X(X'X)^{g}X'$ is the unique projection onto column($X$).  Is $(X'X)^{g}X'$ the unique generalized inverse of $X$?  
+\end{enumerate}
+
+\item Show that $I_{n} - P_{X}$ is the unique symmetric projection matrix onto null($X'$).
+
+\item Let $X = QR$ where $Q$ has orthonormal columns.  Prove that if $\text{rank}(X) = \text{rank}(Q)$, then $P_{X} = QQ'$.
+
+\item Let $Q = X(X'V^{-1}X)^{g}X'V^{-1}$, with $V > 0$ and symmetric, and show that $Q$ is a projection onto col$(X)$.
+
+\item Prove that if a (symmetric) matrix is positive definite, then all of its eigenvalues are greater than zero.
+
+\end{enumerate}
+
+
+
+
+
+
+\end{document}
