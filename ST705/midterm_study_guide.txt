@@ -1,0 +1,63 @@
+
+Study guide of topics covered 
+ST 705
+Monahan textbook chapters covered: 0 - 3
+
+definition of a vector space;
+linearly dependent vectors and linearly independent vectors;
+spanning set of vectors;
+basis of vectors;
+subspaces;
+linear transformations;
+null space and range space of a linear transformation;
+dimension of a vector space;
+rank of a linear transformation;
+relationship between linear transformations and matrix multiplication;
+dimension theorem;
+matrix multiplication;
+properties of matrices;
+trace of a matrix;
+determinant of a matrix;
+eigenvalues of a matrix;
+eigenvectors of a matrix;
+characteristic polynomial of a matrix;
+spectral theorem (for finite dimensional vector spaces);
+diagonalizability;
+simultaneous diagonalizability;
+inner product and inner product spaces;
+vector and matrix norms and induced norms;
+triangle inequality;
+Cauchy-Schwarz inequality;
+definition of orthogonality;
+general linear model;
+vector and matrix derivatives;
+sum-of-squared error in the general linear model;
+least squares solution;
+the normal equations;
+results about null spaces and column spaces of design matrices;
+least squares predictions and properties;
+geometry of least squares solutions;
+generalized inverses;
+Moore-Pensrose conditions;
+Moore-Penrose pseudo-inverse;
+singular value decomposition;
+projection matrices and properties;
+orthogonal projection matrices and properties;
+orthogonal decompositions;
+orthogonal subspaces;
+projection onto the column space of a design matrix;
+various expressions for the set of least squares solutions;
+reparameterizations;
+confounding variables;
+orthonormal basis;
+Gram-Schmidt orthonormalization process;
+definition of an unbiased estimator;
+definition of a linear estimator;
+definition of a linearly estimable function;
+properties of linearly estimable functions;
+subspace of linearly estimable functions;
+methods to determine if a function is estimable;
+
+
+
+
