@@ -79,7 +79,7 @@ L_sigma_sq_vec = Vectorize( L, vectorize.args="sigma_sq")
 sigma_sq_grid = seq( 0, 10, by=.01)
 
 x = rnorm( n=n, mean=mu, sd=sqrt(sigma_sq))
-plot( sigma_sq_grid, L_sigma_sq_vec( mu=mu_hat, sigma_sq=sigma_sq_grid, x), 
+plot( sigma_sq_grid, L_sigma_sq_vec( mu=mean(x), sigma_sq=sigma_sq_grid, x), 
       xlab="sigma_sq", ylab="likelihood", type="l", lwd=3)
 sigma_sq_hat = mean((x - mean(x))^2)
 abline( v=sigma_sq_hat, col="green", lwd=3)
