@@ -1,4 +1,4 @@
-ST 495 Midterm project outline:
+ST 453 Midterm project outline:
 
 Choose a data set of interest (e.g., from https://www.kaggle.com/datasets)
 
