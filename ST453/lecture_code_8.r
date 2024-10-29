@@ -36,7 +36,7 @@ abline( v=trace[1], col="red")
 plot(f(trace), main="Trace plot", xlab="iteration", ylab=NA)
 
 # Consider the effect of changing the learning rate
-trace = gradient_descent( gradient=gradient_f, x0=2, eta=.5)
+trace = gradient_descent( gradient=gradient_f, x0=3, eta=1)
 par(mfrow=c(1,2))
 plot( grid, f(grid), type="l", main="Objective function", xlab="x", ylab=NA)
 lines( trace, f(trace), col="green", type="p")
@@ -139,7 +139,7 @@ gd_momentum = function( gradient, eta=.01, alpha=.01, x0, epsilon=10^-6){
 	return(trace)
 }
 
-trace = gd_momentum( gradient=gradient_g, x0=2, eta=.01, alpha=.4)
+trace = gd_momentum( gradient=gradient_g, x0=0, eta=.01, alpha=.4)
 par(mfrow=c(1,2))
 plot( grid, g(grid), type="l", main="Objective function", xlab="x", ylab=NA)
 lines( trace, g(trace), col="green", type="p")
