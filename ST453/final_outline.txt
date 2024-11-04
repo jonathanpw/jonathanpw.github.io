@@ -1,4 +1,4 @@
-ST 495 Final project outline:
+ST 453 Final project outline:
 
 
 Building on the data analysis and simulation study from your midterm project,
