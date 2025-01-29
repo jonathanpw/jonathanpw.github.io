@@ -2,7 +2,7 @@
 
 
 # First, consider generating random instances from the uniform(0,1) distribution
-n = 10000
+n = 1000000
 u = runif(n)
 hist( u, breaks=floor(sqrt(n)), freq=F)
 lines( c(0,1), c(1,1) , lwd=3)	
