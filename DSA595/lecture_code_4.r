@@ -2,14 +2,14 @@ source("lecture_code_4_helper.r")
 
 
 p = 2
-beta = runif( n=p, min=1, max=5) * (-1)^(runif(p) < .5)
-#beta = rep(3, p)
+#beta = runif( n=p, min=1, max=5) * (-1)^(runif(p) < .5)
+beta = rep(3, p)
 sigma = 1
 par_true = c( beta, log(sigma^2))
 
 n = 100
 X = cbind( 1, matrix( runif(n*(p-1)), ncol=p-1))
-#X[,2] = 30*X[,2]
+X[,2] = 60*X[,2]
 
 y = X %*% beta + rnorm( n, mean=0, sd=sigma)
 
@@ -31,7 +31,7 @@ mcmc_out = mcmc_routine( y, X, init_par, prior_par, par_index, steps, burnin)
 # ----------------------------------------------------------------------------
 n_post = 15000
 index_post = (steps - burnin - n_post + 1):(steps - burnin)
-chain = mcmc_out$chain
+chain = mcmc_out$chain[index_post,]
 
 # Plot and save the mcmc trace plots and histograms.
 par_mean = par_median = upper = lower = rep( NA, ncol(chain))
