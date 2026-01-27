@@ -131,22 +131,26 @@ eigenvector = function( A, lambda){
 			# If the matrix is both upper and lower triangular, then it is diagonal
 			v = rep( 0, p)
 			v[ which(diag(A) == lambda) ] = 1
-			return(v)
-		
-		} else if( !is_upper & !is_lower){
-		
-			return("ERROR: matrix is not triangular")
-	
-		} else{
-
-			# If triangular, then WLOG convert it to upper triangular
-			if(is_upper)  M = A  else  M = B
+			
+		} else if( is_upper ){
 			
 			# Homework problem to modify the back_substituion function to work here:
 			#v = back_substitution( M, rep(0,p)) 
-		
-			return(v)
+			
+		} else if( is_lower ){
+			
+			# Homework problem to write a forward substituion function to work here:
+			#v = forward_substitution( M, rep(0,p)) 
+			
+		} else{
+			
+			return("ERROR: matrix is not triangular")
+			# Homework problem to replace this case with row operations to express the
+			# system in upper triangular form and then solve as:
+			#v = back_substitution( M_rref, rep(0,p)) 
+			
 		}
+		return(v)
 	}				
 }
 
