@@ -134,19 +134,19 @@ eigenvector = function( A, lambda){
 			
 		} else if( is_upper ){
 			
-			# Homework problem to modify the back_substituion function to work here:
+			# Homework problem to modify the back_substitution function to work here:
 			#v = back_substitution( M, rep(0,p)) 
 			
 		} else if( is_lower ){
 			
-			# Homework problem to write a forward substituion function to work here:
+			# Homework problem to write a forward substitution function to work here:
 			#v = forward_substitution( M, rep(0,p)) 
 			
 		} else{
 			
 			return("ERROR: matrix is not triangular")
-			# Homework problem to replace this case with row operations to express the
-			# system in upper triangular form and then solve as:
+			# Homework problem to replace this error with row operations to express 
+			# the system in upper triangular form and then solve as:
 			#v = back_substitution( M_rref, rep(0,p)) 
 			
 		}
