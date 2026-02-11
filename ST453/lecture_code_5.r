@@ -32,8 +32,8 @@ lines( x, X %*% beta_hat)
 P_x = X %*% solve(t(X) %*% X) %*% t(X) 
 y_hat = P_x %*% y
 
-# Add the projection of y as green points to the scatter plot
-lines( x, y_hat, type="p", col="green")
+# Add the projection of y as red points to the scatter plot
+lines( x, y_hat, type="p", col="red")
 
 # Verify that P_x is idempotent and symmetric
 as.logical(prod(round(P_x, 6) == round( P_x %*% P_x, 6)))
@@ -52,5 +52,5 @@ lines( x=v[1], y=v[2], type="p")
 
 # Plot the orthogonal projection onto the horizontal axis
 v_proj = P %*% v
-lines( x=c( 0, v_proj[1]), y=c( 0, v_proj[2]), col="green")
-lines( x=v_proj[1], y=v_proj[2], type="p", col="green")
+lines( x=c( 0, v_proj[1]), y=c( 0, v_proj[2]), col="red")
+lines( x=v_proj[1], y=v_proj[2], type="p", col="red")
