@@ -39,7 +39,7 @@ ALL of the steps for reproducing your computations and plots/tables.  For
 example, it will look something like:
 
 -------------------------------------------------------------------------------
-# This is the workflow to reproduce the results of the ST 495 midterm project by
+# This is the workflow to reproduce the results of the ST 453 midterm project by
 # (student name)
 
 for seed in {1..N}
