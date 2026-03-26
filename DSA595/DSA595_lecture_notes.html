@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DSA595 Lecture Notes – Bayesian Inference, MCMC & Monte Carlo Integration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ── Design tokens ── */
+    :root {
+      --ink:       #1a1a2e;
+      --paper:     #faf8f3;
+      --accent:    #2d5016;
+      --accent-lt: #4a7c23;
+      --rule:      #d4cfc4;
+      --math-bg:   #f0ede4;
+      --note-bg:   #eef4e8;
+      --note-bdr:  #6a9b3a;
+      --skip-bg:   #2d5016;
+      --skip-fg:   #ffffff;
+      --font-body: 'Source Serif 4', Georgia, serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    }
+
+    /* ── Skip navigation (WAVE: skip link) ── */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 1rem;
+      background: var(--skip-bg);
+      color: var(--skip-fg);
+      padding: .5rem 1rem;
+      border-radius: 0 0 6px 6px;
+      font-family: var(--font-body);
+      font-size: .9rem;
+      text-decoration: none;
+      z-index: 9999;
+      transition: top .15s;
+    }
+    .skip-link:focus { top: 0; }
+
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: clamp(1rem, 1.05vw + .75rem, 1.15rem);
+      line-height: 1.75;
+      padding: 0;
+    }
+
+    /* ── Page layout ── */
+    .page-header {
+      background: var(--accent);
+      color: #fff;
+      padding: 2.5rem 2rem 2rem;
+      border-bottom: 4px solid var(--accent-lt);
+    }
+    .page-header .course-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,.15);
+      padding: .25rem .6rem;
+      border-radius: 3px;
+      margin-bottom: .75rem;
+    }
+    .page-header h1 {
+      font-size: clamp(1.5rem, 3vw + 1rem, 2.4rem);
+      font-weight: 600;
+      line-height: 1.2;
+      color: #fff;
+    }
+    .page-header p.subtitle {
+      margin-top: .5rem;
+      font-size: 1rem;
+      opacity: .85;
+      font-style: italic;
+    }
+
+    /* ── Table of contents (WAVE: landmark navigation) ── */
+    nav#toc {
+      background: var(--note-bg);
+      border-left: 4px solid var(--note-bdr);
+      padding: 1.5rem 2rem;
+      max-width: 860px;
+      margin: 2rem auto;
+    }
+    nav#toc h2 {
+      font-size: 1rem;
+      font-family: var(--font-mono);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .75rem;
+    }
+    nav#toc ol {
+      padding-left: 1.4rem;
+    }
+    nav#toc li { margin: .25rem 0; }
+    nav#toc a {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: .95rem;
+    }
+    nav#toc a:hover, nav#toc a:focus {
+      text-decoration: underline;
+      outline: 2px solid var(--accent-lt);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    /* ── Main content ── */
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 1rem 2rem 4rem;
+    }
+
+    /* ── Sections ── */
+    article.section {
+      margin-bottom: 3.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    article.section:last-child { border-bottom: none; }
+
+    h2.section-title {
+      font-size: clamp(1.2rem, 2vw + .6rem, 1.6rem);
+      font-weight: 600;
+      color: var(--accent);
+      margin: 2rem 0 .75rem;
+      padding-top: .5rem;
+      border-top: 2px solid var(--accent-lt);
+    }
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 1.5rem 0 .5rem;
+      color: var(--ink);
+    }
+    p { margin-bottom: .9rem; }
+
+    /* ── Definition list for key terms ── */
+    dl.definitions dt {
+      font-weight: 600;
+      margin-top: 1rem;
+      color: var(--accent);
+    }
+    dl.definitions dd {
+      margin-left: 1.5rem;
+      margin-bottom: .5rem;
+    }
+
+    /* ── Math blocks (role="img" + aria-label for WAVE) ── */
+    .math-block {
+      background: var(--math-bg);
+      border-left: 3px solid var(--accent-lt);
+      border-radius: 4px;
+      padding: .9rem 1.4rem;
+      margin: 1rem 0 1rem 1rem;
+      font-family: var(--font-mono);
+      font-size: .92rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    /* ── Inline math ── */
+    .math {
+      font-family: var(--font-mono);
+      font-size: .93em;
+      background: var(--math-bg);
+      padding: .05em .3em;
+      border-radius: 3px;
+    }
+
+    /* ── Callout / note box ── */
+    .note {
+      background: var(--note-bg);
+      border-left: 4px solid var(--note-bdr);
+      border-radius: 0 6px 6px 0;
+      padding: .9rem 1.25rem;
+      margin: 1rem 0;
+      font-size: .95rem;
+    }
+    .note strong { color: var(--accent); }
+
+    /* ── Algorithm boxes ── */
+    .algorithm {
+      background: #fff;
+      border: 1.5px solid var(--rule);
+      border-top: 3px solid var(--accent);
+      border-radius: 4px;
+      padding: 1.1rem 1.4rem;
+      margin: 1.2rem 0;
+    }
+    .algorithm h4 {
+      font-family: var(--font-mono);
+      font-size: .9rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--accent);
+      margin-bottom: .75rem;
+      padding-bottom: .4rem;
+      border-bottom: 1px dashed var(--rule);
+    }
+    .algorithm ol { padding-left: 1.4rem; }
+    .algorithm ol li { margin: .3rem 0; }
+
+    /* ── Math fraction rendering ── */
+    .math-frac {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+      font-family: var(--font-mono);
+      font-size: .88rem;
+      line-height: 1.3;
+      margin: 0 .15em;
+    }
+    .math-frac .numer {
+      padding: 0 .25em .1em;
+      border-bottom: 1.5px solid var(--ink);
+      text-align: center;
+      white-space: nowrap;
+    }
+    .math-frac .denom {
+      padding: .1em .25em 0;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    /* ── Scaled brackets for min{...} ── */
+    .math-min {
+      display: inline-flex;
+      align-items: stretch;
+      vertical-align: middle;
+      font-family: var(--font-mono);
+      font-size: .88rem;
+      margin: 0 .1em;
+    }
+    .math-min .bracket {
+      display: flex;
+      align-items: stretch;
+      font-size: 2.6em;
+      line-height: 1;
+      color: var(--ink);
+      /* Use border-based curly bracket illusion */
+      font-family: serif;
+      font-weight: 300;
+      align-self: stretch;
+    }
+    .math-min .args {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: .35em;
+      padding: .25em .3em;
+    }
+    .math-min .arg {
+      display: flex;
+      align-items: center;
+      gap: .3em;
+      white-space: nowrap;
+    }
+    .math-min .arg-sep {
+      width: 100%;
+      border: none;
+      border-top: 1px dashed var(--rule);
+      margin: 0;
+    }
+
+    /* Container for the full rho = min{...} expression */
+    .math-display {
+      background: var(--math-bg);
+      border-left: 3px solid var(--accent-lt);
+      border-radius: 4px;
+      padding: .9rem 1.4rem;
+      margin: 1rem 0 1rem 1rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: .3em;
+      font-family: var(--font-mono);
+      font-size: .88rem;
+      overflow-x: auto;
+    }
+
+    /* ── Focus visible (WAVE: keyboard accessibility) ── */
+    :focus-visible {
+      outline: 3px solid var(--accent-lt);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      main { padding: 1rem 1rem 3rem; }
+      nav#toc { margin: 1rem; padding: 1rem; }
+      .page-header { padding: 1.5rem 1rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── WAVE: Skip link ── -->
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<!-- ── WAVE: Banner landmark ── -->
+<header role="banner" class="page-header">
+  <span class="course-tag" aria-label="Course code">DSA 595</span>
+  <h1>Bayesian Inference, MCMC &amp; Monte Carlo Integration</h1>
+  <p class="subtitle">Lecture Notes — Random Variables, Posterior Distributions, Sampling Methods</p>
+</header>
+
+<!-- ── WAVE: Navigation landmark ── -->
+<nav id="toc" aria-label="Table of contents">
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#random-variables">Random Variables</a></li>
+    <li><a href="#bayesian-inference">Bayesian Inference</a></li>
+    <li><a href="#conjugate-priors">Conjugate Priors — Bernoulli Example</a></li>
+    <li><a href="#non-conjugate">Non-Conjugate Prior — Normal Example</a></li>
+    <li><a href="#rng">Random Number &amp; Variable Generation</a></li>
+    <li><a href="#mh">Metropolis–Hastings (MH) Algorithm</a></li>
+    <li><a href="#mcmc">Markov Chain Monte Carlo (MCMC)</a></li>
+    <li><a href="#convergence">Assessing MCMC Convergence — Gelman–Rubin Statistic</a></li>
+    <li><a href="#gibbs">Gibbs Sampling</a></li>
+    <li><a href="#monte-carlo">Monte Carlo Integration</a></li>
+  </ol>
+</nav>
+
+<!-- ── WAVE: Main landmark ── -->
+<main id="main-content" aria-label="Lecture notes content">
+
+  <!-- ─────────────────────────────────────────────── -->
+  <article class="section" aria-labelledby="random-variables">
+    <h2 class="section-title" id="random-variables">1. Random Variables</h2>
+
+    <p>A <strong>random variable</strong> is a measurable function
+      <span class="math" role="img" aria-label="X maps from sample space Omega to the real numbers">X : Ω → ℝ</span>.
+    </p>
+
+    <dl class="definitions">
+      <dt>Discrete random variable</dt>
+      <dd>Takes countably many values. Described by a <strong>probability mass function (pmf)</strong>.</dd>
+      <dd><em>Examples:</em> Bernoulli(p), Binomial(n, p), Poisson(λ)</dd>
+
+      <dt>Continuous random variable</dt>
+      <dd>Takes all values on one or more intervals. Described by a <strong>probability density function (pdf)</strong>.</dd>
+      <dd><em>Examples:</em> Uniform(a, b), Normal(μ, σ²)</dd>
+    </dl>
+
+    <h3>Joint Distributions</h3>
+    <p>The joint distribution of random variables X and Y is described by the joint pmf/pdf
+      <span class="math" role="img" aria-label="f sub X comma Y of x comma y">f<sub>X,Y</sub>(x, y)</span>.
+    </p>
+
+    <h3>Bayes' Rule</h3>
+    <p>The conditional distribution of X given Y = y is:</p>
+    <div class="math-display" role="img" aria-label="Bayes rule: f of X given Y equals f joint of x y divided by f of y, provided f of y is greater than zero">
+      <span>f<sub>X|Y</sub>(x | y) :=</span>
+      <span class="math-frac">
+        <span class="numer">f<sub>X,Y</sub>(x, y)</span>
+        <span class="denom">f<sub>Y</sub>(y)</span>
+      </span>
+      <span style="margin-left:.5em">so long as f<sub>Y</sub>(y) &gt; 0.</span>
+    </div>
+  </article>
+
+  <!-- ─────────────────────────────────────────────── -->
+  <article class="section" aria-labelledby="bayesian-inference">
+    <h2 class="section-title" id="bayesian-inference">2. Bayesian Inference</h2>
+
+    <p>Suppose data
+      <span class="math" role="img" aria-label="x sub 1 through x sub n">x₁, …, xₙ</span>
+      are observations of i.i.d. random variables
+      <span class="math" role="img" aria-label="X sub 1 through X sub n">X₁, …, Xₙ</span>
+      from a probability distribution whose pmf/pdf belongs to the parametric family
+      <span class="math" role="img" aria-label="f sub X given theta of x given theta, theta some parameter">{ f<sub>X|Θ</sub>(x | θ) : θ some parameter(s) }</span>.
+    </p>
+
+    <p>If we have prior information about the true θ* in the form of a <strong>prior pmf/pdf</strong>
+      <span class="math" role="img" aria-label="Pi sub Theta of theta">Π<sub>Θ</sub>(θ)</span>,
+      we can define the <strong>posterior distribution</strong>:
+    </p>
+
+    <div class="math-display" role="img" aria-label="Posterior distribution Pi of theta given x equals likelihood times prior divided by marginal likelihood integrated over all parameter values">
+      <span>Π<sub>Θ|X₁,…,Xₙ</sub>(θ | x₁,…,xₙ) :=</span>
+      <span class="math-frac">
+        <span class="numer">f<sub>X₁,…,Xₙ|Θ</sub>(x₁,…,xₙ | θ) · Π<sub>Θ</sub>(θ)</span>
+        <span class="denom">∫ f<sub>X₁,…,Xₙ|Θ</sub>(x₁,…,xₙ | ϑ) · Π<sub>Θ</sub>(ϑ) dϑ</span>
+      </span>
+    </div>
+
+    <p><strong>Short-hand notation:</strong></p>
+    <div class="math-display" role="img" aria-label="Posterior Pi of theta given x equals likelihood times prior divided by integrated likelihood times prior over all parameter values">
+      <span>Π(θ | x₁,…,xₙ) =</span>
+      <span class="math-frac">
+        <span class="numer">f(x₁,…,xₙ | θ) · Π(θ)</span>
+        <span class="denom">∫ f(x₁,…,xₙ | ϑ) · Π(ϑ) dϑ</span>
+      </span>
+    </div>
+  </article>
+
+  <!-- ─────────────────────────────────────────────── -->
+  <article class="section" aria-labelledby="conjugate-priors">
+    <h2 class="section-title" id="conjugate-priors">3. Conjugate Priors — Bernoulli Example</h2>
+
+    <p><strong>Setup:</strong>
+      <span class="math" role="img" aria-label="X sub 1 through X sub n are i.i.d. Bernoulli of p">X₁,…,Xₙ i.i.d. ~ Bernoulli(p)</span>,
+      prior on p is
+      <span class="math" role="img" aria-label="Beta of a b">Beta(a, b)</span>.
+      Find the posterior of p.
+    </p>
+
+    <h3>Likelihood</h3>
+    <div class="math-block" role="img" aria-label="Likelihood f of x given p equals product from i equals 1 to n of p to the x i times one minus p to the power one minus x i, which equals p to the sum of x i times one minus p to the n minus sum of x i">
+f(x₁,…,xₙ | p) = ∏ᵢ₌₁ⁿ p^xᵢ · (1−p)^(1−xᵢ)
+               = p^(Σxᵢ) · (1−p)^(n − Σxᵢ)
+    </div>
+
+    <h3>Prior</h3>
+    <div class="math-block" role="img" aria-label="Beta prior: Pi of p equals Gamma a plus b divided by Gamma a times Gamma b, times p to the a minus 1 times one minus p to the b minus 1, for a b greater than zero">
+Π(p) = Γ(a+b) / [Γ(a)·Γ(b)] · p^(a−1) · (1−p)^(b−1)    for a, b &gt; 0
+    </div>
+
+    <h3>Posterior</h3>
+    <p>Multiplying likelihood × prior and simplifying (the normalizing constant cancels):</p>
+    <div class="math-block" role="img" aria-label="Posterior Pi of p given x is Beta distribution with parameters a plus sum of x i and b plus n minus sum of x i">
+Π(p | x₁,…,xₙ)  =  Beta(a + Σxᵢ,  b + n − Σxᵢ)
+    </div>
+
+    <div class="note" role="note">
+      <strong>Conjugate prior:</strong> Posterior distributions in the same parametric family as the prior are called <em>conjugate</em>. Here Beta is conjugate to the Bernoulli/Binomial likelihood.
+    </div>
+  </article>
+
+  <!-- ─────────────────────────────────────────────── -->
+  <article class="section" aria-labelledby="non-conjugate">
+    <h2 class="section-title" id="non-conjugate">4. Non-Conjugate Prior — Normal Example</h2>
+
+    <p><strong>Setup:</strong>
+      <span class="math" role="img" aria-label="X sub 1 through X sub n i.i.d. Normal mu 1">X₁,…,Xₙ i.i.d. ~ N(μ, 1)</span>,
+      prior
+      <span class="math" role="img" aria-label="mu tilde Uniform a b">μ ~ Uniform(a, b)</span>.
+    </p>
+
+    <p>Working through the algebra, the posterior is a <em>truncated normal</em>:</p>
+    <div class="math-display" role="img" aria-label="Posterior of mu given x equals Normal density centered at x-bar with variance 1 over n, truncated to interval a b, divided by normalizing constant Phi of b minus x bar over 1 over root n minus Phi of a minus x bar over 1 over root n">
+      <span>Π(μ | x₁,…,xₙ) =</span>
+      <span class="math-frac">
+        <span class="numer">(2π · 1/n)<sup>−½</sup> · exp[−½n(μ − x̄)²] · 𝟙{μ ∈ (a,b)}</span>
+        <span class="denom">Φ((b − x̄) / (1/√n)) − Φ((a − x̄) / (1/√n))</span>
+      </span>
+    </div>
+
+    <p>where <span class="math" role="img" aria-label="Phi">Φ(·)</span> is the CDF of the standard Normal distribution.</p>
+
+    <div class="note" role="note">
+      <strong>Flat prior:</strong> Setting (a, b) = ℝ gives the improper "flat" prior Π(μ) ∝ 1.
+      The resulting posterior is proper and equals
+      <span class="math" role="img" aria-label="Normal x bar 1 over n">N(x̄, 1/n)</span> — the sampling distribution of x̄.
+    </div>
+  </article>
+
+  <!-- ─────────────────────────────────────────────── -->
+  <article class="section" aria-labelledby="rng">
+    <h2 class="section-title" id="rng">5. Random Number &amp; Variable Generation</h2>
+
+    <p>We assume software can generate random instances from
+      <span class="math" role="img" aria-label="Uniform zero one">Uniform(0,1)</span>.
+      The question is: how do we sample from an arbitrary continuous distribution?
+    </p>
+
+    <h3>Probability Integral Transform</h3>
+    <p>Let X be a continuous random variable with CDF
+      <span class="math" role="img" aria-label="F sub X">F_X</span>. Then:</p>
+    <div class="math-block" role="img" aria-label="Y equals F sub X of X is distributed Uniform zero one">
+Y := F_X(X)  ~  Uniform(0,1)
+    </div>
+
+    <p><strong>Proof sketch:</strong> For y ∈ (0,1),</p>
+    <div class="math-block" role="img" aria-label="F sub Y of y equals P of Y less than or equal to y equals P of F X of X less than or equal to y equals P of X less than or equal to F inverse of y equals F X of F inverse of y equals y">
+F_Y(y) = P(Y ≤ y)
+       = P(F_X(X) ≤ y)
+       = P(X ≤ F_X⁻¹(y))
+       = F_X(F_X⁻¹(y))
+       = y
+    </div>
+
+    <p>This is the CDF of Uniform(0,1). Therefore, if we generate
+      <span class="math" role="img" aria-label="U tilde Uniform zero one">U ~ Uniform(0,1)</span>
+      and F_X is continuous, then
+      <span class="math" role="img" aria-label="X equals F inverse of U">X = F_X⁻¹(U)</span>
+      has the distribution of X.
+    </p>
+  </article>
+
+  <!-- ─────────────────────────────────────────────── -->
+  <article class="section" aria-labelledby="mh">
+    <h2 class="section-title" id="mh">6. Metropolis–Hastings (MH) Algorithm</h2>
+
+    <p>Suppose
+      <span class="math" role="img" aria-label="Pi of theta given x">Π(θ|x)</span>
+      is a posterior density of interest but we do not know its normalizing constant.
+      We know only
+      <span class="math" role="img" aria-label="h of theta given x">h(θ|x)</span>
+      where
+      <span class="math" role="img" aria-label="Pi of theta given x equals c times h of theta given x, proportional to h">Π(θ|x) = c · h(θ|x) ∝ h(θ|x)</span>.
+    </p>
+    <p>Assume
+      <span class="math" role="img" aria-label="q of theta">q(θ)</span>
+      is a proposal density with
+      <span class="math" role="img" aria-label="support of h given x contained in support of q">supp{h(θ|x)} ⊆ supp{q(θ)}</span>.
+    </p>
+
+    <h3>MH Algorithm — Independent Sampling</h3>
+    <div class="algorithm" aria-label="Metropolis-Hastings independent sampling algorithm">
+      <h4>Algorithm: MH (Independent Sampling)</h4>
+      <ol>
+        <li>Start with current state
+          <span class="math" role="img" aria-label="theta superscript t">θ<sup>(t)</sup></span>.
+        </li>
+        <li>Randomly sample candidate
+          <span class="math" role="img" aria-label="theta star tilde q">θ* ~ q</span>.
+        </li>
+        <li>Compute acceptance probability:
+          <div class="math-display" role="img" aria-label="rho theta star theta t equals min of h theta star given x over q theta star divided by h theta t given x over q theta t, and 1">
+            <span>ρ(θ*, θ<sup>(t)</sup>) = min</span>
+            <span class="math-min">
+              <span class="bracket">{</span>
+              <span class="args">
+                <span class="arg">
+                  <span class="math-frac">
+                    <span class="numer">h(θ*|x) / q(θ*)</span>
+                    <span class="denom">h(θ<sup>(t)</sup>|x) / q(θ<sup>(t)</sup>)</span>
+                  </span>
+                  , 1
+                </span>
+              </span>
+              <span class="bracket">}</span>
+            </span>
+          </div>
+        </li>
+        <li>Set θ<sup>(t+1)</sup> = θ* with probability ρ; else θ<sup>(t+1)</sup> = θ<sup>(t)</sup>.</li>
+      </ol>
+    </div>
+
+    <h3>MH Algorithm — Gaussian Random Walk</h3>
+    <p>Use the proposal distribution
+      <span class="math" role="img" aria-label="q of theta star given theta t is Normal theta t tau squared">q(θ*|θ<sup>(t)</sup>) ~ N(θ<sup>(t)</sup>, τ²)</span>
+      where τ > 0 controls the scale of proposals.
+    </p>
+    <div class="algorithm" aria-label="Metropolis-Hastings Gaussian random walk algorithm">
+      <h4>Algorithm: MH (Gaussian Random Walk)</h4>
+      <ol>
+        <li>Start with current state
+          <span class="math" role="img" aria-label="theta superscript t">θ<sup>(t)</sup></span>.
+        </li>
+        <li>Sample
+          <span class="math" role="img" aria-label="theta star equals theta t plus Z where Z tilde Normal zero tau squared">θ* = θ<sup>(t)</sup> + Z, where Z ~ N(0, τ²)</span>.
+        </li>
+        <li>Compute acceptance probability:
+          <div class="math-display" role="img" aria-label="rho theta star theta t equals min of h theta star given x over h theta t given x, and 1, because q cancels by symmetry">
+            <span>ρ(θ*, θ<sup>(t)</sup>) = min</span>
+            <span class="math-min">
+              <span class="bracket">{</span>
+              <span class="args">
+                <span class="arg">
+                  <span class="math-frac">
+                    <span class="numer">h(θ*|x)</span>
+                    <span class="denom">h(θ<sup>(t)</sup>|x)</span>
+                  </span>
+                  , 1
+                </span>
+              </span>
+              <span class="bracket">}</span>
+            </span>
+            <span style="margin-left:.5em; font-size:.82rem; color:#666; font-family:var(--font-mono);">(q cancels by symmetry of N(0,τ²))</span>
+          </div>
+        </li>
+        <li>Set θ<sup>(t+1)</sup> = θ* with probability ρ; else θ<sup>(t+1)</sup> = θ<sup>(t)</sup>.</li>
+      </ol>
+    </div>
+
+    <p>Values of θ are accepted in direct proportion to the density
+      <span class="math" role="img" aria-label="Pi of theta given x">Π(θ|x)</span>.
+      The normalizing constant <em>c</em> cancels in the ratio, so it need never be computed.
+    </p>
+  </article>
+
+  <!-- ─────────────────────────────────────────────── -->
+  <article class="section" aria-labelledby="mcmc">
+    <h2 class="section-title" id="mcmc">7. Markov Chain Monte Carlo (MCMC)</h2>
+
+    <p>The MH algorithm is the canonical example of a broader class of algorithms called
+      <strong>Markov chain Monte Carlo (MCMC)</strong> methods.
+      MCMC is primarily what constitutes "Bayesian computation."
+    </p>
+
+    <p>A central challenge in MCMC is balancing <em>acceptance rate</em> vs. <em>mixing</em>:</p>
+    <ul style="padding-left:1.4rem; margin:.5rem 0 1rem;">
+      <li>Too few acceptances → algorithm converges slowly.</li>
+      <li>Too many acceptances → accepted proposals are highly dependent.</li>
+      <li>Target acceptance rate is roughly <strong>20–50%</strong> for adequate mixing.</li>
+    </ul>
+
+    <p>One approach to controlling acceptance rate is to use a random walk proposal and tune the scale parameter τ².</p>
+  </article>
+
+  <!-- ─────────────────────────────────────────────── -->
+  <article class="section" aria-labelledby="convergence">
+    <h2 class="section-title" id="convergence">8. Assessing MCMC Convergence — Gelman–Rubin Statistic</h2>
+
+    <p>Convergence is most often assessed via visual inspection of the <strong>trace plot</strong>,
+      but more rigorous diagnostic metrics have been proposed.
+    </p>
+
+    <h3>Gelman–Rubin (GR) Statistic</h3>
+    <p>Run J chains of an MCMC algorithm, each with a different initial value.
+      Denote chain j ∈ {1,…,J} by
+      <span class="math" role="img" aria-label="x sub 1 superscript j through x sub L superscript j, post burn-in phase">x₁<sup>(j)</sup>,…, x_L<sup>(j)</sup></span>
+      (post burn-in).
+    </p>
+
+    <dl class="definitions">
+      <dt>Sample mean of chain j</dt>
+      <dd>
+        <div class="math-block" role="img" aria-label="x bar sub j equals one over L times sum from i equals 1 to L of x sub i superscript j">
+x̄ⱼ := (1/L) Σᵢ₌₁ᴸ xᵢ<sup>(j)</sup>
+        </div>
+      </dd>
+
+      <dt>Grand mean (mean of chain means)</dt>
+      <dd>
+        <div class="math-block" role="img" aria-label="x bar star equals one over J times sum from j equals 1 to J of x bar j">
+x̄* := (1/J) Σⱼ₌₁ᴶ x̄ⱼ
+        </div>
+      </dd>
+
+      <dt>Between-chain variance B (scaled by L)</dt>
+      <dd>
+        <div class="math-block" role="img" aria-label="B equals L over J minus 1 times sum from j equals 1 to J of x bar j minus x bar star squared">
+B := L/(J−1) · Σⱼ₌₁ᴶ (x̄ⱼ − x̄*)²
+        </div>
+      </dd>
+
+      <dt>Within-chain variance W</dt>
+      <dd>
+        <div class="math-block" role="img" aria-label="W equals one over J times sum from j equals 1 to J of one over L minus 1 times sum from i equals 1 to L of x sub i superscript j minus x bar j squared">
+W := (1/J) Σⱼ₌₁ᴶ { (1/(L−1)) Σᵢ₌₁ᴸ (xᵢ<sup>(j)</sup> − x̄ⱼ)² }
+        </div>
+      </dd>
+
+      <dt>GR statistic R̂</dt>
+      <dd>
+        <div class="math-display" role="img" aria-label="R hat equals fraction with numerator L minus 1 over L times W plus 1 over L times B, all over W">
+          <span>R̂ :=</span>
+          <span class="math-frac">
+            <span class="numer">((L−1)/L) · W + (1/L) · B</span>
+            <span class="denom">W</span>
+          </span>
+        </div>
+      </dd>
+    </dl>
+
+    <div class="note" role="note">
+      <strong>Interpretation:</strong> As L → ∞, B/L → 0 and R̂ → 1 if the chain has converged.
+      It has been argued in the literature that <strong>R̂ ∈ [1, 1.1]</strong> indicates convergence.
+    </div>
+  </article>
+
+  <!-- ─────────────────────────────────────────────── -->
+  <article class="section" aria-labelledby="gibbs">
+    <h2 class="section-title" id="gibbs">9. Gibbs Sampling</h2>
+
+    <p>Suppose
+      <span class="math" role="img" aria-label="Pi of theta 1 through theta p given y">Π(θ₁,…,θₚ | y)</span>
+      is a posterior with unknown normalizing constant, but we can derive the <strong>fully specified conditional densities</strong>:
+    </p>
+    <div class="math-block" role="img" aria-label="Conditional densities: Pi of theta 1 given theta 2 through theta p and y, and so on down to Pi of theta p given theta 1 through theta p minus 1 and y">
+Π(θ₁ | θ₂,…,θₚ, y)
+         ⋮
+Π(θₚ | θ₁,…,θₚ₋₁, y)
+    </div>
+
+    <div class="algorithm" aria-label="Gibbs sampler algorithm">
+      <h4>Algorithm: Gibbs Sampler</h4>
+      <ol>
+        <li>Start with current state
+          <span class="math" role="img" aria-label="theta superscript t equals tuple theta 1 through theta p all superscript t">θ<sup>(t)</sup> = (θ₁<sup>(t)</sup>,…, θₚ<sup>(t)</sup>)</span>.
+        </li>
+        <li>Sample each component from its full conditional:
+          <div class="math-block" role="img" aria-label="theta 1 superscript t plus 1 tilde Pi of dot given theta 2 through theta p superscript t and y, continuing down to theta p superscript t plus 1 tilde Pi of dot given theta 1 through theta p minus 1 superscript t and y">
+θ₁<sup>(t+1)</sup> ~ Π(· | θ₂<sup>(t)</sup>,…,θₚ<sup>(t)</sup>, y)
+        ⋮
+θₚ<sup>(t+1)</sup> ~ Π(· | θ₁<sup>(t)</sup>,…,θₚ₋₁<sup>(t)</sup>, y)
+          </div>
+        </li>
+      </ol>
+    </div>
+
+    <p><strong>Why does this work?</strong> Construct the MH ratio for θ₁ | θ₂,…,θₚ, y using
+      <span class="math" role="img" aria-label="Pi of theta 1 given others as proposal density">Π(θ₁ | θ₂,…,θₚ, y)</span>
+      as the proposal. The ratio evaluates to 1, so every proposal is accepted —
+      Gibbs sampling is a special case of MH with acceptance probability always equal to 1.
+    </p>
+  </article>
+
+  <!-- ─────────────────────────────────────────────── -->
+  <article class="section" aria-labelledby="monte-carlo">
+    <h2 class="section-title" id="monte-carlo">10. Monte Carlo Integration</h2>
+
+    <p>Let
+      <span class="math" role="img" aria-label="X tilde f sub X">X ~ f_X</span>.
+      For any f_X-integrable function
+      <span class="math" role="img" aria-label="h from X to the real numbers">h : X → ℝ</span>:
+    </p>
+    <div class="math-block" role="img" aria-label="Integral of h of x times f sub X of x dx equals expected value of h of X, approximately equal to one over n times sum from i equals 1 to n of h of x sub i">
+∫ h(x) f_X(x) dx  =  E[h(X)]  ≈  (1/n) Σᵢ₌₁ⁿ h(xᵢ)
+    </div>
+    <p>for an i.i.d. observed sample x₁,…,xₙ. Moreover, for a bounded integral on [a,b]:</p>
+    <div class="math-block" role="img" aria-label="Integral from a to b of h of x times f sub X of x dx approximately equals one over n times sum of h of x i times indicator that a is less than or equal to x i is less than or equal to b">
+∫ₐᵇ h(x) f_X(x) dx  ≈  (1/n) Σᵢ₌₁ⁿ h(xᵢ) · 𝟙{a ≤ xᵢ ≤ b}
+    </div>
+
+    <h3>Importance Sampling</h3>
+    <p>When it is analytically intractable to integrate some function g, write:</p>
+    <div class="math-block" role="img" aria-label="Integral of g of x dx equals integral of g of x over f sub X of x times f sub X of x dx equals expected value of g of X over f sub X of X, approximately equal to one over n times sum of g of x i over f sub X of x i">
+∫ g(x) dx  =  ∫ [g(x)/f_X(x)] · f_X(x) dx  =  E[g(X)/f_X(X)]
+
+            ≈  (1/n) Σᵢ₌₁ⁿ g(xᵢ)/f_X(xᵢ)
+    </div>
+    <p>for an i.i.d. sample x₁,…,xₙ, so long as
+      <span class="math" role="img" aria-label="support of g is contained in support of f sub X">supp(g) ⊆ supp(f_X)</span>.
+    </p>
+  </article>
+
+</main>
+
+<!-- ── WAVE: Content info landmark ── -->
+<footer role="contentinfo" style="text-align:center; padding:1.5rem; font-size:.85rem; color:#666; border-top:1px solid var(--rule); font-family:var(--font-mono);">
+  DSA595 Lecture Notes — Accessible HTML version
+</footer>
+
+</body>
+</html>
