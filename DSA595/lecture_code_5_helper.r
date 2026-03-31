@@ -40,8 +40,11 @@ mcmc_routine = function( y, X, init_par, prior_par, par_index, steps, burnin){
 	n_par = length(par)
 	chain = matrix( 0, steps, n_par)
 	
-	group = list( par_index$beta, 
-		            par_index$log_sigma_sq)
+	#group = list( 1, 2, 3, 4, 5)
+	#group = list( par_index$beta[1:2], 
+	#	            par_index$beta[3:4], 
+	#	            par_index$log_sigma_sq)
+	group = list( 1:n_par)
 	n_group = length(group)
 	
 	pcov = list();	for(j in 1:n_group)  pcov[[j]] = diag(length(group[[j]]))

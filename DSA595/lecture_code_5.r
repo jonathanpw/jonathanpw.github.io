@@ -1,14 +1,16 @@
 source("lecture_code_5_helper.r")
 
-
+set.seed(1)
 p = 4
-beta = runif( n=p, min=1, max=5) * (-1)^(runif(p) < .5)
+#beta = runif( n=p, min=1, max=5) * (-1)^(runif(p) < .5)
+beta = rep(3, p)
 sigma = 1
 par_true = c( beta, log(sigma^2))
 
 n = 100
 X = cbind( 1, matrix( runif(n*(p-1)), ncol=p-1))
-#X[,2] = 60*X[,2]
+X[,3] = 30*X[,3]
+X[,4] = 60*X[,4]
 
 y = X %*% beta + rnorm( n, mean=0, sd=sigma)
 

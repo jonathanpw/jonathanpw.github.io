@@ -12,9 +12,9 @@ log_density = function( par, prior_par, par_index, y, X){
 	
 	n = length(y)
 	beta = matrix( par[par_index$beta], ncol=1)
-	sigma = sqrt(exp(par[par_index$log_sigma_sq]))
+	sigma_sq = exp(par[par_index$log_sigma_sq])
 	
-	log_fn = dmvnorm( x=c(y), mean=c(X%*%beta), sigma=diag(n)*sigma, log=T)
+	log_fn = dmvnorm( x=c(y), mean=c(X%*%beta), sigma=diag(n)*sigma_sq, log=T)
 
 	beta_mean = prior_par$prior_mean[par_index$beta]
 	beta_sd = diag(prior_par$prior_sd[par_index$beta])
