@@ -3,753 +3,698 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DSA595 Lecture Notes – Bayesian Inference, MCMC & Monte Carlo Integration</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <title>DSA 595 Lecture Notes – Bayesian Inference, MCMC, and Monte Carlo Integration</title>
+
+  <!-- MathJax configuration -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+        tags: 'none'
+      },
+      options: {
+        skipHtmlTags: ['script','noscript','style','textarea','pre']
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+
   <style>
-    /* ── Design tokens ── */
+    /* ── Design system ── */
     :root {
-      --ink:       #1a1a2e;
-      --paper:     #faf8f3;
-      --accent:    #2d5016;
-      --accent-lt: #4a7c23;
-      --rule:      #d4cfc4;
-      --math-bg:   #f0ede4;
-      --note-bg:   #eef4e8;
-      --note-bdr:  #6a9b3a;
-      --skip-bg:   #2d5016;
-      --skip-fg:   #ffffff;
-      --font-body: 'Source Serif 4', Georgia, serif;
-      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+      --ink:        #1a1a1a;
+      --muted:      #444;
+      --rule:       #d0cfc8;
+      --page:       #faf9f6;
+      --accent:     #2d4a7a;
+      --accent-lt:  #e8edf5;
+      --mono:       'Courier New', Courier, monospace;
+      --serif:      Georgia, 'Times New Roman', serif;
+      --sans:       'Palatino Linotype', Palatino, 'Book Antiqua', serif;
+      --max-w:      780px;
+      --gap:        1.6rem;
     }
 
-    /* ── Skip navigation (WAVE: skip link) ── */
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Base ── */
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--page);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 1.05rem;
+      line-height: 1.75;
+      padding: 2rem 1.25rem 4rem;
+    }
+
+    /* ── Skip link (WAVE: no missing skip nav) ── */
     .skip-link {
       position: absolute;
-      top: -100%;
-      left: 1rem;
-      background: var(--skip-bg);
-      color: var(--skip-fg);
+      top: -999px;
+      left: 0;
+      background: var(--accent);
+      color: #fff;
       padding: .5rem 1rem;
-      border-radius: 0 0 6px 6px;
-      font-family: var(--font-body);
       font-size: .9rem;
-      text-decoration: none;
+      border-radius: 0 0 4px 0;
       z-index: 9999;
-      transition: top .15s;
+      text-decoration: none;
     }
     .skip-link:focus { top: 0; }
 
-    /* ── Reset & base ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      background: var(--paper);
-      color: var(--ink);
-      font-family: var(--font-body);
-      font-size: clamp(1rem, 1.05vw + .75rem, 1.15rem);
-      line-height: 1.75;
-      padding: 0;
-    }
-
-    /* ── Page layout ── */
-    .page-header {
-      background: var(--accent);
-      color: #fff;
-      padding: 2.5rem 2rem 2rem;
-      border-bottom: 4px solid var(--accent-lt);
-    }
-    .page-header .course-tag {
-      display: inline-block;
-      font-family: var(--font-mono);
-      font-size: .8rem;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      background: rgba(255,255,255,.15);
-      padding: .25rem .6rem;
-      border-radius: 3px;
-      margin-bottom: .75rem;
-    }
-    .page-header h1 {
-      font-size: clamp(1.5rem, 3vw + 1rem, 2.4rem);
-      font-weight: 600;
-      line-height: 1.2;
-      color: #fff;
-    }
-    .page-header p.subtitle {
-      margin-top: .5rem;
-      font-size: 1rem;
-      opacity: .85;
-      font-style: italic;
-    }
-
-    /* ── Table of contents (WAVE: landmark navigation) ── */
-    nav#toc {
-      background: var(--note-bg);
-      border-left: 4px solid var(--note-bdr);
-      padding: 1.5rem 2rem;
-      max-width: 860px;
-      margin: 2rem auto;
-    }
-    nav#toc h2 {
-      font-size: 1rem;
-      font-family: var(--font-mono);
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: .75rem;
-    }
-    nav#toc ol {
-      padding-left: 1.4rem;
-    }
-    nav#toc li { margin: .25rem 0; }
-    nav#toc a {
-      color: var(--accent);
-      text-decoration: none;
-      font-size: .95rem;
-    }
-    nav#toc a:hover, nav#toc a:focus {
-      text-decoration: underline;
-      outline: 2px solid var(--accent-lt);
-      outline-offset: 2px;
-      border-radius: 2px;
-    }
-
-    /* ── Main content ── */
-    main {
-      max-width: 860px;
+    /* ── Layout ── */
+    .page-wrapper {
+      max-width: var(--max-w);
       margin: 0 auto;
-      padding: 1rem 2rem 4rem;
     }
 
-    /* ── Sections ── */
-    article.section {
-      margin-bottom: 3.5rem;
-      padding-bottom: 2rem;
-      border-bottom: 1px solid var(--rule);
+    /* ── Header ── */
+    header {
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 1.25rem;
+      margin-bottom: 2.5rem;
     }
-    article.section:last-child { border-bottom: none; }
-
-    h2.section-title {
-      font-size: clamp(1.2rem, 2vw + .6rem, 1.6rem);
-      font-weight: 600;
+    header h1 {
+      font-size: 1.6rem;
       color: var(--accent);
-      margin: 2rem 0 .75rem;
-      padding-top: .5rem;
-      border-top: 2px solid var(--accent-lt);
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    header p {
+      color: var(--muted);
+      font-size: .95rem;
+      margin-top: .35rem;
+    }
+
+    /* ── Headings ── */
+    h2 {
+      font-size: 1.3rem;
+      color: var(--accent);
+      margin: 2.4rem 0 .75rem;
+      padding-bottom: .3rem;
+      border-bottom: 1px solid var(--rule);
     }
     h3 {
       font-size: 1.1rem;
-      font-weight: 600;
-      margin: 1.5rem 0 .5rem;
       color: var(--ink);
-    }
-    p { margin-bottom: .9rem; }
-
-    /* ── Definition list for key terms ── */
-    dl.definitions dt {
-      font-weight: 600;
-      margin-top: 1rem;
-      color: var(--accent);
-    }
-    dl.definitions dd {
-      margin-left: 1.5rem;
-      margin-bottom: .5rem;
+      margin: 1.8rem 0 .5rem;
+      font-style: italic;
     }
 
-    /* ── Math blocks (role="img" + aria-label for WAVE) ── */
-    .math-block {
-      background: var(--math-bg);
-      border-left: 3px solid var(--accent-lt);
-      border-radius: 4px;
-      padding: .9rem 1.4rem;
-      margin: 1rem 0 1rem 1rem;
-      font-family: var(--font-mono);
-      font-size: .92rem;
-      line-height: 1.6;
-      overflow-x: auto;
-      white-space: pre;
-    }
+    /* ── Body text ── */
+    p { margin-bottom: var(--gap); }
+    p + p { margin-top: -.4rem; }
 
-    /* ── Inline math ── */
-    .math {
-      font-family: var(--font-mono);
-      font-size: .93em;
-      background: var(--math-bg);
-      padding: .05em .3em;
-      border-radius: 3px;
+    /* ── Lists (arrows → bullets) ── */
+    ul, ol {
+      padding-left: 1.6rem;
+      margin-bottom: var(--gap);
     }
+    li { margin-bottom: .3rem; }
 
-    /* ── Callout / note box ── */
-    .note {
-      background: var(--note-bg);
-      border-left: 4px solid var(--note-bdr);
-      border-radius: 0 6px 6px 0;
-      padding: .9rem 1.25rem;
-      margin: 1rem 0;
-      font-size: .95rem;
-    }
-    .note strong { color: var(--accent); }
-
-    /* ── Algorithm boxes ── */
-    .algorithm {
-      background: #fff;
-      border: 1.5px solid var(--rule);
-      border-top: 3px solid var(--accent);
-      border-radius: 4px;
-      padding: 1.1rem 1.4rem;
-      margin: 1.2rem 0;
-    }
-    .algorithm h4 {
-      font-family: var(--font-mono);
-      font-size: .9rem;
-      text-transform: uppercase;
-      letter-spacing: .1em;
-      color: var(--accent);
-      margin-bottom: .75rem;
-      padding-bottom: .4rem;
-      border-bottom: 1px dashed var(--rule);
-    }
-    .algorithm ol { padding-left: 1.4rem; }
-    .algorithm ol li { margin: .3rem 0; }
-
-    /* ── Math fraction rendering ── */
-    .math-frac {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      vertical-align: middle;
-      font-family: var(--font-mono);
-      font-size: .88rem;
-      line-height: 1.3;
-      margin: 0 .15em;
-    }
-    .math-frac .numer {
-      padding: 0 .25em .1em;
-      border-bottom: 1.5px solid var(--ink);
-      text-align: center;
-      white-space: nowrap;
-    }
-    .math-frac .denom {
-      padding: .1em .25em 0;
-      text-align: center;
-      white-space: nowrap;
-    }
-
-    /* ── Scaled brackets for min{...} ── */
-    .math-min {
-      display: inline-flex;
-      align-items: stretch;
-      vertical-align: middle;
-      font-family: var(--font-mono);
-      font-size: .88rem;
-      margin: 0 .1em;
-    }
-    .math-min .bracket {
-      display: flex;
-      align-items: stretch;
-      font-size: 2.6em;
-      line-height: 1;
-      color: var(--ink);
-      /* Use border-based curly bracket illusion */
-      font-family: serif;
-      font-weight: 300;
-      align-self: stretch;
-    }
-    .math-min .args {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: .35em;
-      padding: .25em .3em;
-    }
-    .math-min .arg {
-      display: flex;
-      align-items: center;
-      gap: .3em;
-      white-space: nowrap;
-    }
-    .math-min .arg-sep {
-      width: 100%;
-      border: none;
-      border-top: 1px dashed var(--rule);
-      margin: 0;
-    }
-
-    /* Container for the full rho = min{...} expression */
+    /* ── Display math wrapper ── */
     .math-display {
-      background: var(--math-bg);
-      border-left: 3px solid var(--accent-lt);
-      border-radius: 4px;
-      padding: .9rem 1.4rem;
-      margin: 1rem 0 1rem 1rem;
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: .3em;
-      font-family: var(--font-mono);
-      font-size: .88rem;
       overflow-x: auto;
+      padding: .75rem 0;
+      margin: .5rem 0 1rem;
+      text-align: center;
     }
 
-    /* ── Focus visible (WAVE: keyboard accessibility) ── */
-    :focus-visible {
-      outline: 3px solid var(--accent-lt);
-      outline-offset: 3px;
-      border-radius: 2px;
+    /* ── Definition / example blocks ── */
+    .example-block {
+      background: var(--accent-lt);
+      border-left: 3px solid var(--accent);
+      padding: .8rem 1.1rem;
+      margin: 1.2rem 0;
+      border-radius: 0 4px 4px 0;
+    }
+    .example-block > *:last-child { margin-bottom: 0; }
+
+    /* ── Algorithm block ── */
+    .algorithm {
+      background: #f3f2ee;
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      padding: .9rem 1.2rem;
+      margin: 1rem 0 1.4rem;
+    }
+    .algorithm p { margin-bottom: .4rem; }
+    .algorithm p:last-child { margin-bottom: 0; }
+
+    /* ── Inline code / symbol emphasis ── */
+    em { font-style: italic; }
+    strong { font-weight: 700; }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--rule);
+      font-size: .85rem;
+      color: var(--muted);
     }
 
     /* ── Responsive ── */
-    @media (max-width: 640px) {
-      main { padding: 1rem 1rem 3rem; }
-      nav#toc { margin: 1rem; padding: 1rem; }
-      .page-header { padding: 1.5rem 1rem 1rem; }
+    @media (max-width: 600px) {
+      body { font-size: .97rem; }
+      header h1 { font-size: 1.3rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- ── WAVE: Skip link ── -->
-<a class="skip-link" href="#main-content">Skip to main content</a>
+  <!-- Skip navigation (WAVE: skip nav) -->
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
-<!-- ── WAVE: Banner landmark ── -->
-<header role="banner" class="page-header">
-  <span class="course-tag" aria-label="Course code">DSA 595</span>
-  <h1>Bayesian Inference, MCMC &amp; Monte Carlo Integration</h1>
-  <p class="subtitle">Lecture Notes — Random Variables, Posterior Distributions, Sampling Methods</p>
-</header>
+  <div class="page-wrapper">
 
-<!-- ── WAVE: Navigation landmark ── -->
-<nav id="toc" aria-label="Table of contents">
-  <h2>Contents</h2>
-  <ol>
-    <li><a href="#random-variables">Random Variables</a></li>
-    <li><a href="#bayesian-inference">Bayesian Inference</a></li>
-    <li><a href="#conjugate-priors">Conjugate Priors — Bernoulli Example</a></li>
-    <li><a href="#non-conjugate">Non-Conjugate Prior — Normal Example</a></li>
-    <li><a href="#rng">Random Number &amp; Variable Generation</a></li>
-    <li><a href="#mh">Metropolis–Hastings (MH) Algorithm</a></li>
-    <li><a href="#mcmc">Markov Chain Monte Carlo (MCMC)</a></li>
-    <li><a href="#convergence">Assessing MCMC Convergence — Gelman–Rubin Statistic</a></li>
-    <li><a href="#gibbs">Gibbs Sampling</a></li>
-    <li><a href="#monte-carlo">Monte Carlo Integration</a></li>
-  </ol>
-</nav>
+    <header role="banner">
+      <h1>DSA 595 Lecture Notes</h1>
+      <p>Bayesian Inference · MCMC · Monte Carlo Integration</p>
+    </header>
 
-<!-- ── WAVE: Main landmark ── -->
-<main id="main-content" aria-label="Lecture notes content">
+    <main id="main-content">
 
-  <!-- ─────────────────────────────────────────────── -->
-  <article class="section" aria-labelledby="random-variables">
-    <h2 class="section-title" id="random-variables">1. Random Variables</h2>
+      <!-- ══════════════════════════════════════════
+           SECTION 1: RANDOM VARIABLES
+      ══════════════════════════════════════════ -->
+      <h2>Random Variables</h2>
 
-    <p>A <strong>random variable</strong> is a measurable function
-      <span class="math" role="img" aria-label="X maps from sample space Omega to the real numbers">X : Ω → ℝ</span>.
-    </p>
+      <p>Random variable \( X : \Omega \to \mathbb{R} \)</p>
 
-    <dl class="definitions">
-      <dt>Discrete random variable</dt>
-      <dd>Takes countably many values. Described by a <strong>probability mass function (pmf)</strong>.</dd>
-      <dd><em>Examples:</em> Bernoulli(p), Binomial(n, p), Poisson(λ)</dd>
+      <p><strong>Discrete random variable</strong> takes countably many values.</p>
+      <ul>
+        <li>Probability mass function (pmf)</li>
+        <li>Examples: \(\text{Bernoulli}(p)\), \(\text{binomial}(n,p)\), \(\text{Poisson}(\lambda)\)</li>
+      </ul>
 
-      <dt>Continuous random variable</dt>
-      <dd>Takes all values on one or more intervals. Described by a <strong>probability density function (pdf)</strong>.</dd>
-      <dd><em>Examples:</em> Uniform(a, b), Normal(μ, σ²)</dd>
-    </dl>
+      <p><strong>Continuous random variable</strong> takes all values on one or more intervals.</p>
+      <ul>
+        <li>Probability density function (pdf)</li>
+        <li>Examples: \(\text{uniform}(a,b)\), \(\text{normal}(\mu, \sigma^2)\)</li>
+      </ul>
 
-    <h3>Joint Distributions</h3>
-    <p>The joint distribution of random variables X and Y is described by the joint pmf/pdf
-      <span class="math" role="img" aria-label="f sub X comma Y of x comma y">f<sub>X,Y</sub>(x, y)</span>.
-    </p>
+      <p>Joint distribution of random variables \(X\) and \(Y\):</p>
+      <ul>
+        <li>Joint pmf/pdf: \( f_{X,Y}(x, y) \)</li>
+      </ul>
 
-    <h3>Bayes' Rule</h3>
-    <p>The conditional distribution of X given Y = y is:</p>
-    <div class="math-display" role="img" aria-label="Bayes rule: f of X given Y equals f joint of x y divided by f of y, provided f of y is greater than zero">
-      <span>f<sub>X|Y</sub>(x | y) :=</span>
-      <span class="math-frac">
-        <span class="numer">f<sub>X,Y</sub>(x, y)</span>
-        <span class="denom">f<sub>Y</sub>(y)</span>
-      </span>
-      <span style="margin-left:.5em">so long as f<sub>Y</sub>(y) &gt; 0.</span>
-    </div>
-  </article>
+      <h3>Bayes Rule</h3>
+      <p>
+        \[
+          f_{X|Y}(x \mid y) \;:=\; \frac{f_{X,Y}(x,y)}{f_Y(y)}
+        \]
+        so long as \( f_Y(y) > 0 \).
+      </p>
 
-  <!-- ─────────────────────────────────────────────── -->
-  <article class="section" aria-labelledby="bayesian-inference">
-    <h2 class="section-title" id="bayesian-inference">2. Bayesian Inference</h2>
+      <!-- ══════════════════════════════════════════
+           SECTION 2: BAYESIAN INFERENCE
+      ══════════════════════════════════════════ -->
+      <h2>Bayesian Inference</h2>
 
-    <p>Suppose data
-      <span class="math" role="img" aria-label="x sub 1 through x sub n">x₁, …, xₙ</span>
-      are observations of i.i.d. random variables
-      <span class="math" role="img" aria-label="X sub 1 through X sub n">X₁, …, Xₙ</span>
-      from a probability distribution whose pmf/pdf belongs to the parametric family
-      <span class="math" role="img" aria-label="f sub X given theta of x given theta, theta some parameter">{ f<sub>X|Θ</sub>(x | θ) : θ some parameter(s) }</span>.
-    </p>
+      <p>
+        Suppose data \( x_1, \ldots, x_n \) are observations of the independent and identically distributed random variables \( X_1, \ldots, X_n \) from some probability distribution with pmf/pdf from the parametric family
+      </p>
+      <div class="math-display">
+        \[
+          \bigl\{\, f_{X|\Theta}(x \mid \theta) \;:\; \theta \text{ some parameter(s)} \,\bigr\}.
+        \]
+      </div>
 
-    <p>If we have prior information about the true θ* in the form of a <strong>prior pmf/pdf</strong>
-      <span class="math" role="img" aria-label="Pi sub Theta of theta">Π<sub>Θ</sub>(θ)</span>,
-      we can define the <strong>posterior distribution</strong>:
-    </p>
+      <p>
+        If we happen to have prior information about the true \(\theta^*\) associated with the data, in the form of some prior pmf/pdf \(\Pi_\Theta(\theta)\), then we can define the <strong>posterior distribution</strong>
+      </p>
+      <div class="math-display">
+        \[
+          \Pi_{\Theta \mid X_1,\ldots,X_n}(\theta \mid x_1,\ldots,x_n)
+          \;:=\;
+          \frac{f_{X_1,\ldots,X_n|\Theta}(x_1,\ldots,x_n \mid \theta)\cdot \Pi_\Theta(\theta)}
+               {\displaystyle\int f_{X_1,\ldots,X_n|\Theta}(x_1,\ldots,x_n \mid \vartheta)\cdot \Pi_\Theta(\vartheta)\,d\vartheta}.
+        \]
+      </div>
 
-    <div class="math-display" role="img" aria-label="Posterior distribution Pi of theta given x equals likelihood times prior divided by marginal likelihood integrated over all parameter values">
-      <span>Π<sub>Θ|X₁,…,Xₙ</sub>(θ | x₁,…,xₙ) :=</span>
-      <span class="math-frac">
-        <span class="numer">f<sub>X₁,…,Xₙ|Θ</sub>(x₁,…,xₙ | θ) · Π<sub>Θ</sub>(θ)</span>
-        <span class="denom">∫ f<sub>X₁,…,Xₙ|Θ</sub>(x₁,…,xₙ | ϑ) · Π<sub>Θ</sub>(ϑ) dϑ</span>
-      </span>
-    </div>
+      <p>In short-hand notation:</p>
+      <div class="math-display">
+        \[
+          \Pi(\theta \mid x_1,\ldots,x_n)
+          \;=\;
+          \frac{f(x_1,\ldots,x_n \mid \theta)\cdot\Pi(\theta)}
+               {\displaystyle\int f(x_1,\ldots,x_n \mid \vartheta)\cdot\Pi(\vartheta)\,d\vartheta}.
+        \]
+      </div>
 
-    <p><strong>Short-hand notation:</strong></p>
-    <div class="math-display" role="img" aria-label="Posterior Pi of theta given x equals likelihood times prior divided by integrated likelihood times prior over all parameter values">
-      <span>Π(θ | x₁,…,xₙ) =</span>
-      <span class="math-frac">
-        <span class="numer">f(x₁,…,xₙ | θ) · Π(θ)</span>
-        <span class="denom">∫ f(x₁,…,xₙ | ϑ) · Π(ϑ) dϑ</span>
-      </span>
-    </div>
-  </article>
-
-  <!-- ─────────────────────────────────────────────── -->
-  <article class="section" aria-labelledby="conjugate-priors">
-    <h2 class="section-title" id="conjugate-priors">3. Conjugate Priors — Bernoulli Example</h2>
-
-    <p><strong>Setup:</strong>
-      <span class="math" role="img" aria-label="X sub 1 through X sub n are i.i.d. Bernoulli of p">X₁,…,Xₙ i.i.d. ~ Bernoulli(p)</span>,
-      prior on p is
-      <span class="math" role="img" aria-label="Beta of a b">Beta(a, b)</span>.
-      Find the posterior of p.
-    </p>
-
-    <h3>Likelihood</h3>
-    <div class="math-block" role="img" aria-label="Likelihood f of x given p equals product from i equals 1 to n of p to the x i times one minus p to the power one minus x i, which equals p to the sum of x i times one minus p to the n minus sum of x i">
-f(x₁,…,xₙ | p) = ∏ᵢ₌₁ⁿ p^xᵢ · (1−p)^(1−xᵢ)
-               = p^(Σxᵢ) · (1−p)^(n − Σxᵢ)
-    </div>
-
-    <h3>Prior</h3>
-    <div class="math-block" role="img" aria-label="Beta prior: Pi of p equals Gamma a plus b divided by Gamma a times Gamma b, times p to the a minus 1 times one minus p to the b minus 1, for a b greater than zero">
-Π(p) = Γ(a+b) / [Γ(a)·Γ(b)] · p^(a−1) · (1−p)^(b−1)    for a, b &gt; 0
-    </div>
-
-    <h3>Posterior</h3>
-    <p>Multiplying likelihood × prior and simplifying (the normalizing constant cancels):</p>
-    <div class="math-block" role="img" aria-label="Posterior Pi of p given x is Beta distribution with parameters a plus sum of x i and b plus n minus sum of x i">
-Π(p | x₁,…,xₙ)  =  Beta(a + Σxᵢ,  b + n − Σxᵢ)
-    </div>
-
-    <div class="note" role="note">
-      <strong>Conjugate prior:</strong> Posterior distributions in the same parametric family as the prior are called <em>conjugate</em>. Here Beta is conjugate to the Bernoulli/Binomial likelihood.
-    </div>
-  </article>
-
-  <!-- ─────────────────────────────────────────────── -->
-  <article class="section" aria-labelledby="non-conjugate">
-    <h2 class="section-title" id="non-conjugate">4. Non-Conjugate Prior — Normal Example</h2>
-
-    <p><strong>Setup:</strong>
-      <span class="math" role="img" aria-label="X sub 1 through X sub n i.i.d. Normal mu 1">X₁,…,Xₙ i.i.d. ~ N(μ, 1)</span>,
-      prior
-      <span class="math" role="img" aria-label="mu tilde Uniform a b">μ ~ Uniform(a, b)</span>.
-    </p>
-
-    <p>Working through the algebra, the posterior is a <em>truncated normal</em>:</p>
-    <div class="math-display" role="img" aria-label="Posterior of mu given x equals Normal density centered at x-bar with variance 1 over n, truncated to interval a b, divided by normalizing constant Phi of b minus x bar over 1 over root n minus Phi of a minus x bar over 1 over root n">
-      <span>Π(μ | x₁,…,xₙ) =</span>
-      <span class="math-frac">
-        <span class="numer">(2π · 1/n)<sup>−½</sup> · exp[−½n(μ − x̄)²] · 𝟙{μ ∈ (a,b)}</span>
-        <span class="denom">Φ((b − x̄) / (1/√n)) − Φ((a − x̄) / (1/√n))</span>
-      </span>
-    </div>
-
-    <p>where <span class="math" role="img" aria-label="Phi">Φ(·)</span> is the CDF of the standard Normal distribution.</p>
-
-    <div class="note" role="note">
-      <strong>Flat prior:</strong> Setting (a, b) = ℝ gives the improper "flat" prior Π(μ) ∝ 1.
-      The resulting posterior is proper and equals
-      <span class="math" role="img" aria-label="Normal x bar 1 over n">N(x̄, 1/n)</span>, analogous to the sampling distribution of x̄, i.e., 
-			<span class="math" role="img" aria-label="Normal mu 1 over n">N(μ, 1/n)</span>.
-    </div>
-  </article>
-
-  <!-- ─────────────────────────────────────────────── -->
-  <article class="section" aria-labelledby="rng">
-    <h2 class="section-title" id="rng">5. Random Number &amp; Variable Generation</h2>
-
-    <p>We assume software can generate random instances from
-      <span class="math" role="img" aria-label="Uniform zero one">Uniform(0,1)</span>.
-      The question is: how do we sample from an arbitrary continuous distribution?
-    </p>
-
-    <h3>Probability Integral Transform</h3>
-    <p>Let X be a continuous random variable with CDF
-      <span class="math" role="img" aria-label="F sub X">F_X</span>. Then:</p>
-    <div class="math-block" role="img" aria-label="Y equals F sub X of X is distributed Uniform zero one">
-Y := F_X(X)  ~  Uniform(0,1)
-    </div>
-
-    <p><strong>Proof sketch:</strong> For y ∈ (0,1),</p>
-    <div class="math-block" role="img" aria-label="F sub Y of y equals P of Y less than or equal to y equals P of F X of X less than or equal to y equals P of X less than or equal to F inverse of y equals F X of F inverse of y equals y">
-F_Y(y) = P(Y ≤ y)
-       = P(F_X(X) ≤ y)
-       = P(X ≤ F_X⁻¹(y))
-       = F_X(F_X⁻¹(y))
-       = y
-    </div>
-
-    <p>This is the CDF of Uniform(0,1). Therefore, if we generate
-      <span class="math" role="img" aria-label="U tilde Uniform zero one">U ~ Uniform(0,1)</span>
-      and F_X is continuous, then
-      <span class="math" role="img" aria-label="X equals F inverse of U">X = F_X⁻¹(U)</span>
-      has the distribution of X.
-    </p>
-  </article>
-
-  <!-- ─────────────────────────────────────────────── -->
-  <article class="section" aria-labelledby="mh">
-    <h2 class="section-title" id="mh">6. Metropolis–Hastings (MH) Algorithm</h2>
-
-    <p>Suppose
-      <span class="math" role="img" aria-label="Pi of theta given x">Π(θ|x)</span>
-      is a posterior density of interest but we do not know its normalizing constant.
-      We know only
-      <span class="math" role="img" aria-label="h of theta given x">h(θ|x)</span>
-      where
-      <span class="math" role="img" aria-label="Pi of theta given x equals c times h of theta given x, proportional to h">Π(θ|x) = c · h(θ|x) ∝ h(θ|x)</span>.
-    </p>
-    <p>Assume
-      <span class="math" role="img" aria-label="q of theta">q(θ)</span>
-      is a proposal density with
-      <span class="math" role="img" aria-label="support of h given x contained in support of q">supp{h(θ|x)} ⊆ supp{q(θ)}</span>.
-    </p>
-
-    <h3>MH Algorithm — Independent Sampling</h3>
-    <div class="algorithm" aria-label="Metropolis-Hastings independent sampling algorithm">
-      <h4>Algorithm: MH (Independent Sampling)</h4>
-      <ol>
-        <li>Start with current state
-          <span class="math" role="img" aria-label="theta superscript t">θ<sup>(t)</sup></span>.
-        </li>
-        <li>Randomly sample candidate
-          <span class="math" role="img" aria-label="theta star tilde q">θ* ~ q</span>.
-        </li>
-        <li>Compute acceptance probability:
-          <div class="math-display" role="img" aria-label="rho theta star theta t equals min of h theta star given x over q theta star divided by h theta t given x over q theta t, and 1">
-            <span>ρ(θ*, θ<sup>(t)</sup>) = min</span>
-            <span class="math-min">
-              <span class="bracket">{</span>
-              <span class="args">
-                <span class="arg">
-                  <span class="math-frac">
-                    <span class="numer">h(θ*|x) / q(θ*)</span>
-                    <span class="denom">h(θ<sup>(t)</sup>|x) / q(θ<sup>(t)</sup>)</span>
-                  </span>
-                  , 1
-                </span>
-              </span>
-              <span class="bracket">}</span>
-            </span>
-          </div>
-        </li>
-        <li>Set θ<sup>(t+1)</sup> = θ* with probability ρ; else θ<sup>(t+1)</sup> = θ<sup>(t)</sup>.</li>
-      </ol>
-    </div>
-
-    <h3>MH Algorithm — Gaussian Random Walk</h3>
-    <p>Use the proposal distribution
-      <span class="math" role="img" aria-label="q of theta star given theta t is Normal theta t tau squared">q(θ*|θ<sup>(t)</sup>) ~ N(θ<sup>(t)</sup>, τ²)</span>
-      where τ > 0 controls the scale of proposals.
-    </p>
-    <div class="algorithm" aria-label="Metropolis-Hastings Gaussian random walk algorithm">
-      <h4>Algorithm: MH (Gaussian Random Walk)</h4>
-      <ol>
-        <li>Start with current state
-          <span class="math" role="img" aria-label="theta superscript t">θ<sup>(t)</sup></span>.
-        </li>
-        <li>Sample
-          <span class="math" role="img" aria-label="theta star equals theta t plus Z where Z tilde Normal zero tau squared">θ* = θ<sup>(t)</sup> + Z, where Z ~ N(0, τ²)</span>.
-        </li>
-        <li>Compute acceptance probability:
-          <div class="math-display" role="img" aria-label="rho theta star theta t equals min of h theta star given x over h theta t given x, and 1, because q cancels by symmetry">
-            <span>ρ(θ*, θ<sup>(t)</sup>) = min</span>
-            <span class="math-min">
-              <span class="bracket">{</span>
-              <span class="args">
-                <span class="arg">
-                  <span class="math-frac">
-                    <span class="numer">h(θ*|x)</span>
-                    <span class="denom">h(θ<sup>(t)</sup>|x)</span>
-                  </span>
-                  , 1
-                </span>
-              </span>
-              <span class="bracket">}</span>
-            </span>
-            <span style="margin-left:.5em; font-size:.82rem; color:#666; font-family:var(--font-mono);">(q cancels by symmetry of N(0,τ²))</span>
-          </div>
-        </li>
-        <li>Set θ<sup>(t+1)</sup> = θ* with probability ρ; else θ<sup>(t+1)</sup> = θ<sup>(t)</sup>.</li>
-      </ol>
-    </div>
-
-    <p>Values of θ are accepted in direct proportion to the density
-      <span class="math" role="img" aria-label="Pi of theta given x">Π(θ|x)</span>.
-      The normalizing constant <em>c</em> cancels in the ratio, so it need never be computed.
-    </p>
-  </article>
-
-  <!-- ─────────────────────────────────────────────── -->
-  <article class="section" aria-labelledby="mcmc">
-    <h2 class="section-title" id="mcmc">7. Markov Chain Monte Carlo (MCMC)</h2>
-
-    <p>The MH algorithm is the canonical example of a broader class of algorithms called
-      <strong>Markov chain Monte Carlo (MCMC)</strong> methods.
-      MCMC is primarily what constitutes "Bayesian computation."
-    </p>
-
-    <p>A central challenge in MCMC is balancing <em>acceptance rate</em> vs. <em>mixing</em>:</p>
-    <ul style="padding-left:1.4rem; margin:.5rem 0 1rem;">
-      <li>Too few acceptances → algorithm converges slowly.</li>
-      <li>Too many acceptances → accepted proposals are highly dependent.</li>
-      <li>Target acceptance rate is roughly <strong>20–50%</strong> for adequate mixing.</li>
-    </ul>
-
-    <p>One approach to controlling acceptance rate is to use a random walk proposal and tune the scale parameter τ².</p>
-  </article>
-
-  <!-- ─────────────────────────────────────────────── -->
-  <article class="section" aria-labelledby="convergence">
-    <h2 class="section-title" id="convergence">8. Assessing MCMC Convergence — Gelman–Rubin Statistic</h2>
-
-    <p>Convergence is most often assessed via visual inspection of the <strong>trace plot</strong>,
-      but more rigorous diagnostic metrics have been proposed.
-    </p>
-
-    <h3>Gelman–Rubin (GR) Statistic</h3>
-    <p>Run J chains of an MCMC algorithm, each with a different initial value.
-      Denote chain j ∈ {1,…,J} by
-      <span class="math" role="img" aria-label="x sub 1 superscript j through x sub L superscript j, post burn-in phase">x₁<sup>(j)</sup>,…, x_L<sup>(j)</sup></span>
-      (post burn-in).
-    </p>
-
-    <dl class="definitions">
-      <dt>Sample mean of chain j</dt>
-      <dd>
-        <div class="math-block" role="img" aria-label="x bar sub j equals one over L times sum from i equals 1 to L of x sub i superscript j">
-x̄ⱼ := (1/L) Σᵢ₌₁ᴸ xᵢ<sup>(j)</sup>
+      <!-- Example: Bernoulli / Beta -->
+      <div class="example-block">
+        <h3>Example: Bernoulli Likelihood with Beta Prior</h3>
+        <p>
+          Suppose \( X_1,\ldots,X_n \overset{\text{iid}}{\sim} \text{Bernoulli}(p) \) and the prior on \(p\) is \(\text{beta}(a,b)\). Determine the posterior distribution of \(p\).
+        </p>
+        <div class="math-display">
+          \[
+            f(x_1,\ldots,x_n \mid p)
+            = \prod_{i=1}^n p^{x_i}(1-p)^{1-x_i}
+            = p^{\sum x_i}(1-p)^{n - \sum x_i}
+          \]
         </div>
-      </dd>
-
-      <dt>Grand mean (mean of chain means)</dt>
-      <dd>
-        <div class="math-block" role="img" aria-label="x bar star equals one over J times sum from j equals 1 to J of x bar j">
-x̄* := (1/J) Σⱼ₌₁ᴶ x̄ⱼ
+        <div class="math-display">
+          \[
+            \Pi(p) = \frac{\Gamma(a+b)}{\Gamma(a)\,\Gamma(b)}\,p^{a-1}(1-p)^{b-1}
+            \quad \text{for } a,b > 0.
+          \]
         </div>
-      </dd>
-
-      <dt>Between-chain variance B (scaled by L)</dt>
-      <dd>
-        <div class="math-block" role="img" aria-label="B equals L over J minus 1 times sum from j equals 1 to J of x bar j minus x bar star squared">
-B := L/(J−1) · Σⱼ₌₁ᴶ (x̄ⱼ − x̄*)²
+        <div class="math-display">
+          \[
+            f(x_1,\ldots,x_n \mid p)\cdot\Pi(p)
+            = p^{\sum x_i}(1-p)^{n-\sum x_i}
+              \cdot \frac{\Gamma(a+b)}{\Gamma(a)\,\Gamma(b)}\,p^{a-1}(1-p)^{b-1}
+          \]
         </div>
-      </dd>
-
-      <dt>Within-chain variance W</dt>
-      <dd>
-        <div class="math-block" role="img" aria-label="W equals one over J times sum from j equals 1 to J of one over L minus 1 times sum from i equals 1 to L of x sub i superscript j minus x bar j squared">
-W := (1/J) Σⱼ₌₁ᴶ { (1/(L−1)) Σᵢ₌₁ᴸ (xᵢ<sup>(j)</sup> − x̄ⱼ)² }
+        <div class="math-display">
+          \[
+            = (\text{const})\cdot p^{\,a+(\sum x_i)-1}\cdot(1-p)^{\,b+(n-\sum x_i)-1}
+          \]
         </div>
-      </dd>
-
-      <dt>GR statistic R̂</dt>
-      <dd>
-        <div class="math-display" role="img" aria-label="R hat equals fraction with numerator L minus 1 over L times W plus 1 over L times B, all over W">
-          <span>R̂ :=</span>
-          <span class="math-frac">
-            <span class="numer">((L−1)/L) · W + (1/L) · B</span>
-            <span class="denom">W</span>
-          </span>
+        <p>And so</p>
+        <div class="math-display">
+          \[
+            \Pi(p \mid x_1,\ldots,x_n)
+            = \frac{(\text{const})\cdot p^{\,a+(\sum x_i)-1}\cdot(1-p)^{\,b+(n-\sum x_i)-1}}
+                   {\displaystyle\int(\text{const})\cdot\vartheta^{\,a+(\sum x_i)-1}\cdot(1-\vartheta)^{\,b+(n-\sum x_i)-1}\,d\vartheta}
+          \]
         </div>
-      </dd>
-    </dl>
+        <div class="math-display">
+          \[
+            = \frac{p^{\,a+(\sum x_i)-1}\cdot(1-p)^{\,b+(n-\sum x_i)-1}}
+                   {\displaystyle\int\vartheta^{\,a+(\sum x_i)-1}\cdot(1-\vartheta)^{\,b+(n-\sum x_i)-1}\,d\vartheta}
+          \]
+        </div>
+        <div class="math-display">
+          \[
+            = \frac{p^{\,a+(\sum x_i)-1}\cdot(1-p)^{\,b+(n-\sum x_i)-1}}
+                   {\left\{\dfrac{\Gamma\!\left(a+\sum x_i\right)\cdot\Gamma\!\left(b+n-\sum x_i\right)}{\Gamma(a+b+n)}\right\}}
+          \]
+        </div>
+        <p>
+          which is the pdf of the \(\text{beta}\!\left(a+\textstyle\sum x_i,\; b+n-\textstyle\sum x_i\right)\) distribution.
+        </p>
+        <p>Posterior distributions in the same family as the prior are called <strong>"conjugate"</strong>.</p>
+      </div>
 
-    <div class="note" role="note">
-      <strong>Interpretation:</strong> As L → ∞, B/L → 0 and R̂ → 1 if the chain has converged.
-      It has been argued in the literature that <strong>R̂ ∈ [1, 1.1]</strong> indicates convergence.
-    </div>
-  </article>
+      <!-- Example: Non-conjugate prior -->
+      <div class="example-block">
+        <h3>Example: Non-Conjugate Prior</h3>
+        <p>How about an example of a non-conjugate prior?</p>
+        <p>
+          Suppose \( X_1,\ldots,X_n \overset{\text{iid}}{\sim} N(\mu,1) \) and the prior \(\mu \sim \text{uniform}(a,b)\).
+        </p>
+        <div class="math-display">
+          \[
+            f(x_1,\ldots,x_n \mid \mu)\cdot\Pi(\mu)
+            = \left[\prod_{i=1}^n \frac{1}{\sqrt{2\pi}}\,e^{-\frac{1}{2}(x_i-\mu)^2}\right]
+              \cdot\frac{1}{b-a}\cdot\mathbf{1}\{\mu\in(a,b)\}
+          \]
+        </div>
+        <div class="math-display">
+          \[
+            = (2\pi)^{-n/2}\,e^{-\frac{1}{2}\sum_{i=1}^n(x_i-\mu)^2}
+              \cdot\frac{1}{b-a}\cdot\mathbf{1}\{\mu\in(a,b)\}
+          \]
+        </div>
+        <div class="math-display">
+          \[
+            \propto (2\pi)^{-1/2}\,e^{-\frac{1}{2}(n\mu^2 - 2\mu n\bar{x})}
+              \cdot\mathbf{1}\{\mu\in(a,b)\}
+          \]
+        </div>
+        <div class="math-display">
+          \[
+            \propto (2\pi)^{-1/2}\,e^{-\frac{n}{2}(\mu^2 - 2\mu\bar{x} + \bar{x}^2)}
+              \cdot\mathbf{1}\{\mu\in(a,b)\}
+          \]
+        </div>
+        <div class="math-display">
+          \[
+            \propto \!\left(2\pi\,\tfrac{1}{n}\right)^{-1/2}\!
+              e^{-\frac{1}{2(1/n)}(\mu-\bar{x})^2}
+              \cdot\mathbf{1}\{\mu\in(a,b)\}
+          \]
+        </div>
+        <p>And the normalizing constant is</p>
+        <div class="math-display">
+          \[
+            \int f(x_1,\ldots,x_n \mid \mu)\cdot\Pi(\mu)\,d\mu
+            = \int_a^b \!\left(2\pi\,\tfrac{1}{n}\right)^{-1/2}
+              e^{-\frac{1}{2(1/n)}(\mu-\bar{x})^2}\,d\mu
+            = \Phi\!\left(\frac{b-\bar{x}}{1/\sqrt{n}}\right) - \Phi\!\left(\frac{a-\bar{x}}{1/\sqrt{n}}\right)
+          \]
+        </div>
+        <p>
+          where \(\Phi(\cdot)\) is the cumulative distribution function of the standard Gaussian distribution. Then
+        </p>
+        <div class="math-display">
+          \[
+            \Pi(\mu \mid x_1,\ldots,x_n)
+            = \frac{\left(2\pi\,\frac{1}{n}\right)^{-1/2}
+                    e^{-\frac{1}{2(1/n)}(\mu-\bar{x})^2}
+                    \cdot\mathbf{1}\{\mu\in(a,b)\}}
+                   {\Phi\!\left(\dfrac{b-\bar{x}}{1/\sqrt{n}}\right)
+                    -\Phi\!\left(\dfrac{a-\bar{x}}{1/\sqrt{n}}\right)}.
+          \]
+        </div>
+        <p>
+          Notice in this previous example we could have even taken \((a,b) = \mathbb{R}\). This amounts to what is often referred to as a <strong>"flat" prior</strong> \(\Pi(\mu) \propto 1\). In fact, this is not a proper prior because it is not even integrable over \(\mathbb{R}\).
+        </p>
+      </div>
 
-  <!-- ─────────────────────────────────────────────── -->
-  <article class="section" aria-labelledby="gibbs">
-    <h2 class="section-title" id="gibbs">9. Gibbs Sampling</h2>
+      <!-- Example continued: flat prior -->
+      <div class="example-block">
+        <h3>Example (Continued): Flat Prior</h3>
+        <p>
+          Yet, however, the resulting posterior is proper (i.e., integrates to 1).
+        </p>
+        <p>
+          Suppose \( X_1,\ldots,X_n \overset{\text{iid}}{\sim} N(\mu,1) \) and the prior \(\Pi(\mu) \propto 1\). Repeating the steps in the previous example, but without \("\mathbf{1}\{\mu\in(a,b)\}"\) demonstrates that
+        </p>
+        <div class="math-display">
+          \[
+            \Pi(\mu \mid x_1,\ldots,x_n)
+            = \!\left(2\pi\,\tfrac{1}{n}\right)^{-1/2}
+              e^{-\frac{1}{2(1/n)}(\mu-\bar{x})^2}
+          \]
+        </div>
+        <p>
+          which is the pdf of the \(N\!\left(\bar{x},\,\tfrac{1}{n}\right)\) distribution. This happens to coincide precisely with the sampling distribution of \(\bar{x}\), when viewed as a function of \(\bar{x}\).
+        </p>
+      </div>
 
-    <p>Suppose
-      <span class="math" role="img" aria-label="Pi of theta 1 through theta p given y">Π(θ₁,…,θₚ | y)</span>
-      is a posterior with unknown normalizing constant, but we can derive the <strong>fully specified conditional densities</strong>:
-    </p>
-    <div class="math-block" role="img" aria-label="Conditional densities: Pi of theta 1 given theta 2 through theta p and y, and so on down to Pi of theta p given theta 1 through theta p minus 1 and y">
-Π(θ₁ | θ₂,…,θₚ, y)
-         ⋮
-Π(θₚ | θ₁,…,θₚ₋₁, y)
-    </div>
+      <!-- ══════════════════════════════════════════
+           SECTION 3: RANDOM NUMBER AND VARIABLE GENERATION
+      ══════════════════════════════════════════ -->
+      <h2>Random Number and Variable Generation</h2>
 
-    <div class="algorithm" aria-label="Gibbs sampler algorithm">
-      <h4>Algorithm: Gibbs Sampler</h4>
-      <ol>
-        <li>Start with current state
-          <span class="math" role="img" aria-label="theta superscript t equals tuple theta 1 through theta p all superscript t">θ<sup>(t)</sup> = (θ₁<sup>(t)</sup>,…, θₚ<sup>(t)</sup>)</span>.
-        </li>
-        <li>Sample each component from its full conditional:
-          <div class="math-block" role="img" aria-label="theta 1 superscript t plus 1 tilde Pi of dot given theta 2 through theta p superscript t and y, continuing down to theta p superscript t plus 1 tilde Pi of dot given theta 1 through theta p minus 1 superscript t and y">
-θ₁<sup>(t+1)</sup> ~ Π(· | θ₂<sup>(t)</sup>,…,θₚ<sup>(t)</sup>, y)
-        ⋮
-θₚ<sup>(t+1)</sup> ~ Π(· | θ₁<sup>(t)</sup>,…,θₚ₋₁<sup>(t)</sup>, y)
-          </div>
-        </li>
-      </ol>
-    </div>
+      <p>
+        We will assume we have software for generating random instances from the \(\text{Uniform}(0,1)\) distribution. How to sample values from an arbitrary continuous distribution, given a sample from the \(\text{Uniform}(0,1)\) distribution?
+      </p>
 
-    <p><strong>Why does this work?</strong> Construct the MH ratio for θ₁ | θ₂,…,θₚ, y using
-      <span class="math" role="img" aria-label="Pi of theta 1 given others as proposal density">Π(θ₁ | θ₂,…,θₚ, y)</span>
-      as the proposal. The ratio evaluates to 1, so every proposal is accepted —
-      Gibbs sampling is a special case of MH with acceptance probability always equal to 1.
-    </p>
-  </article>
+      <h3>Probability Integral Transform</h3>
+      <p>Let \(X\) be a continuous random variable with cdf \(F_X\). Then</p>
+      <div class="math-display">
+        \[
+          Y := F_X(X) \sim \text{Uniform}(0,1).
+        \]
+      </div>
+      <p>Why is this true? For \(y \in (0,1)\),</p>
+      <div class="math-display">
+        \[
+          \begin{aligned}
+            F_Y(y) &= P(Y \le y) \\
+                   &= P\!\left(F_X(X) \le y\right) \\
+                   &= P\!\left(X \le F_X^{-1}(y)\right) \\
+                   &= F_X\!\left(F_X^{-1}(y)\right) \\
+                   &= y.
+          \end{aligned}
+        \]
+      </div>
+      <p>Recall that this is the cdf of the \(\text{Uniform}(0,1)\) distribution.</p>
 
-  <!-- ─────────────────────────────────────────────── -->
-  <article class="section" aria-labelledby="monte-carlo">
-    <h2 class="section-title" id="monte-carlo">10. Monte Carlo Integration</h2>
+      <p>
+        Accordingly, if we generate \(U \sim \text{Uniform}(0,1)\) and \(F_X\) is a continuous function, then
+      </p>
+      <div class="math-display">
+        \[
+          X = F_X^{-1}(U).
+        \]
+      </div>
 
-    <p>Let
-      <span class="math" role="img" aria-label="X tilde f sub X">X ~ f_X</span>.
-      For any f_X-integrable function
-      <span class="math" role="img" aria-label="h from X to the real numbers">h : X → ℝ</span>:
-    </p>
-    <div class="math-block" role="img" aria-label="Integral of h of x times f sub X of x dx equals expected value of h of X, approximately equal to one over n times sum from i equals 1 to n of h of x sub i">
-∫ h(x) f_X(x) dx  =  E[h(X)]  ≈  (1/n) Σᵢ₌₁ⁿ h(xᵢ)
-    </div>
-    <p>for an i.i.d. observed sample x₁,…,xₙ. Moreover, for a bounded integral on [a,b]:</p>
-    <div class="math-block" role="img" aria-label="Integral from a to b of h of x times f sub X of x dx approximately equals one over n times sum of h of x i times indicator that a is less than or equal to x i is less than or equal to b">
-∫ₐᵇ h(x) f_X(x) dx  ≈  (1/n) Σᵢ₌₁ⁿ h(xᵢ) · 𝟙{a ≤ xᵢ ≤ b}
-    </div>
+      <!-- ══════════════════════════════════════════
+           SECTION 4: METROPOLIS–HASTINGS ALGORITHM
+      ══════════════════════════════════════════ -->
+      <h2>Metropolis–Hastings (MH) Algorithm</h2>
 
-    <h3>Importance Sampling</h3>
-    <p>When it is analytically intractable to integrate some function g, write:</p>
-    <div class="math-block" role="img" aria-label="Integral of g of x dx equals integral of g of x over f sub X of x times f sub X of x dx equals expected value of g of X over f sub X of X, approximately equal to one over n times sum of g of x i over f sub X of x i">
-∫ g(x) dx  =  ∫ [g(x)/f_X(x)] · f_X(x) dx  =  E[g(X)/f_X(X)]
+      <p>
+        Suppose \(\Pi(\theta \mid x)\) is a posterior density of interest, but we don't know its normalizing constant. The MH algorithm allows us to sample from the posterior nonetheless, bypassing the need for the normalizing constant. Accordingly,
+      </p>
+      <div class="math-display">
+        \[
+          \Pi(\theta \mid x) = c\cdot h(\theta \mid x) \;\propto\; h(\theta \mid x),
+        \]
+      </div>
+      <p>
+        where we know \(h(\theta \mid x)\) but not \(c\). Assume that \(q(\theta)\) is some density with \(\text{supp}\{h(\theta \mid x)\} \subseteq \text{supp}\{q(\theta)\}\).
+      </p>
 
-            ≈  (1/n) Σᵢ₌₁ⁿ g(xᵢ)/f_X(xᵢ)
-    </div>
-    <p>for an i.i.d. sample x₁,…,xₙ, so long as
-      <span class="math" role="img" aria-label="support of g is contained in support of f sub X">supp(g) ⊆ supp(f_X)</span>.
-    </p>
-  </article>
+      <h3>MH Algorithm (Independent Sampling)</h3>
+      <div class="algorithm">
+        <p>Given \(\theta^{(t)}\)</p>
+        <p>Randomly sample \(\theta^* \sim q\)</p>
+        <p>Assign</p>
+        <div class="math-display">
+          \[
+            \theta^{(t+1)} =
+            \begin{cases}
+              \theta^*     & \text{with probability } \rho(\theta^*,\theta^{(t)}) \\
+              \theta^{(t)} & \text{else}
+            \end{cases}
+          \]
+        </div>
+        <p>where</p>
+        <div class="math-display">
+          \[
+            \rho(\theta^*, \theta^{(t)})
+            = \min\!\left\{
+                \frac{h(\theta^* \mid x)\,/\,q(\theta^*)}
+                     {h(\theta^{(t)} \mid x)\,/\,q(\theta^{(t)})},\;1
+              \right\}
+          \]
+        </div>
+      </div>
 
-</main>
+      <p>
+        Based on this algorithm, values of \(\theta\) are accepted in direct proportion to the value of the density \(\Pi(\theta \mid x)\). The key observation is that
+      </p>
+      <div class="math-display">
+        \[
+          \frac{h(\theta^* \mid x)\,/\,q(\theta^*)}
+               {h(\theta^{(t)} \mid x)\,/\,q(\theta^{(t)})}
+          = \frac{c\cdot h(\theta^* \mid x)\,/\,q(\theta^*)}
+                 {c\cdot h(\theta^{(t)} \mid x)\,/\,q(\theta^{(t)})}
+          = \frac{\Pi(\theta^* \mid x)\,/\,q(\theta^*)}
+                 {\Pi(\theta^{(t)} \mid x)\,/\,q(\theta^{(t)})}.
+        \]
+      </div>
 
-<!-- ── WAVE: Content info landmark ── -->
-<footer role="contentinfo" style="text-align:center; padding:1.5rem; font-size:.85rem; color:#666; border-top:1px solid var(--rule); font-family:var(--font-mono);">
-  DSA595 Lecture Notes — Accessible HTML version
-</footer>
+      <!-- ══════════════════════════════════════════
+           SECTION 5: MCMC
+      ══════════════════════════════════════════ -->
+      <h2>Markov Chain Monte Carlo (MCMC)</h2>
+
+      <p>
+        The MH algorithm is the canonical algorithm in a broader class of algorithms referred to as <strong>Markov chain Monte Carlo (MCMC)</strong> methods. MCMC is primarily what constitutes "Bayesian computations."
+      </p>
+
+      <p>
+        A crux of MCMC is how to accept enough proposals so that the algorithm converges quickly, while not so many that the accepted proposals are too dependent. We are trying to draw independent samples from the posterior distribution, but we are doing so via the construction of a Markov chain. Generally, we aim to accept approximately 20–50% to achieve adequate "mixing" of the algorithm. An approach to gain greater control over the acceptance rate is to formulate the proposal distribution as a random walk. For example,
+      </p>
+      <div class="math-display">
+        \[
+          q(\theta^* \mid \theta^{(t)}) \;\sim\; N(\theta^* \mid \theta^{(t)}, \tau^2)
+        \]
+      </div>
+      <p>where \(\tau > 0\) determines the scale of the proposals, centered around \(\theta^{(t)}\).</p>
+
+      <h3>MH Algorithm (Gaussian Random Walk)</h3>
+      <div class="algorithm">
+        <p>Given \(\theta^{(t)}\)</p>
+        <p>Randomly sample \(\theta^* = \theta^{(t)} + Z\), where \(Z \sim N(0, \tau^2)\)</p>
+        <p>Assign</p>
+        <div class="math-display">
+          \[
+            \theta^{(t+1)} =
+            \begin{cases}
+              \theta^*     & \text{with probability } \rho(\theta^*, \theta^{(t)}) \\
+              \theta^{(t)} & \text{else}
+            \end{cases}
+          \]
+        </div>
+        <p>where</p>
+        <div class="math-display">
+          \[
+            \rho(\theta^*, \theta^{(t)})
+            = \min\!\left\{
+                \frac{h(\theta^* \mid x)}{h(\theta^{(t)} \mid x)},\;1
+              \right\}.
+          \]
+        </div>
+      </div>
+
+      <p>
+        Note that due to the symmetry of the \(N(0, \tau^2)\) distribution, \(q(\theta^* \mid \theta^{(t)}) = q(\theta^{(t)} \mid \theta^*)\), leading to the cancellation in the MH ratio.
+      </p>
+
+      <!-- ══════════════════════════════════════════
+           SECTION 6: CONVERGENCE DIAGNOSTICS
+      ══════════════════════════════════════════ -->
+      <h2>Assessing and Diagnosing Convergence of MCMC Algorithms</h2>
+
+      <p>
+        Convergence is most often assessed via visual inspection of the trace plot, but more rigorous diagnostic metrics have been proposed and studied.
+      </p>
+
+      <h3>Gelman–Rubin (GR) Statistic</h3>
+      <p>
+        Run \(J\) chains of an MCMC algorithm, each with a different initial value. Denote chain \(j \in \{1,\ldots,J\}\) by \(x_1^{(j)},\ldots,x_L^{(j)}\), post burn-in phase. Define the following:
+      </p>
+
+      <p><strong>Sample mean of chain \(j\):</strong></p>
+      <div class="math-display">
+        \[
+          \bar{x}_j := \frac{1}{L}\sum_{i=1}^L x_i^{(j)}
+        \]
+      </div>
+
+      <p><strong>Sample mean of sample means of \(J\) chains:</strong></p>
+      <div class="math-display">
+        \[
+          \bar{x}_* := \frac{1}{J}\sum_{j=1}^J \bar{x}_j
+        \]
+      </div>
+
+      <p><strong>Sample variance of the sample means of \(J\) chains (scaled by \(L\)):</strong></p>
+      <div class="math-display">
+        \[
+          B := \frac{L}{J-1}\sum_{j=1}^J (\bar{x}_j - \bar{x}_*)^2
+        \]
+      </div>
+
+      <p><strong>Sample mean of sample variances of \(J\) chains:</strong></p>
+      <div class="math-display">
+        \[
+          W := \frac{1}{J}\sum_{j=1}^J\left\{\frac{1}{L-1}\sum_{i=1}^L (x_i^{(j)} - \bar{x}_j)^2\right\}
+        \]
+      </div>
+
+      <p><strong>The GR statistic:</strong></p>
+      <div class="math-display">
+        \[
+          R := \frac{\left(\dfrac{L-1}{L}\right)W + \left(\dfrac{1}{L}\right)B}{W}
+        \]
+      </div>
+
+      <p>
+        As \(L \to \infty\), \(B/L \to 0\), and \(R \to 1\), if converged. It has been argued in the literature that \(R \in [1,\,1.1]\) indicates convergence.
+      </p>
+
+      <!-- ══════════════════════════════════════════
+           SECTION 7: GIBBS SAMPLING
+      ══════════════════════════════════════════ -->
+      <h2>Gibbs Sampling</h2>
+
+      <p>
+        Suppose \(\Pi(\theta_1,\ldots,\theta_p \mid y)\) is a posterior density with unknown normalizing constant. If, however, we can derive the fully specified conditional densities:
+      </p>
+      <div class="math-display">
+        \[
+          \begin{aligned}
+            &\Pi(\theta_1 \mid \theta_2,\ldots,\theta_p,\,y) \\
+            &\quad\vdots \\
+            &\Pi(\theta_p \mid \theta_1,\ldots,\theta_{p-1},\,y)
+          \end{aligned}
+        \]
+      </div>
+      <p>then we can learn the posterior via the following algorithm.</p>
+
+      <h3>Gibbs Sampler Algorithm</h3>
+      <div class="algorithm">
+        <p>Given \(\theta^{(t)} = (\theta_1^{(t)},\ldots,\theta_p^{(t)})\)</p>
+        <p>Sample</p>
+        <div class="math-display">
+          \[
+            \begin{aligned}
+              \theta_1^{(t+1)} &\sim \Pi(\,\cdot\mid\theta_2^{(t)},\ldots,\theta_p^{(t)},\,y) \\
+              &\quad\vdots \\
+              \theta_p^{(t+1)} &\sim \Pi(\,\cdot\mid\theta_1^{(t)},\ldots,\theta_{p-1}^{(t)},\,y).
+            \end{aligned}
+          \]
+        </div>
+      </div>
+
+      <p>
+        To understand why this works, construct the MH ratio for \(\theta_1 \mid \theta_2,\ldots,\theta_p,y\) using \(\Pi(\theta_1 \mid \theta_2,\ldots,\theta_p,y)\) as the proposal density:
+      </p>
+      <div class="math-display">
+        \[
+          \rho(\theta_1^*,\theta_1^{(t)})
+          = \min\!\left\{
+              \frac{h(\theta_1^* \mid \theta_2,\ldots,\theta_p,y)\,/\,q(\theta_1^*)}
+                   {h(\theta_1^{(t)} \mid \theta_2,\ldots,\theta_p,y)\,/\,q(\theta_1^{(t)})},\;1
+            \right\}
+        \]
+      </div>
+      <div class="math-display">
+        \[
+          = \min\!\left\{
+              \frac{\Pi(\theta_1^* \mid \theta_2^{(t)},\ldots,\theta_p^{(t)},y)\,/\,
+                   \Pi(\theta_1^* \mid \theta_2^{(t)},\ldots,\theta_p^{(t)},y)}
+                   {\Pi(\theta_1^{(t)} \mid \theta_2^{(t)},\ldots,\theta_p^{(t)},y)\,/\,
+                   \Pi(\theta_1^{(t)} \mid \theta_2^{(t)},\ldots,\theta_p^{(t)},y)},\;1
+            \right\}
+        \]
+      </div>
+      <div class="math-display">
+        \[
+          = 1
+        \]
+      </div>
+
+      <!-- ══════════════════════════════════════════
+           SECTION 8: MONTE CARLO INTEGRATION
+      ══════════════════════════════════════════ -->
+      <h2>Monte Carlo Integration</h2>
+
+      <p>
+        Let \(X \sim f_X\). Then for any \(f_X\)-integrable function \(h: X \to \mathbb{R}\),
+      </p>
+      <div class="math-display">
+        \[
+          \int h(x)\,f_X(x)\,dx
+          = E[h(X)]
+          \approx \frac{1}{n}\sum_{i=1}^n h(x_i)
+        \]
+      </div>
+      <p>for an iid observed sample \(x_1,\ldots,x_n\). Moreover,</p>
+      <div class="math-display">
+        \[
+          \int_a^b h(x)\,f_X(x)\,dx
+          \approx \frac{1}{n}\sum_{i=1}^n h(x_i)\cdot\mathbf{1}\{a \le x_i \le b\}.
+        \]
+      </div>
+
+      <h3>Importance Sampling</h3>
+      <p>
+        Importance sampling is another strategy for numerical integration. Suppose it is of interest to compute an analytically intractable integral of some function \(g\). Then
+      </p>
+      <div class="math-display">
+        \[
+          \int g(x)\,dx
+          = \int \frac{g(x)}{f_X(x)}\,f_X(x)\,dx
+          = E\!\left[\frac{g(X)}{f_X(X)}\right]
+          \approx \frac{1}{n}\sum_{i=1}^n \frac{g(x_i)}{f_X(x_i)}
+        \]
+      </div>
+      <p>
+        for an iid observed sample \(x_1,\ldots,x_n\), so long as \(\text{supp}(g) \subseteq \text{supp}(f_X)\).
+      </p>
+
+    </main>
+
+    <footer role="contentinfo">
+      <p>DSA 595 Lecture Notes &mdash; Transcribed for accessibility. All mathematical content rendered via MathJax.</p>
+    </footer>
+
+  </div><!-- /.page-wrapper -->
 
 </body>
 </html>
