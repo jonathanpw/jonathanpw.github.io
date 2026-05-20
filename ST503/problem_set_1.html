@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ST 503 – Problem Set 1</title>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+        tags: 'none'
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" defer></script>
+
+  <style>
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 720px;
+      margin: 2rem auto;
+      padding: 0 1.25rem 3rem;
+      color: #111;
+      background: #fff;
+    }
+
+    a { color: #00f; }
+    a:focus { outline: 2px solid #00f; outline-offset: 2px; }
+
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 0;
+      background: #fff;
+      color: #00f;
+      padding: .3rem .7rem;
+      border: 1px solid #00f;
+      text-decoration: none;
+      z-index: 9999;
+    }
+    .skip-link:focus { top: 0; }
+
+    h1 { font-size: 1.3rem; margin-bottom: .25rem; }
+    h2 { font-size: 1.1rem; margin-top: 1.75rem; margin-bottom: .4rem; border-bottom: 1px solid #ccc; padding-bottom: .2rem; }
+
+    p { margin: .5rem 0; }
+
+    .math-block {
+      margin: .75rem 0;
+      overflow-x: auto;
+    }
+
+    @media (prefers-contrast: more) { a { color: #00008b; } }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header role="banner">
+    <h1>ST 503 Fundamentals of Linear Models and Regression</h1>
+    <p>Problem Set 1 &mdash; 20 May 2026</p>
+    <p role="note"><strong>Note:</strong> No R packages are permitted for use in this assignment.</p>
+  </header>
+
+  <main id="main-content" role="main">
+    <ol aria-label="Problem set questions">
+
+      <li id="problem-1">
+        <p>Find a real data set for your course projects. If you are having trouble finding a data set, then consider the data sets available at <a href="https://www.kaggle.com/datasets" target="_blank" rel="noopener noreferrer" aria-label="Kaggle datasets (opens in a new tab)">https://www.kaggle.com/datasets</a>. Provide a link for your data set, and a brief description (4&ndash;5 sentences) of why you are interested in these data.</p>
+      </li>
+
+      <li id="problem-2">
+        <p>Load your data set in your R script file. Clean, format, print summary statistics, and present a variety of exploratory plots. What are some population features you might be able to learn from your data set?</p>
+      </li>
+
+      <li id="problem-3">
+        <p>Prove the following theorem. Let \(V\) be a vector space and \(B = \{u_1, \ldots, u_n\}\) be a subset of \(V\). Then \(B\) is a basis if and only if each \(v \in V\) can be expressed uniquely as</p>
+        <div class="math-block" role="math" aria-label="v equals a sub 1 u sub 1 plus dots plus a sub n u sub n">
+          \[
+            v = a_1 u_1 + \cdots + a_n u_n
+          \]
+        </div>
+        <p>for some set of scalars \(\{a_1, \ldots, a_n\}\).</p>
+      </li>
+
+      <li id="problem-4">
+        <p>Let</p>
+        <div class="math-block" role="math" aria-label="Matrix A equals the 2 by 2 matrix with rows: 1 2; 2 4">
+          \[
+            A =
+            \begin{pmatrix}
+              1 & 2 \\
+              2 & 4
+            \end{pmatrix}.
+          \]
+        </div>
+        <p>Is \(A\) diagonalizable? If so, find the eigenvalues and eigenvectors of \(A\).</p>
+      </li>
+
+      <li id="problem-5">
+        <p>Let \(M \in \mathbb{R}^{p \times p}\) and \(b \in \mathbb{R}^p\). Then for any solution \(x \in \mathbb{R}^p\), the system of linear equations</p>
+        <div class="math-block" role="math" aria-label="M x equals b">
+          \[
+            Mx = b
+          \]
+        </div>
+        <p>is said to be in <em>row echelon form</em> if the matrix \(M\) is upper triangular. Recall from your linear algebra prerequisite course a system of linear equations can always be re-expressed in row echelon form via a series of row operations. Write a function in R that takes as input \((M, b)\) where \(M\) is a \(p \times p\) matrix and \(b\) is a \(p\)-dimensional column vector and returns the row echelon form of the arguments \(M\) and \(b\). This can be done via the Gaussian elimination algorithm (<a href="https://en.wikipedia.org/wiki/Gaussian_elimination" target="_blank" rel="noopener noreferrer" aria-label="Gaussian elimination on Wikipedia (opens in a new tab)">https://en.wikipedia.org/wiki/Gaussian_elimination</a>).</p>
+      </li>
+
+      <li id="problem-6">
+        <p>Write an algorithm to solve for at least one solution to a row echelon form expression of a system of linear equations (if a solution exists). More specifically, assume you begin as in the previous question with an arbitrary system \(Mx = b\). Then passing this system through the function that you wrote for the previous question will produce the row echelon form of the system, \(\widetilde{M}x = \tilde{b}\). Your function for this question will be able to solve for at least one solution (if a solution exists) to the system \(\widetilde{M}x = \tilde{b}\), which you know is in row echelon form. This can be done via the back substitution algorithm (<a href="https://en.wikipedia.org/wiki/Triangular_matrix#Forward_and_back_substitution" target="_blank" rel="noopener noreferrer" aria-label="Back substitution on Wikipedia (opens in a new tab)">https://en.wikipedia.org/wiki/Triangular_matrix#Forward_and_back_substitution</a>).</p>
+      </li>
+
+      <li id="problem-7">
+        <p>Use the function you wrote for the previous question to write a function to determine an eigenvector associated with an eigenvalue of a given triangular matrix \(A \in \mathbb{R}^{p \times p}\). Your function should take as an input <code>(A, lambda)</code>, where <code>lambda</code> is a user-supplied eigenvalue of \(A\), and return an eigenvector associated with <code>lambda</code>.</p>
+      </li>
+
+    </ol>
+  </main>
+
+  <footer role="contentinfo">
+    <p>ST 503 &mdash; Problem Set 1 &mdash; 20 May 2026</p>
+  </footer>
+
+</body>
+</html>

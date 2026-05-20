@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ST 503 – Syllabus – Summer 2026</title>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" defer></script>
+
+  <style>
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 720px;
+      margin: 2rem auto;
+      padding: 0 1.25rem 3rem;
+      color: #111;
+      background: #fff;
+    }
+
+    a { color: #00f; }
+    a:focus { outline: 2px solid #00f; outline-offset: 2px; }
+
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 0;
+      background: #fff;
+      color: #00f;
+      padding: .3rem .7rem;
+      border: 1px solid #00f;
+      text-decoration: none;
+      z-index: 9999;
+    }
+    .skip-link:focus { top: 0; }
+
+    h1 { font-size: 1.3rem; margin-bottom: .25rem; }
+    h2 { font-size: 1.1rem; margin-top: 1.75rem; margin-bottom: .4rem; border-bottom: 1px solid #ccc; padding-bottom: .2rem; }
+    h3 { font-size: 1rem; margin-top: 1.1rem; margin-bottom: .3rem; }
+
+    p { margin: .5rem 0; }
+    ul, ol { padding-left: 1.6rem; margin: .5rem 0; }
+    li { margin-bottom: .3rem; }
+    ul ul, ol ul { margin-top: .3rem; }
+
+    dl { margin: .5rem 0; }
+    dt { font-weight: bold; float: left; clear: left; width: 10rem; }
+    dd { margin-left: 10.5rem; }
+
+    table { border-collapse: collapse; margin-top: .5rem; font-size: .97rem; }
+    th, td { border: 1px solid #aaa; padding: .3rem .65rem; text-align: left; }
+    th { background: #eee; }
+
+    @media (prefers-contrast: more) { a { color: #00008b; } }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header role="banner">
+    <h1>ST 503 Fundamentals of Linear Models and Regression</h1>
+    <p>Semester: Summer 2026 &mdash; Asynchronous Online</p>
+    <p>Pre-recorded lectures posted by 23:59 ET Wednesdays/Fridays &mdash; 3 credit hours</p>
+  </header>
+
+  <main id="main-content" role="main">
+
+    <section aria-labelledby="contact-heading">
+      <h2 id="contact-heading">Course Personnel</h2>
+      <p><strong>Instructor:</strong> Dr. Jonathan P Williams</p>
+      <dl>
+        <dt>Email</dt>
+        <dd><a href="mailto:jwilli27@ncsu.edu">jwilli27@ncsu.edu</a></dd>
+        <dt>Office location</dt>
+        <dd>5218 SAS Hall</dd>
+        <dt>Office hours</dt>
+        <dd>By appointment, in person or online</dd>
+        <dt>Office phone</dt>
+        <dd><a href="tel:+19195130191">919.513.0191</a></dd>
+      </dl>
+      <p style="margin-top:.75rem;"><strong>Teaching Assistant:</strong> Ananya Roy</p>
+      <dl>
+        <dt>Email</dt>
+        <dd><a href="mailto:aroy7@ncsu.edu">aroy7@ncsu.edu</a></dd>
+        <dt>Office location</dt>
+        <dd>Zoom</dd>
+        <dt>Office hours</dt>
+        <dd>By appointment</dd>
+      </dl>
+    </section>
+
+    <section aria-labelledby="desc-heading">
+      <h2 id="desc-heading">Course Description</h2>
+      <p>
+        Estimation and testing in full and non-full rank linear models. Normal theory
+        distributional properties. Least squares principle and the Gauss-Markov theorem.
+        Estimability, analysis of variance and covariance in a unified manner. Practical
+        model-building in linear regression including residual analysis, regression diagnostics,
+        and variable selection. Emphasis on use of the computer to apply methods with data sets.
+        Credit not given for both ST 705 and ST 503.
+      </p>
+    </section>
+
+    <section aria-labelledby="objectives-heading">
+      <h2 id="objectives-heading">Course Objectives/Goals</h2>
+      <ol>
+        <li>Learn statistical theory of linear models and regression.</li>
+        <li>Learn to use the R language to implement and compute relevant statistical methods.</li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="slo-heading">
+      <h2 id="slo-heading">Student Learning Outcomes</h2>
+      <ol>
+        <li>Use linear algebra to develop intuition for statistical linear models.</li>
+        <li>Solve systems of linear equations.</li>
+        <li>Derive least squares solutions to linear regression.</li>
+        <li>Prove the Gauss-Markov theorem.</li>
+        <li>Derive conditions for estimability of population features.</li>
+        <li>Specify and derive statistical properties of the Gaussian general linear model.</li>
+        <li>Establish analysis of variance properties via linear models.</li>
+        <li>Write documented workflow files for organizing computer code used in data analyses and simulation studies, for facilitating replicability. This also includes the proper implementation of random number generator seeds.</li>
+        <li>Design and generate synthetic data to test the reproducibility of data analyses and simulation studies.</li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="prereq-heading">
+      <h2 id="prereq-heading">Prerequisites</h2>
+      <p>Fundamentals of statistical inference I (ST 501) and linear algebra (MA 405)</p>
+    </section>
+
+    <section aria-labelledby="text-heading">
+      <h2 id="text-heading">Text</h2>
+      <p>J J Faraway (2015). <em>Linear models with R</em>, 2nd edition. CRC Press.</p>
+    </section>
+
+    <section aria-labelledby="digital-heading">
+      <h2 id="digital-heading">Digital Course Components</h2>
+      <ul>
+        <li>Course website: <a href="https://jonathanpw.github.io/ST503" target="_blank" rel="noopener noreferrer" aria-label="Course website (opens in a new tab)">https://jonathanpw.github.io/ST503</a></li>
+        <li>Moodle (accessed via <a href="https://wolfware.ncsu.edu" target="_blank" rel="noopener noreferrer" aria-label="Wolfware Moodle portal (opens in a new tab)">https://wolfware.ncsu.edu</a>)</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="grades-heading">
+      <h2 id="grades-heading">Grade Distribution</h2>
+      <table>
+        <caption>Grade Distribution</caption>
+        <thead>
+          <tr><th scope="col">Component</th><th scope="col">Weight</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Assignments</td><td>50%</td></tr>
+          <tr><td>Final project</td><td>50%</td></tr>
+        </tbody>
+      </table>
+
+      <table style="margin-top:1rem;">
+        <caption>Letter Grade Distribution</caption>
+        <thead>
+          <tr>
+            <th scope="col">Range</th><th scope="col">Grade</th>
+            <th scope="col">Range</th><th scope="col">Grade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>\(\geq 93.00\)</td><td>A</td><td>73.00 &ndash; 76.99</td><td>C</td></tr>
+          <tr><td>90.00 &ndash; 92.99</td><td>A&minus;</td><td>70.00 &ndash; 72.99</td><td>C&minus;</td></tr>
+          <tr><td>87.00 &ndash; 89.99</td><td>B+</td><td>67.00 &ndash; 69.99</td><td>D+</td></tr>
+          <tr><td>83.00 &ndash; 86.99</td><td>B</td><td>63.00 &ndash; 66.99</td><td>D</td></tr>
+          <tr><td>80.00 &ndash; 82.99</td><td>B&minus;</td><td>60.00 &ndash; 62.99</td><td>D&minus;</td></tr>
+          <tr><td>77.00 &ndash; 79.99</td><td>C+</td><td>\(\leq 59.99\)</td><td>F</td></tr>
+        </tbody>
+      </table>
+
+      <p style="margin-top:.75rem;">For students taking the course as credit-only, S is equivalent to C&minus; or better; otherwise U.</p>
+      <p>No expectations beyond attendance apply to students choosing to audit the course.</p>
+      <p><strong>Final project due:</strong> Friday, 31 July 2026</p>
+    </section>
+
+    <section aria-labelledby="note-heading">
+      <h2 id="note-heading">Personal Note to Students</h2>
+      <p>
+        Please do not feel intimidated about interacting with me. Regardless of how busy or
+        stressed I may appear to you, teaching your class is a part of my job, and I take that
+        very seriously. I care deeply about the quality of your learning. Please always reach
+        out to me if you have questions, concerns, or need help. I understand that it can be
+        difficult and can even feel embarrassing to ask for help. However, I was once in your
+        position, and I promise to always treat you with respect, empathy, and kindness.
+        Nobody that ever did anything meaningful did so without first failing over and over
+        again.
+      </p>
+    </section>
+
+    <section aria-labelledby="policies-heading">
+      <h2 id="policies-heading">Course Policies and Commentary</h2>
+
+      <h3>Assignments</h3>
+      <ul>
+        <li>Homework will be assigned each Wednesday evening, and will be due the following Wednesday evening. Completed assignments must be turned in on Moodle. The grader <strong>will</strong> run any code to assess your solutions.</li>
+        <li>Each homework assignment will receive the same weight in the calculation of the final course grade (i.e., longer (shorter) assignments do not count for a larger (smaller) portion of the overall assignment course grade). For each assignment, each exercise has the following point distribution:
+          <ul>
+            <li>3 points &ndash; solution is correct</li>
+            <li>2 points &ndash; solution is mostly correct</li>
+            <li>1 point &ndash; solution is on the right track</li>
+            <li>0 points &ndash; solution is not relevant to the question, or the script file does not run.</li>
+          </ul>
+        </li>
+        <li>No late assignments will be accepted, but arrangements will be made on an individual basis for students who experience prolonged health or other issues. Reach out to the instructor if you begin to fall behind!</li>
+        <li>Take responsibility for understanding solutions to all assignments. For example, if you find a solution on StackExchange, then convince yourself that the solution is actually correct.</li>
+        <li>Learn to distinguish between the things you do know and the things you do not know (this is one of the most important results of all education). To understand, to a particular degree, that a given statement is true means that you can explain why the statement is true, to the particular degree.</li>
+        <li>Assignments will be graded within 1 week.</li>
+      </ul>
+
+      <h3>Projects</h3>
+      <ul>
+        <li>Students work individually on the final course project.</li>
+        <li>A detailed outline of the project requirements is provided on the course website.</li>
+      </ul>
+
+      <h3>Lectures</h3>
+      <ul>
+        <li>Pre-recorded lectures will be posted on the course website by 23:59 ET each Wednesday and Friday.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="outline-heading">
+      <h2 id="outline-heading">Tentative Course Outline</h2>
+      <table>
+        <caption>Weekly Topics</caption>
+        <thead>
+          <tr><th scope="col">Week</th><th scope="col">Topic</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Week 1</td><td>Linear algebra review</td></tr>
+          <tr><td>Week 2</td><td>Singular value decomposition and projection matrices</td></tr>
+          <tr><td>Week 3</td><td>Gram-Schmidt orthonormalization, and QR factorization</td></tr>
+          <tr><td>Week 4</td><td>The general linear model and the least squares problem</td></tr>
+          <tr><td>Week 5</td><td>Identifiability and estimability</td></tr>
+          <tr><td>Week 6</td><td>Gauss-Markov model and theorem</td></tr>
+          <tr><td>Week 7</td><td>Distributional theory</td></tr>
+          <tr><td>Week 8</td><td>Distributional theory (continued)</td></tr>
+          <tr><td>Week 9</td><td>Hypothesis testing</td></tr>
+          <tr><td>Week 10</td><td>Bootstrapping</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section aria-labelledby="ncsu-heading">
+      <h2 id="ncsu-heading">NCSU Policies, Regulations, and Rules</h2>
+      <p>Students are responsible for reviewing the NC State University Policies, Rules, and Regulations (PRRs) which pertain to their course rights and responsibilities, including those referenced both below and above in this syllabus:</p>
+      <ul>
+        <li>Equal Opportunity and Non-Discrimination Policy Statement <a href="https://policies.ncsu.edu/policy/pol-04-25-05" target="_blank" rel="noopener noreferrer" aria-label="Equal Opportunity and Non-Discrimination Policy Statement (opens in a new tab)">https://policies.ncsu.edu/policy/pol-04-25-05</a> with additional references at <a href="https://equalopportunity.ncsu.edu/policies/" target="_blank" rel="noopener noreferrer" aria-label="Equal opportunity policies (opens in a new tab)">https://equalopportunity.ncsu.edu/policies/</a></li>
+        <li>Code of Student Conduct <a href="https://policies.ncsu.edu/policy/pol-11-35-01" target="_blank" rel="noopener noreferrer" aria-label="Code of Student Conduct (opens in a new tab)">https://policies.ncsu.edu/policy/pol-11-35-01</a></li>
+        <li>Grades and Grade Point Average <a href="https://policies.ncsu.edu/regulation/reg-02-50-03" target="_blank" rel="noopener noreferrer" aria-label="Grades and Grade Point Average regulation (opens in a new tab)">https://policies.ncsu.edu/regulation/reg-02-50-03</a></li>
+        <li>Credit-Only Courses <a href="https://policies.ncsu.edu/regulation/reg-02-20-15" target="_blank" rel="noopener noreferrer" aria-label="Credit-Only Courses regulation (opens in a new tab)">https://policies.ncsu.edu/regulation/reg-02-20-15</a></li>
+        <li>Audits <a href="https://policies.ncsu.edu/regulation/reg-02-20-04" target="_blank" rel="noopener noreferrer" aria-label="Audits regulation (opens in a new tab)">https://policies.ncsu.edu/regulation/reg-02-20-04</a></li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="integrity-heading">
+      <h2 id="integrity-heading">Policy on Academic Integrity</h2>
+      <p>Cheating, plagiarism and other forms of academic dishonesty will not be tolerated. Violations of academic integrity will be handled in accordance with the Student Discipline Procedures (NCSU REG 11.35.02). Be aware of the Code of Student Conduct (NCSU POL11.35.01) and Pack Pledge.</p>
+    </section>
+
+    <section aria-labelledby="disability-heading">
+      <h2 id="disability-heading">Disability Services for Students</h2>
+      <p>Reasonable accommodations will be made for students with verifiable disabilities. In order to take advantage of available accommodations, students must register with the Disability Resource Office at Holmes Hall, Suite 304, 2751 Cates Avenue, Campus Box 7509, <a href="tel:+19195157653">919-515-7653</a>. For more information on NC State's policy on working with students with disabilities, please see the Academic Accommodations for Students with Disabilities Regulation (NCSU REG 02.20.01).</p>
+    </section>
+
+    <section aria-labelledby="privacy-heading">
+      <h2 id="privacy-heading">Privacy</h2>
+      <p>Students may be required to disclose personally identifiable information to other students in the course, via digital tools, such as email or web-postings, where relevant to the course. Examples include online discussions of class topics, and posting of student coursework. All students are expected to respect the privacy of each other by not sharing or using such information outside the course.</p>
+    </section>
+
+  </main>
+
+  <footer role="contentinfo">
+    <p>ST 503 &mdash; Fundamentals of Linear Models and Regression &mdash; Summer 2026</p>
+  </footer>
+
+</body>
+</html>

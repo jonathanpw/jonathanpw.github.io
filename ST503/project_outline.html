@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ST 503 – Project Outline</title>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" defer></script>
+
+  <style>
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 720px;
+      margin: 2rem auto;
+      padding: 0 1.25rem 3rem;
+      color: #111;
+      background: #fff;
+    }
+
+    a { color: #00f; }
+    a:focus { outline: 2px solid #00f; outline-offset: 2px; }
+
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 0;
+      background: #fff;
+      color: #00f;
+      padding: .3rem .7rem;
+      border: 1px solid #00f;
+      text-decoration: none;
+      z-index: 9999;
+    }
+    .skip-link:focus { top: 0; }
+
+    h1 { font-size: 1.3rem; margin-bottom: .25rem; }
+    h2 { font-size: 1.1rem; margin-top: 1.75rem; margin-bottom: .4rem; border-bottom: 1px solid #ccc; padding-bottom: .2rem; }
+
+    p { margin: .5rem 0; }
+    ol, ul { padding-left: 1.6rem; margin: .5rem 0; }
+    li { margin-bottom: .3rem; }
+
+    pre {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: .9rem;
+      background: #f5f5f5;
+      border: 1px solid #ccc;
+      padding: .75rem 1rem;
+      overflow-x: auto;
+      white-space: pre;
+      margin: .75rem 0;
+    }
+
+    @media (prefers-contrast: more) { a { color: #00008b; } }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header role="banner">
+    <h1>ST 503 Project Outline</h1>
+  </header>
+
+  <main id="main-content" role="main">
+
+    <section aria-labelledby="overview-heading">
+      <h2 id="overview-heading">Overview</h2>
+      <p>Choose a data set of interest (e.g., from <a href="https://www.kaggle.com/datasets" target="_blank" rel="noopener noreferrer" aria-label="Kaggle datasets (opens in a new tab)">https://www.kaggle.com/datasets</a>)</p>
+      <p>Identify inferential questions of interest about population features you might learn about from your data set.</p>
+      <p>Identify an appropriate statistical model and parameters for representing the population features of interest.</p>
+      <p>Determine a statistical method for estimating the parameters of interest that represent the population features of interest.</p>
+      <p>Implement the estimation procedure on your real data set. Comment on the fitted model.</p>
+      <p>Construct a simulation study using synthetic data to investigate the performance of the estimation procedure (see below for an outline of how to do this).</p>
+    </section>
+
+    <section aria-labelledby="sim-heading">
+      <h2 id="sim-heading">General Outline of the Simulation Study</h2>
+      <ol>
+        <li>Generate 1 synthetic data set from the statistical model</li>
+        <li>Implement an estimation procedure (i.e., MLE, EM, MCMC,...)</li>
+        <li>Evaluate the estimated model (i.e., RMSE, AIC, BIC,... on test set)</li>
+        <li>Repeat steps (1)&ndash;(3) <em>N</em> times (larger <em>N</em> is better)</li>
+        <li>Use the output from (4) to produce plots and/or tables for inference</li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="scripts-heading">
+      <h2 id="scripts-heading">Script Files</h2>
+      <p>Organize the simulation study into 2 script files:</p>
+      <ul>
+        <li><code>run_file.r</code> &mdash; This script contains code for generating the data and running the estimation procedure</li>
+        <li><code>out_file.r</code> &mdash; This script contains code for producing the plots/tables</li>
+      </ul>
+      <p>The output from <code>run_file.r</code> should be saved and then loaded by <code>out_file.r</code>. And, the output from <code>out_file.r</code> should be saved, and then loaded (or copy-and-pasted) into your LaTeX file to be compiled into the pdf file of the write-up of your project.</p>
+    </section>
+
+    <section aria-labelledby="workflow-heading">
+      <h2 id="workflow-heading">Workflow File</h2>
+      <p>Your project submission should include a workflow file, which includes ALL of the steps for reproducing your computations and plots/tables. For example, it will look something like:</p>
+      <pre aria-label="Example workflow file">
+# This is the workflow to reproduce the results of the ST 503 project by
+# (student name)
+
+for seed in {1..N}
+do
+Rscript run_file.r arg_1 arg_2 ...
+done
+
+Rscript out_file.r arg_1 arg_2 ...
+      </pre>
+      <p>Note: This will require knowledge of how an interpretable language works outside of a GUI environment (i.e., you should know how to run R outside of RStudio). This is not hard, but is important for understanding how programming skills fit into the broader application of problem solving in industry and academia.</p>
+    </section>
+
+    <section aria-labelledby="writeup-heading">
+      <h2 id="writeup-heading">Write-Up and Submission</h2>
+      <p>Your project write-up will include a 10 page summary describing the statistical model, estimation procedure, and inference on your simulation study. You will also need to send me all script files INCLUDING your workflow file.</p>
+      <p>Visit me periodically during office hours as you progress through your project. THERE IS NO REASON THAT YOU SHOULD NOT GET FULL POINTS ON YOUR PROJECT. If you learn nothing else in school, learn to be resourceful. It will make you more employable, and a more productive member of society.</p>
+    </section>
+
+  </main>
+
+  <footer role="contentinfo">
+    <p>ST 503 &mdash; Project Outline</p>
+  </footer>
+
+</body>
+</html>

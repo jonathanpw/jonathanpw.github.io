@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ST 503 – Project Rubric</title>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" defer></script>
+
+  <style>
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 720px;
+      margin: 2rem auto;
+      padding: 0 1.25rem 3rem;
+      color: #111;
+      background: #fff;
+    }
+
+    a { color: #00f; }
+    a:focus { outline: 2px solid #00f; outline-offset: 2px; }
+
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 0;
+      background: #fff;
+      color: #00f;
+      padding: .3rem .7rem;
+      border: 1px solid #00f;
+      text-decoration: none;
+      z-index: 9999;
+    }
+    .skip-link:focus { top: 0; }
+
+    h1 { font-size: 1.3rem; margin-bottom: .25rem; }
+    h2 { font-size: 1.1rem; margin-top: 1.75rem; margin-bottom: .4rem; border-bottom: 1px solid #ccc; padding-bottom: .2rem; }
+
+    p { margin: .5rem 0; }
+
+    table { border-collapse: collapse; width: 100%; margin-top: .5rem; font-size: .97rem; }
+    caption { text-align: left; font-weight: bold; margin-bottom: .4rem; }
+    th, td { border: 1px solid #aaa; padding: .3rem .65rem; text-align: left; vertical-align: top; }
+    th { background: #eee; }
+    td:first-child { white-space: nowrap; font-weight: bold; }
+    tr:nth-child(even) td { background: #fafafa; }
+
+    @media (prefers-contrast: more) { a { color: #00008b; } }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header role="banner">
+    <h1>ST 503 Project Rubric</h1>
+  </header>
+
+  <main id="main-content" role="main">
+
+    <section aria-labelledby="rubric-heading">
+      <h2 id="rubric-heading">Grading Criteria</h2>
+      <table>
+        <caption>Project Rubric &mdash; 63 points total</caption>
+        <thead>
+          <tr>
+            <th scope="col">Points</th>
+            <th scope="col">Criterion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>3 points</td>
+            <td>Complete 10 page report as a .pdf file, double spaced (defined as 26 lines of text per page).</td>
+          </tr>
+          <tr>
+            <td>3 points</td>
+            <td>Correct spelling and grammar throughout the report.</td>
+          </tr>
+          <tr>
+            <td>3 points</td>
+            <td>Description of the real data set that is being analyzed, as well as a citation/url.</td>
+          </tr>
+          <tr>
+            <td>3 points</td>
+            <td>Included summary statistics and exploratory plots of the data. Discussion of unique features.</td>
+          </tr>
+          <tr>
+            <td>3 points</td>
+            <td>Discussion of the variables of interest, and their relationships being studied.</td>
+          </tr>
+          <tr>
+            <td>3 points</td>
+            <td>Discussion of a statistical model for estimating population features/relationships from the data.</td>
+          </tr>
+          <tr>
+            <td>3 points</td>
+            <td>Description of how to generate synthetic data from the proposed statistical model.</td>
+          </tr>
+          <tr>
+            <td>3 points</td>
+            <td>Description of the computational/algorithmic approach to fitting the statistical model.</td>
+          </tr>
+          <tr>
+            <td>3 points</td>
+            <td>Discussion of the results of a simulation study to determine if the true population features can be estimated from the synthetic data. Description of how to set the values of the true population features/parameters for generating the synthetic data.</td>
+          </tr>
+          <tr>
+            <td>3 points</td>
+            <td>Summary plots/tables for analyzing the results of the simulation study (e.g., histogram of the sampling distribution of the statistic used for estimation, with a line indicating the true parameter value).</td>
+          </tr>
+          <tr>
+            <td>3 points</td>
+            <td>Conduct and interpret any relevant hypothesis test and confidence intervals.</td>
+          </tr>
+          <tr>
+            <td>3 points</td>
+            <td>The sampling distributions of the statistic(s) considered are centered on the true parameter values for the simulation study. If not, then something went wrong.</td>
+          </tr>
+          <tr>
+            <td>3 points</td>
+            <td>Justification of the number of synthetic data sets generated for the simulation study (i.e., size of <em>N</em>).</td>
+          </tr>
+          <tr>
+            <td>3 points</td>
+            <td>Justification of the sample size and number of features included in the synthetic data sets. These should be set similar to the real data set.</td>
+          </tr>
+          <tr>
+            <td>3 points</td>
+            <td>Discussion of the fitted model and estimates on the real data set. Does your simulation study lend confidence to the model and estimation procedure implemented on the real data?</td>
+          </tr>
+          <tr>
+            <td>3 points</td>
+            <td>Discussion of the broader implications/inference learned from the model fit to the real data. Do the implications seem reasonable, plausible, believable, etc.?</td>
+          </tr>
+          <tr>
+            <td>3 points</td>
+            <td>Discussion of possible limitations of the model, and why it may be too simplistic for explaining relationships in the real data (e.g., maybe there are confounding or omitted variables, or maybe the structural relationship may not be appropriate).</td>
+          </tr>
+          <tr>
+            <td>3 points</td>
+            <td>All R code submitted as separate .r files, with comments (not counted as part of the report).</td>
+          </tr>
+          <tr>
+            <td>3 points</td>
+            <td>Code is organized into separate <code>run_file.r</code> and <code>out_file.r</code> script files.</td>
+          </tr>
+          <tr>
+            <td>3 points</td>
+            <td>A &ldquo;workflow&rdquo; text file is included, which enumerates lines of code needed for reproducing all of the results presented in the 10 page report.</td>
+          </tr>
+          <tr>
+            <td>3 points</td>
+            <td>Random number generator seeds are used, and used appropriately.</td>
+          </tr>
+          <tr>
+            <td>3 points</td>
+            <td>No R packages were used (unless an a-priori exception was given by the instructor).</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+
+  <footer role="contentinfo">
+    <p>ST 503 &mdash; Project Rubric</p>
+  </footer>
+
+</body>
+</html>
