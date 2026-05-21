@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ST 503 – Review of Linear Algebra</title>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" defer></script>
+
+  <style>
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 720px;
+      margin: 2rem auto;
+      padding: 0 1.25rem 3rem;
+      color: #111;
+      background: #fff;
+    }
+
+    a { color: #00f; }
+    a:focus { outline: 2px solid #00f; outline-offset: 2px; }
+
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 0;
+      background: #fff;
+      color: #00f;
+      padding: .3rem .7rem;
+      border: 1px solid #00f;
+      text-decoration: none;
+      z-index: 9999;
+    }
+    .skip-link:focus { top: 0; }
+
+    h1 { font-size: 1.3rem; margin-bottom: .25rem; }
+    h2 { font-size: 1.1rem; margin-top: 1.75rem; margin-bottom: .4rem; border-bottom: 1px solid #ccc; padding-bottom: .2rem; }
+
+    p { margin: .5rem 0; }
+    ol, ul { padding-left: 1.6rem; margin: .5rem 0; }
+    li { margin-bottom: .3rem; }
+
+    .math-block {
+      margin: .75rem 0 .75rem 2rem;
+      overflow-x: auto;
+    }
+
+    .label {
+      float: right;
+      clear: right;
+    }
+
+    .env-label {
+      font-variant: small-caps;
+      font-weight: bold;
+    }
+
+    .env-block {
+      margin: 1rem 0;
+    }
+
+    .env-block p:first-child { display: inline; }
+
+    @media (prefers-contrast: more) { a { color: #00008b; } }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header role="banner">
+    <h1>Review of Linear Algebra</h1>
+  </header>
+
+  <main id="main-content" role="main">
+
+    <p>Linear algebra is the study of vector spaces, linear transformations, matrices, and inner product spaces.</p>
+
+    <!-- Definition: Vector Space -->
+    <div class="env-block" aria-label="Definition: vector space">
+      <p><span class="env-label">Definition.</span> A vector space \(V\) over a field \(F\) is a set of elements \(v \in V\), with the operations of addition and scalar multiplication, that satisfy the following axioms.</p>
+      <ol>
+        <li>\(\forall\, x, y \in V,\quad x + y = y + x\)</li>
+        <li>\(\forall\, x, y, z \in V,\quad (x + y) + z = x + (y + z)\)</li>
+        <li>There exists an element &ldquo;\(0\)&rdquo; \(\in V\) s.t. \(x + 0 = x\), \(\forall\, x \in V\)</li>
+        <li>\(\forall\, x \in V\; \exists\, y \in V\) s.t. \(x + y = 0\)</li>
+        <li>There exists an element &ldquo;\(1\)&rdquo; \(\in F\) s.t. \(1 \cdot x = x\), \(\forall\, x \in V\)</li>
+        <li>\(\forall\, a, b \in F,\; \forall\, x \in V,\quad (ab)x = a(bx)\)</li>
+        <li>\(\forall\, a \in F,\; \forall\, x, y \in V,\quad a(x + y) = ax + ay\)</li>
+        <li>\(\forall\, a, b \in F,\; \forall\, x \in V,\quad (a + b)x = ax + bx\) <span class="label">\(\square\)</span></li>
+      </ol>
+    </div>
+
+    <p>In statistics contexts, typically \(V = \mathbb{R}^n\) and \(F = \mathbb{R}\).</p>
+    <p>The notion of a vector space is truly foundational for data science. A vector space gives us an entire framework and intuition for thinking about data objects (even as data are stored as objects in a computer).</p>
+
+    <!-- Definition: Linear Dependence -->
+    <div class="env-block" aria-label="Definition: linear dependence">
+      <p><span class="env-label">Definition.</span> A collection of vectors \(x_1, \ldots, x_p\) are said to be <em>linearly dependent</em> if and only if there exist scalars \(c_1, \ldots, c_p\), not all zero, such that</p>
+      <div class="math-block" role="math" aria-label="sum from i equals 1 to p of c sub i x sub i equals 0">
+        \[
+          \sum_{i=1}^{p} c_i x_i = 0.
+        \]
+      </div>
+      <p>A set of vectors that are *not* linearly dependent are said to be <em>linearly independent</em>. <span class="label">\(\square\)</span></p>
+    </div>
+
+    <p>Often, to show that a set of vectors are linearly independent, a good strategy is to demonstrate that \(c_1 x_1 + \cdots + c_p x_p = 0\) implies that \(c_1 = \cdots = c_p = 0\).</p>
+
+    <p>Note that if \(x_1, \ldots, x_p \in \mathbb{R}^n\), then there can be at most \(\min\{n, p\}\) linearly independent of the \(p\) vectors.</p>
+
+    <!-- Definition: Basis -->
+    <div class="env-block" aria-label="Definition: basis">
+      <p><span class="env-label">Definition.</span> A basis, \(B\), for a vector space, \(V\), is a linearly independent subset of \(V\) with \(\text{span}(B) = V.\) <span class="label">\(\square\)</span></p>
+    </div>
+
+    <!-- Example: Standard Basis -->
+    <div class="env-block" aria-label="Example: standard basis">
+      <p><span class="env-label">Example.</span> For \(V = \mathbb{R}^n\), the set \(\{e_1, \ldots, e_n\}\), where \(e_i \in \mathbb{R}^n\) has \(i\)th component with value 1 and 0 for all other components, is a basis. This is commonly called the standard basis, and \(e_i\) a standard basis vector. <span class="label">\(\square\)</span></p>
+    </div>
+
+    <!-- Theorem: Basis characterization -->
+    <div class="env-block" aria-label="Theorem: basis characterization">
+      <p><span class="env-label">Theorem.</span> Let \(V\) be a vector space and \(B := \{u_1, \ldots, u_n\} \subseteq V\). Then \(B\) is a basis for \(V\) if and only if every \(v \in V\) can be expressed uniquely as</p>
+      <div class="math-block" role="math" aria-label="v equals a sub 1 u sub 1 plus dots plus a sub n u sub n">
+        \[
+          v = a_1 u_1 + \cdots + a_n u_n
+        \]
+      </div>
+      <p>for some scalars \(a_1, \ldots, a_n\). <span class="label">\(\square\)</span></p>
+      <p><em>Proof.</em> Left as an exercise. <span class="label">\(\square\)</span></p>
+    </div>
+
+    <!-- Theorem: Finite spanning set contains basis -->
+    <div class="env-block" aria-label="Theorem: finite spanning set contains a basis">
+      <p><span class="env-label">Theorem.</span> If a vector space \(V\) is generated by some finite set \(S\), then some subset of \(S\) is a basis for \(V\). <span class="label">\(\square\)</span></p>
+      <p><em>Proof.</em> Left as an exercise. <span class="label">\(\square\)</span></p>
+    </div>
+
+    <!-- Definition: Linear Transformation -->
+    <div class="env-block" aria-label="Definition: linear transformation">
+      <p><span class="env-label">Definition.</span> Let \(V\) and \(W\) be vector spaces over field \(\mathbb{R}\). We call a function \(T : V \to W\) a <em>linear transformation</em> from \(V\) to \(W\) if \(\forall\, x, y \in V\) and \(\forall\, c \in \mathbb{R}\),</p>
+      <ol>
+        <li>\(T(x + y) = T(x) + T(y)\)</li>
+        <li>\(T(cx) = cT(x).\) <span class="label">\(\square\)</span></li>
+      </ol>
+    </div>
+
+    <!-- Example: Matrix multiplication as linear transformation -->
+    <div class="env-block" aria-label="Example: matrix multiplication as linear transformation">
+      <p><span class="env-label">Example.</span> Let \(A \in \mathbb{R}^{p \times q}\) and define \(T(x) := Ax\) \(\forall\, x \in \mathbb{R}^q\). Then \(T : \mathbb{R}^q \to \mathbb{R}^p\) is a linear transformation since</p>
+      <ol>
+        <li>\(\forall\, x, y \in \mathbb{R}^q,\quad T(x + y) = A(x + y) = Ax + Ay = T(x) + T(y)\), and</li>
+        <li>\(\forall\, x \in \mathbb{R}^q,\; \forall\, c \in \mathbb{R},\quad T(cx) = A \cdot (cx) = cAx = cT(x).\) <span class="label">\(\square\)</span></li>
+      </ol>
+    </div>
+
+    <!-- Example: Integration as linear transformation -->
+    <div class="env-block" aria-label="Example: integration as linear transformation">
+      <p><span class="env-label">Example.</span> Let \(V = C(\mathbb{R})\), the vector space of continuous real-valued functions defined on \(\mathbb{R}\). Then \(\forall\, a, b \in \mathbb{R}\) with \(a < b\), the transformation \(T : V \to \mathbb{R}\) defined by,</p>
+      <div class="math-block" role="math" aria-label="T of f defined as the integral from a to b of f of x dx">
+        \[
+          T(f) := \int_a^b f(x)\, dx
+        \]
+      </div>
+      <p>is linear. <span class="label">\(\square\)</span></p>
+    </div>
+
+    <!-- Definition: Null space and Range -->
+    <div class="env-block" aria-label="Definition: null space and range">
+      <p><span class="env-label">Definition.</span> Let \(V\) and \(W\) be vector spaces, and \(T : V \to W\) a linear transformation. The set,</p>
+      <div class="math-block" role="math" aria-label="null of T defined as the set of x in V such that T of x equals 0">
+        \[
+          \text{null}(T) := \{x \in V : T(x) = 0\},
+        \]
+      </div>
+      <p>is called the <em>null space</em> of \(T\). The <em>range</em> of \(T\) is defined as,</p>
+      <div class="math-block" role="math" aria-label="range of T defined as the set of y in W such that T of x equals y for some x in V">
+        \[
+          \text{range}(T) := \{y \in W : T(x) = y \text{ for some } x \in V\}.
+        \]
+      </div>
+      <p>Further, \(\text{rank}(T) := \dim(\text{range}(T))\). <span class="label">\(\square\)</span></p>
+    </div>
+
+    <!-- Theorem: Dimension theorem -->
+    <div class="env-block" aria-label="Theorem: dimension theorem">
+      <p><span class="env-label">Theorem.</span> (dimension theorem) Let \(V\) and \(W\) be vector spaces, and \(T : V \to W\) be linear. If \(V\) is finite-dimensional, then</p>
+      <div class="math-block" role="math" aria-label="dim of null T plus rank T equals dim V">
+        \[
+          \dim(\text{null}(T)) + \text{rank}(T) = \dim(V).
+        \]
+      </div>
+      <span class="label">\(\square\)</span>
+      <p><em>Proof.</em> See any linear algebra textbook. <span class="label">\(\square\)</span></p>
+    </div>
+
+    <p>Recall that if \(T(x) := Ax\), then \(\text{range}(T)\) is called the column space of \(A\), denoted \(\text{col}(A)\). Similarly for \(\text{range}(T')\), called the row space of \(A\), and denoted by \(\text{row}(A)\).</p>
+
+    <!-- Definition: Matrix product -->
+    <div class="env-block" aria-label="Definition: matrix product">
+      <p><span class="env-label">Definition.</span> Let \(A \in \mathbb{R}^{p \times q}\) and \(B \in \mathbb{R}^{q \times m}\). Then the <em>matrix product</em>, denoted by \(AB\), has components defined as</p>
+      <div class="math-block" role="math" aria-label="AB sub ij defined as the sum from k equals 1 to q of A sub ik times B sub kj">
+        \[
+          (AB)_{ij} := \sum_{k=1}^{q} A_{ik} B_{kj}
+        \]
+      </div>
+      <p>for \(i \in \{1, \ldots, p\}\) and \(j \in \{1, \ldots, m\}\). <span class="label">\(\square\)</span></p>
+    </div>
+
+    <p>Further notions for matrices.</p>
+    <ol>
+      <li>The transpose of \(A\), denoted \(A'\), satisfies the property that \((A')_{ij} = A_{ji}\) for all indices \(i, j\).</li>
+      <li>\(A \in \mathbb{R}^{p \times q}\) is called <em>square</em> if \(p = q\).</li>
+      <li>A square matrix is called <em>symmetric</em> if \(A' = A\).</li>
+      <li>\(A \in \mathbb{R}^{p \times p}\) is said to be <em>invertible</em> if \(\exists\, B \in \mathbb{R}^{p \times p}\) s.t. \(AB = I_p = BA\). In that case, \(A^{-1} := B\).</li>
+      <li>\(A \in \mathbb{R}^{p \times p}\), the <em>trace</em> of \(A\) is defined as \(\displaystyle\text{tr}(A) := \sum_{i=1}^{p} A_{ii}\).</li>
+    </ol>
+
+    <p>Selected properties of matrices.</p>
+    <ol>
+      <li>\((AB)' = B'A'\)</li>
+      <li>\(A \in \mathbb{R}^{p \times p}\) is invertible if and only if \(\text{rank}(A) = p\) (equivalently \(\det(A) \neq 0\)).</li>
+      <li>If both \(A, B \in \mathbb{R}^{p \times p}\) are invertible, then \((AB)^{-1} = B^{-1}A^{-1}\).</li>
+      <li>For \(A\) and \(B\) of appropriate dimensions, \(\text{tr}(AB) = \text{tr}(BA)\).</li>
+    </ol>
+
+    <!-- Definition: Eigenvector -->
+    <div class="env-block" aria-label="Definition: eigenvector and eigenvalue">
+      <p><span class="env-label">Definition.</span> Let \(A \in \mathbb{R}^{p \times p}\). A nonzero vector \(v \in \mathbb{R}^p\) is called an <em>eigenvector</em> of \(A\) if \(Av = \lambda v\) for some scalar \(\lambda\), called an <em>eigenvalue</em>. <span class="label">\(\square\)</span></p>
+    </div>
+
+    <!-- Theorem: Eigenvalue characterization -->
+    <div class="env-block" aria-label="Theorem: eigenvalue characterization">
+      <p><span class="env-label">Theorem.</span> A scalar \(\lambda\) is an eigenvalue of a matrix \(A \in \mathbb{R}^{p \times p}\) if and only if \(\det(A - \lambda I_p) = 0\). The polynomial \(f(t) := \det(A - tI_p)\) is called the <em>characteristic polynomial</em> of \(A\). <span class="label">\(\square\)</span></p>
+      <p><em>Proof.</em> See any linear algebra textbook. <span class="label">\(\square\)</span></p>
+    </div>
+
+  </main>
+
+  <footer role="contentinfo">
+    <p>ST 503 &mdash; Review of Linear Algebra</p>
+  </footer>
+
+</body>
+</html>
