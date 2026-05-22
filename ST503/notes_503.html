@@ -250,6 +250,213 @@
       <p><em>Proof.</em> See any linear algebra textbook. <span class="label">\(\square\)</span></p>
     </div>
 
+    <p>For example, if</p>
+    <div class="math-block" role="math" aria-label="A equals the 3 by 3 identity matrix">
+      \[
+        A =
+        \begin{pmatrix}
+          1 & 0 & 0 \\
+          0 & 1 & 0 \\
+          0 & 0 & 1
+        \end{pmatrix},
+      \]
+    </div>
+    <p>then \(\forall\, v \in \mathbb{R}^3\), \(Av = 1 \cdot v\). How about</p>
+    <div class="math-block" role="math" aria-label="A equals the 3 by 3 upper triangular matrix with diagonal entries 1, 4, 6">
+      \[
+        A =
+        \begin{pmatrix}
+          1 & 2 & 3 \\
+          0 & 4 & 5 \\
+          0 & 0 & 6
+        \end{pmatrix}?
+      \]
+    </div>
+
+    <div class="math-block" role="math" aria-label="characteristic polynomial computation">
+      \[
+        f(t) = \det(A - tI_3)
+      \]
+      \[
+        = \det
+        \begin{pmatrix}
+          1-t & 2   & 3   \\
+          0   & 4-t & 5   \\
+          0   & 0   & 6-t
+        \end{pmatrix}
+      \]
+      \[
+        = (1-t)\det\begin{pmatrix} 4-t & 5 \\ 0 & 6-t \end{pmatrix} - 0 + 0
+      \]
+      \[
+        = (1-t)\left[(4-t)(6-t) - 0\right]
+      \]
+      \[
+        = (1-t)(4-t)(6-t)
+      \]
+    </div>
+
+    <p>which is a cubic polynomial with roots \(t = 1\), \(t = 4\), \(t = 6\).</p>
+    <p>How to find the eigenvectors of</p>
+    <div class="math-block" role="math" aria-label="A equals the 3 by 3 upper triangular matrix with diagonal entries 1, 4, 6">
+      \[
+        A =
+        \begin{pmatrix}
+          1 & 2 & 3 \\
+          0 & 4 & 5 \\
+          0 & 0 & 6
+        \end{pmatrix},
+      \]
+    </div>
+    <p>and verify that \(1, 4, 6\) are the eigenvalues of \(A\)?</p>
+    <p>Observe that the eigenvectors must satisfy the system of linear equations</p>
+    <div class="math-block" role="math" aria-label="Av equals lambda v or equivalently A minus lambda I times v equals 0">
+      \[
+        Av = \lambda v \quad \text{or} \quad (A - \lambda I)v = 0
+      \]
+    </div>
+    <div class="math-block" role="math" aria-label="system of equations from A minus lambda I times v equals 0">
+      \[
+        \begin{aligned}
+          (1 - \lambda)v_1 + 2v_2 + 3v_3 &= 0 \\
+          (4 - \lambda)v_2 + 5v_3 &= 0 \\
+          (6 - \lambda)v_3 &= 0
+        \end{aligned}
+      \]
+    </div>
+    <p>For \(\lambda = 6\),</p>
+    <div class="math-block" role="math" aria-label="system for lambda equals 6, WLOG take v sub 3 equals 1">
+      \[
+        \left.
+        \begin{aligned}
+          -5v_1 + 2v_2 + 3v_3 &= 0 \\
+          -2v_2 + 5v_3 &= 0 \\
+          0 &= 0
+        \end{aligned}
+        \right\} \text{WLOG take } v_3 = 1
+      \]
+    </div>
+    <div class="math-block" role="math" aria-label="v sub 2 equals 5 over 2 and v sub 1 equals 2 over 5 v sub 2 plus 3 over 5 equals 8 over 5">
+      \[
+        v_2 = \tfrac{5}{2}
+      \]
+      \[
+        v_1 = \tfrac{2}{5}v_2 + \tfrac{3}{5} = \tfrac{8}{5}
+      \]
+    </div>
+    <p>To verify,</p>
+    <div class="math-block" role="math" aria-label="verification that A times v equals 6 times v">
+      \[
+        A \cdot v =
+        \begin{pmatrix} 1 & 2 & 3 \\ 0 & 4 & 5 \\ 0 & 0 & 6 \end{pmatrix}
+        \begin{pmatrix} 8/5 \\ 5/2 \\ 1 \end{pmatrix}
+        =
+        \begin{pmatrix} 48/5 \\ 15 \\ 6 \end{pmatrix}
+        = 6 \cdot
+        \begin{pmatrix} 8/5 \\ 5/2 \\ 1 \end{pmatrix}
+        = \lambda v
+      \]
+    </div>
+
+    <p>In general, for a system of linear equations in row echelon form,</p>
+    <div class="math-block" role="math" aria-label="general row echelon system Mx equals b">
+      \[
+        \begin{pmatrix}
+          M_{11} & M_{12} & \cdots & M_{1p} \\
+          0      & M_{22} & \cdots & M_{2p} \\
+          \vdots & \vdots & \ddots & \vdots \\
+          0      & 0      & \cdots & M_{pp}
+        \end{pmatrix}
+        \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_p \end{pmatrix}
+        =
+        \begin{pmatrix} b_1 \\ b_2 \\ \vdots \\ b_p \end{pmatrix}
+      \]
+    </div>
+    <p>Suppose \(M_{ij} \neq 0\) \(\forall\, j \geq i\). Then</p>
+    <div class="math-block" role="math" aria-label="back substitution formulas">
+      \[
+        x_p = \frac{b_p}{M_{pp}}
+      \]
+      \[
+        \vdots
+      \]
+      \[
+        x_2 = \left(b_2 - \sum_{j=3}^{p} M_{2j} x_j\right) \frac{1}{M_{22}}
+      \]
+      \[
+        x_1 = \left(b_1 - \sum_{j=2}^{p} M_{1j} x_j\right) \frac{1}{M_{11}}
+      \]
+    </div>
+    <p>In general, this is called back substitution</p>
+    <div class="math-block" role="math" aria-label="general back substitution formula for x sub i">
+      \[
+        x_i = \left(b_i - \sum_{j=i+1}^{p} M_{ij} x_j\right) \frac{1}{M_{ii}}
+        \qquad \text{for } i \in \{1, \ldots, p\}
+      \]
+    </div>
+
+    <p>Eigenvalues have an important role in matrix decompositions for certain classes of matrices. In particular, consider the following fundamental result for the class of symmetric matrices</p>
+
+    <!-- Spectral Theorem -->
+    <div class="env-block" aria-label="Spectral Theorem">
+      <p><span class="env-label">Spectral Theorem.</span> For any symmetric matrix \(A \in \mathbb{R}^{p \times p}\) there exists an orthogonal matrix \(Q\) (i.e., \(Q'Q = QQ' = I_p\)) such that,</p>
+      <div class="math-block" role="math" aria-label="A equals Q D Q prime">
+        \[
+          A = QDQ',
+        \]
+      </div>
+      <p>where \(D\) is a diagonal matrix composed of the eigenvalues of \(A\). <span class="label">\(\square\)</span></p>
+    </div>
+
+    <p>Note also that the columns of \(Q\) form an orthonormal basis for \(\mathbb{R}^p\) consisting of eigenvectors of \(A\).</p>
+    <p>The basis part means that every vector \(v \in \mathbb{R}^p\) can be expressed as</p>
+    <div class="math-block" role="math" aria-label="v equals sum from i equals 1 to p of Q sub i a sub i">
+      \[
+        v = \sum_{i=1}^{p} Q_i a_i,
+      \]
+    </div>
+    <p>for some \(a_1, \ldots, a_p \in \mathbb{R}\), and that \(Q_1, \ldots, Q_p\) are linearly independent.</p>
+    <p>Recall the definition of linear independence:</p>
+    <p style="margin-left:2rem;">Vectors \(u_1, \ldots, u_n \in \mathbb{R}^p\) are said to be linearly independent if</p>
+    <div class="math-block" role="math" aria-label="sum from i equals 1 to n of u sub i a sub i equals 0 implies a sub 1 equals dots equals a sub n equals 0">
+      \[
+        \sum_{i=1}^{n} u_i a_i = 0 \quad \text{implies that} \quad a_1 = \cdots = a_n = 0
+      \]
+    </div>
+    <p style="margin-left:2rem;">A set of vectors are said to be linearly dependent if they are not linearly independent.</p>
+    <p>Orthonormal means \(\forall\, i, j \in \{1, \ldots, p\}\)</p>
+    <div class="math-block" role="math" aria-label="Q sub i prime Q sub j equals 1 if i equals j and 0 if i not equals j">
+      \[
+        Q_i' Q_j =
+        \begin{cases}
+          1 & \text{if } i = j \\
+          0 & \text{if } i \neq j
+        \end{cases}.
+      \]
+    </div>
+    <p>Next, verify that the columns \(Q_1, \ldots, Q_p\) are eigenvectors of \(A\) corresponding to eigenvalues given by the diagonal components of \(D\). Take any \(i \in \{1, \ldots, p\}\):</p>
+    <div class="math-block" role="math" aria-label="A Q sub i equals Q D Q prime Q sub i equals Q D e sub i equals Q times column with D sub ii equals D sub ii times Q sub i">
+      \[
+        AQ_i = QDQ'Q_i = QD
+        \begin{pmatrix} 0 \\ \vdots \\ 1 \\ \vdots \\ 0 \end{pmatrix}
+        = Q
+        \begin{pmatrix} 0 \\ \vdots \\ D_{ii} \\ \vdots \\ 0 \end{pmatrix}
+        = D_{ii} \cdot Q_i
+      \]
+    </div>
+    <p>Thus, \(Q_i\) is an eigenvector of \(A\), by definition, and by the same definition \(D_{ii}\) is an eigenvalue.</p>
+    <p>Further properties: \(\displaystyle\text{tr}(A) = \sum_{i=1}^{p} \lambda_i\) and \(\displaystyle\det(A) = \prod_{i=1}^{p} \lambda_i\).</p>
+    <div class="math-block" role="math" aria-label="trace of A equals trace of Q D Q prime equals trace of Q prime Q D equals trace of D equals sum of D sub ii">
+      \[
+        \text{tr}(A) = \text{tr}(QDQ') = \text{tr}(Q'QD) = \text{tr}(D) = \sum_{i=1}^{p} D_{ii}
+      \]
+    </div>
+    <div class="math-block" role="math" aria-label="det of A equals det of Q D Q prime equals det Q times det D times det Q prime equals det Q Q prime times det D equals 1 times product of D sub ii">
+      \[
+        \det(A) = \det(QDQ') = \det(Q) \cdot \det(D) \cdot \det(Q') = \det(QQ') \cdot \det(D) = 1 \cdot \prod_{i=1}^{p} D_{ii}
+      \]
+    </div>
+
   </main>
 
   <footer role="contentinfo">
