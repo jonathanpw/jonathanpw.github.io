@@ -457,6 +457,84 @@
       \]
     </div>
 
+    <p>What if a matrix is not symmetric nor even square? How to decompose?</p>
+    <p>Let \(X \in \mathbb{R}^{n \times p}\). Then \(X'X \in \mathbb{R}^{p \times p}\) and \(XX' \in \mathbb{R}^{n \times n}\), and both are symmetric:</p>
+    <div class="math-block" role="math" aria-label="X prime X is symmetric and X X prime is symmetric">
+      \[
+        (X'X)' = X'(X')' = X'X
+      \]
+      \[
+        (XX')' = (X')'\, X' = XX'
+      \]
+    </div>
+
+    <p>Accordingly, we can apply the Spectral theorem to both \(X'X\) and \(XX'\) to decompose as</p>
+    <div class="math-block" role="math" aria-label="X prime X equals V Delta 1 V prime and X X prime equals U Delta 2 U prime">
+      \[
+        X'X = V\Delta_1 V' \qquad \text{and} \qquad XX' = U\Delta_2 U'
+      \]
+    </div>
+    <p>for matrices \(V \in \mathbb{R}^{p \times p}\) and \(U \in \mathbb{R}^{n \times n}\), both orthogonal matrices, and diagonal matrices \(\Delta_1\) and \(\Delta_2\).</p>
+    <p>Moreover, it can be shown that \(X = U\Sigma V'\), where \(\Sigma\) is a diagonal matrix with nonzero diagonal components equal to the square roots of the nonzero diagonal components of both \(\Delta_1\) and \(\Delta_2\). The diagonal components of \(\Sigma\) are called the <em>singular values</em> of \(X\). For symmetric matrices \(A \in \mathbb{R}^{p \times p}\) with singular values \(\sigma_1, \ldots, \sigma_p\) and eigenvalues \(\lambda_1, \ldots, \lambda_p\),</p>
+    <div class="math-block" role="math" aria-label="sigma sub i equals absolute value of lambda sub i for i in 1 to p">
+      \[
+        \sigma_i = |\lambda_i| \quad \text{for } i \in \{1, \ldots, p\}
+      \]
+    </div>
+    <p>SVD and other decompositions are important for data compression and dimension reduction. Consider this for \(X \in \mathbb{R}^{n \times p}\) with \(\text{rank}(X) = r\),</p>
+    <div class="math-block" role="math" aria-label="SVD of X equals U Sigma V prime, expanded with full matrices">
+      \[
+        X = U\Sigma V' =
+        (U_1, \ldots, U_n)
+        \begin{pmatrix}
+          \sigma_1 & & & \\
+          & \ddots & & \\
+          & & \sigma_r & \\
+          & & & 0 \\
+          & & & & \ddots \\
+          & & & & & 0
+        \end{pmatrix}
+        \begin{pmatrix} V_1' \\ \vdots \\ V_p' \end{pmatrix}
+      \]
+    </div>
+    <div class="math-block" role="math" aria-label="compact SVD of X">
+      \[
+        = (U_1, \ldots, U_r)
+        \begin{pmatrix}
+          \sigma_1 & & \\
+          & \ddots & \\
+          & & \sigma_r
+        \end{pmatrix}
+        \begin{pmatrix} V_1' \\ \vdots \\ V_r' \end{pmatrix}
+        \quad \text{``compact SVD''}
+      \]
+    </div>
+    <p>where \(U_1, \ldots, U_n \in \mathbb{R}^n\) and \(V_1, \ldots, V_r \in \mathbb{R}^p\). Storing raw \(X\) requires \(n \cdot p\) pieces of information. Storing the SVD requires</p>
+    <div class="math-block" role="math" aria-label="n times r plus r plus p times r equals n plus p plus 1 times r">
+      \[
+        n \cdot r + r + p \cdot r = (n + p + 1) \cdot r
+      \]
+    </div>
+    <p>pieces of information. For example, suppose \(n = 100\), \(p = 30\). Then</p>
+    <div class="math-block" role="math" aria-label="n plus p plus 1 times r equals 131 r less than 3000 equals n times p if r less than 23">
+      \[
+        (n + p + 1) \cdot r = 131 \cdot r < 3000 = n \cdot p \quad \text{if } r < 23.
+      \]
+    </div>
+    <p>Furthermore, if \(\sigma_k, \ldots, \sigma_r \approx 0\), for some \(k \leq r\), then</p>
+    <div class="math-block" role="math" aria-label="X approximately equals U 1 to U k times diagonal sigma 1 to sigma k times V 1 prime to V k prime">
+      \[
+        X \approx (U_1, \ldots, U_k)
+        \begin{pmatrix}
+          \sigma_1 & & \\
+          & \ddots & \\
+          & & \sigma_k
+        \end{pmatrix}
+        \begin{pmatrix} V_1' \\ \vdots \\ V_k' \end{pmatrix}
+      \]
+    </div>
+    <p>which allows for even less memory requirements.</p>
+
   </main>
 
   <footer role="contentinfo">
