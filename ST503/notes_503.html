@@ -482,31 +482,28 @@
       \]
     </div>
     <p>SVD and other decompositions are important for data compression and dimension reduction. Consider this for \(X \in \mathbb{R}^{n \times p}\) with \(\text{rank}(X) = r\),</p>
-    <div class="math-block" role="math" aria-label="SVD of X equals U Sigma V prime, expanded with full matrices">
+    <div class="math-block" role="math" aria-label="full SVD and compact SVD of X with aligned equalities">
       \[
-        X = U\Sigma V' =
-        (U_1, \ldots, U_n)
-        \begin{pmatrix}
-          \sigma_1 & & & \\
-          & \ddots & & \\
-          & & \sigma_r & \\
-          & & & 0 \\
-          & & & & \ddots \\
-          & & & & & 0
-        \end{pmatrix}
-        \begin{pmatrix} V_1' \\ \vdots \\ V_p' \end{pmatrix}
-      \]
-    </div>
-    <div class="math-block" role="math" aria-label="compact SVD of X">
-      \[
-        = (U_1, \ldots, U_r)
-        \begin{pmatrix}
-          \sigma_1 & & \\
-          & \ddots & \\
-          & & \sigma_r
-        \end{pmatrix}
-        \begin{pmatrix} V_1' \\ \vdots \\ V_r' \end{pmatrix}
-        \quad \text{``compact SVD''}
+        \begin{aligned}
+          X &= U\Sigma V' = (U_1, \ldots, U_n)
+          \begin{pmatrix}
+            \sigma_1 & & & \\
+            & \ddots & & \\
+            & & \sigma_r & \\
+            & & & 0 \\
+            & & & & \ddots \\
+            & & & & & 0
+          \end{pmatrix}
+          \begin{pmatrix} V_1' \\ \vdots \\ V_p' \end{pmatrix} \\[1.5em]
+          &= (U_1, \ldots, U_r)
+          \begin{pmatrix}
+            \sigma_1 & & \\
+            & \ddots & \\
+            & & \sigma_r
+          \end{pmatrix}
+          \begin{pmatrix} V_1' \\ \vdots \\ V_r' \end{pmatrix}
+          \quad \text{&#x201C;compact SVD&#x201D;}
+        \end{aligned}
       \]
     </div>
     <p>where \(U_1, \ldots, U_n \in \mathbb{R}^n\) and \(V_1, \ldots, V_r \in \mathbb{R}^p\). Storing raw \(X\) requires \(n \cdot p\) pieces of information. Storing the SVD requires</p>
@@ -534,6 +531,133 @@
       \]
     </div>
     <p>which allows for even less memory requirements.</p>
+
+    <h2 id="least-squares">Least Squares Problems</h2>
+
+    <p>Suppose that \(X \in \mathbb{R}^{n \times p}\) and \(y \in \mathbb{R}^n\). Consider the conditions in which the system</p>
+    <div class="math-block" role="math" aria-label="X b equals y">
+      \[ Xb = y \]
+    </div>
+    <p>has a solution for some vector \(b \in \mathbb{R}^p\). As we have seen, to determine whether \(y \in \text{col}(X)\),</p>
+    <ul>
+      <li>Gaussian elimination to express system in row echelon form.</li>
+      <li>Back substitution algorithm</li>
+    </ul>
+    <p>In the special case that \(p = n\) and \(\text{rank}(X) = n\), \(b = X^{-1}y\)</p>
+    <p>How about the system when \(p < n\)?</p>
+    <ul>
+      <li>\(X\) is tall and narrow (i.e., more rows than columns)</li>
+      <li>Likely, \(y \notin \text{col}(X)\)</li>
+      <li>This is the context of least squares problems</li>
+    </ul>
+    <p>If the system \(Xb = y\) does not have a solution then perhaps the next best thing would be to find the \(b \in \mathbb{R}^p\) which makes \(Xb\) as &ldquo;close&rdquo; as possible to \(y\).</p>
+    <div class="math-block" role="math" aria-label="Q of b defined as the squared norm of y minus X b">
+      \[ Q(b) := \|y - Xb\|^2. \]
+    </div>
+    <p>The \(\underset{b}{\text{argmin}}\{Q(b)\}\) is called the <em>least squares solution</em>.</p>
+    <p>Desirable properties of \(Q(b)\):</p>
+    <ol>
+      <li>Convex</li>
+      <li>Differentiable</li>
+      <li>\(\underset{b}{\text{argmin}}\{Q(b)\} = \{b : \nabla_b Q(b) = 0\}\)</li>
+    </ol>
+
+    <p>Recall that for a function \(f : \mathbb{R}^p \to \mathbb{R}\),</p>
+    <div class="math-block" role="math" aria-label="gradient of f at x defined as the vector of partial derivatives">
+      \[
+        \nabla_x f(x) :=
+        \begin{pmatrix}
+          \dfrac{\partial f(x)}{\partial x_1} \\[6pt]
+          \vdots \\[2pt]
+          \dfrac{\partial f(x)}{\partial x_p}
+        \end{pmatrix}
+        \in \mathbb{R}^p.
+      \]
+    </div>
+
+    <div class="env-block" aria-label="Lemma: gradient identities">
+      <p><span class="env-label">Lemma.</span> For \(a, b \in \mathbb{R}^p\) and \(A \in \mathbb{R}^{p \times p}\), the following properties hold.</p>
+      <ol>
+        <li>\(\nabla_b(a'b) = a\)</li>
+        <li>\(\nabla_b(b'Ab) = (A + A')b\) <span class="label">\(\square\)</span></li>
+      </ol>
+      <p><em>Proof.</em> See any multivariate calculus textbook. <span class="label">\(\square\)</span></p>
+    </div>
+
+    <p>Observing the fact that</p>
+    <div class="math-block" role="math" aria-label="Q of beta expanded">
+      \[
+        Q(\beta) = (y - X\beta)'(y - X\beta)
+                 = y'y - y'X\beta - \beta'X'y + \beta'X'X\beta,
+      \]
+    </div>
+    <p>it follows by the lemma that</p>
+    <div class="math-block" role="math" aria-label="gradient of Q with respect to beta equals negative 2 X prime y plus X prime X plus X prime X times beta equals negative 2 X prime times y minus X beta">
+      \[
+        \nabla_\beta Q(\beta) = -2X'y + (X'X + X'X)\beta
+                              = -2X'(y - X\beta).
+      \]
+    </div>
+    <p>Setting \(\nabla_\beta Q(\beta) = 0\) yields the &ldquo;normal equations&rdquo;</p>
+    <div class="math-block" role="math" aria-label="normal equations X prime X beta equals X prime y">
+      \[ X'X\beta = X'y. \]
+    </div>
+
+    <div class="env-block" aria-label="Example: simple linear regression">
+      <p><span class="env-label">Example.</span> Recall a simple linear regression,</p>
+      <div class="math-block" role="math" aria-label="y sub i equals beta 0 plus beta 1 x sub i plus u sub i for i in 1 to n">
+        \[ y_i = \beta_0 + \beta_1 x_i + u_i \qquad \text{for } i \in \{1, \ldots, n\}. \]
+      </div>
+      <p>In this case,</p>
+      <div class="math-block" role="math" aria-label="y equals X beta plus u where X is the design matrix">
+        \[
+          y = X\beta + u, \qquad \text{where} \quad X :=
+          \begin{pmatrix} 1 & x_1 \\ \vdots & \vdots \\ 1 & x_n \end{pmatrix}.
+        \]
+      </div>
+      <p>Then</p>
+      <div class="math-block" role="math" aria-label="X prime X beta and X prime y for simple linear regression">
+        \[
+          X'X\beta =
+          \begin{pmatrix}
+            n & \displaystyle\sum_i x_i \\[6pt]
+            \displaystyle\sum_i x_i & \displaystyle\sum_i x_i^2
+          \end{pmatrix}
+          \beta
+          \qquad \text{and} \qquad
+          X'y =
+          \begin{pmatrix}
+            \displaystyle\sum_i y_i \\[6pt]
+            \displaystyle\sum_i x_i y_i
+          \end{pmatrix}.
+        \]
+      </div>
+    </div>
+
+    <p>Accordingly, the normal equations are</p>
+    <div class="math-block" role="math" aria-label="normal equations for simple linear regression">
+      \[
+        n\beta_0 + n\bar{x}_n \beta_1 = n\bar{y}_n
+      \]
+      \[
+        n\bar{x}_n \beta_0 + \sum_i x_i^2\, \beta_1 = \sum_i x_i y_i,
+      \]
+    </div>
+    <p>and so the least squares solution for \(\beta_0\) and \(\beta_1\) are</p>
+    <div class="math-block" role="math" aria-label="least squares estimates beta hat 0 and beta hat 1">
+      \[
+        \begin{aligned}
+          \hat{\beta}_0 &= \bar{y}_n - \bar{x}_n \hat{\beta}_1 \\[1em]
+          \hat{\beta}_1 &= \frac{\displaystyle\sum_i y_i(x_i - \bar{x}_n)}{\displaystyle\sum_i (x_i - \bar{x}_n)^2}.
+        \end{aligned}
+      \]
+    </div>
+    <p style="text-align:right;">\(\square\)</p>
+
+    <p>Moreover, it can be mathematically proven that there always exists a solution to the normal equations. In particular, when \(\text{rank}(X) = p\), the unique least squares solution has the form</p>
+    <div class="math-block" role="math" aria-label="b hat equals X prime X inverse X prime y">
+      \[ \hat{b} = (X'X)^{-1} X'y. \]
+    </div>
 
   </main>
 
