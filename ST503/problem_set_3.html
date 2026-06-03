@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ST 503 – Problem Set 3</title>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+        tags: 'none'
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" defer></script>
+
+  <style>
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 720px;
+      margin: 2rem auto;
+      padding: 0 1.25rem 3rem;
+      color: #111;
+      background: #fff;
+    }
+
+    a { color: #00f; }
+    a:focus { outline: 2px solid #00f; outline-offset: 2px; }
+
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 0;
+      background: #fff;
+      color: #00f;
+      padding: .3rem .7rem;
+      border: 1px solid #00f;
+      text-decoration: none;
+      z-index: 9999;
+    }
+    .skip-link:focus { top: 0; }
+
+    h1 { font-size: 1.3rem; margin-bottom: .25rem; }
+
+    p { margin: .5rem 0; }
+    ol, ul { padding-left: 1.6rem; margin: .5rem 0; }
+    li { margin-bottom: .3rem; }
+
+    .math-block {
+      margin: .75rem 0;
+      overflow-x: auto;
+    }
+
+    @media (prefers-contrast: more) { a { color: #00008b; } }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header role="banner">
+    <h1>ST 503 Fundamentals of Linear Models and Regression</h1>
+    <p>Problem Set 3 &mdash; 3 June 2026</p>
+    <p role="note"><strong>Note:</strong> No R packages are permitted for use in this assignment.</p>
+  </header>
+
+  <main id="main-content" role="main">
+    <ol aria-label="Problem set questions">
+
+      <li id="problem-1">
+        <p>In problem set 2 you were asked to propose a statistical model with population features that may be appropriate to estimate from the real data set you have chosen for your class project. Given the statistical model or models that you proposed, the next step is to determine how to fit the proposed model(s). What estimation procedures and algorithms could you use to fit your proposed model(s)? For example, common options are least squares estimates, maximum likelihood estimates, method of moments estimates. You do not need to fully specify an estimation procedure or algorithm, just search for resources to learn more about your proposed model(s) and list appropriate estimation procedures and/or algorithms with a brief explanation of why they are appropriate.</p>
+      </li>
+
+      <li id="problem-2">
+        <p>Let \(V\) be a convex subset of some vector space. Recall that a function \(f : V \to \mathbb{R}\) is said to be <em>convex</em> if for every \(x, y \in V\) and every \(\lambda \in [0, 1]\),</p>
+        <div class="math-block" role="math" aria-label="f of lambda x plus 1 minus lambda y is less than or equal to lambda f of x plus 1 minus lambda f of y">
+          \[
+            f(\lambda x + (1 - \lambda)y) \leq \lambda f(x) + (1 - \lambda)f(y).
+          \]
+        </div>
+        <p>Show, by definition, that the sum of squared errors function</p>
+        <div class="math-block" role="math" aria-label="Q of beta defined as the squared L2 norm of Y minus X beta">
+          \[
+            Q(\beta) := \|Y - X\beta\|_2^2
+          \]
+        </div>
+        <p>is convex.</p>
+      </li>
+
+      <li id="problem-3">
+        <p>The defining property of a projection matrix \(A\) is that \(A \cdot A = A\). Establish the following facts.</p>
+        <ol type="a">
+          <li>If \(A\) is a projection matrix, then all of its eigenvalues are either zero or one.</li>
+          <li>If \(A \in \mathbb{R}^{p \times p}\) is a projection and symmetric (i.e., an orthogonal projection matrix), then for every vector \(v\) the projection \(Av\) is orthogonal to \(v - Av\).</li>
+        </ol>
+      </li>
+
+      <li id="problem-4">
+        <ol type="a">
+          <li>
+            <p>Write an R function that takes as input \((y, X)\), where \(y\) is an \(n\)-dimensional vector and \(X\) is an \(n \times p\) matrix, and returns the least squares coefficient estimates by solving the normal equations</p>
+            <div class="math-block" role="math" aria-label="X prime X b equals X prime y">
+              \[
+                X'Xb = X'y
+              \]
+            </div>
+            <p>with Gaussian elimination and the back-substitution algorithms.</p>
+          </li>
+          <li>
+            <p>Generate synthetic regression data for various choices of \(n\) and \(p\) to test whether your least squares estimation procedure in part (a) works. Note, you should compare your least squares solution to the &ldquo;true&rdquo; coefficient values that you used to generate the data. Show that the quantity \(\|\hat{b} - b\|_2 < 10^{-4}\) for sufficiently large values of \(n\).</p>
+          </li>
+          <li>
+            <p>Plot the regression line using the coefficients from part (a), for synthetic simple linear regression data (i.e., \(p = 2\) and \(b_0\) is an intercept).</p>
+          </li>
+        </ol>
+      </li>
+
+      <li id="problem-5">
+        <p>Repeat parts (a), (b), and (c) for problem 4 using the singular value decomposition of \(X = UDV'\) to simplify the task of solving the normal equations \(X'Xb = X'y\). Do you still need to use the Gaussian elimination and back-substitution algorithms?</p>
+      </li>
+
+    </ol>
+  </main>
+
+  <footer role="contentinfo">
+    <p>ST 503 &mdash; Problem Set 3 &mdash; 3 June 2026</p>
+  </footer>
+
+</body>
+</html>
