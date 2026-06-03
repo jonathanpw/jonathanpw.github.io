@@ -659,6 +659,126 @@
       \[ \hat{b} = (X'X)^{-1} X'y. \]
     </div>
 
+    <p>This solution turns out to be the coefficients corresponding to the orthogonal projection of \(y\) onto \(\text{col}(X)\):</p>
+    <div class="math-block" role="math" aria-label="y hat equals X b hat equals X times X prime X inverse X prime y, defined as P_X">
+      \[
+        \hat{y} = X\hat{b} = \underbrace{X(X'X)^{-1}X'}_{=:\, \mathcal{P}_X} y
+      \]
+    </div>
+
+    <p>A linear transformation \(\mathcal{P} : \mathbb{R}^n \to \mathbb{R}^n\) is said to be a <em>projection</em> onto some subspace \(V \subseteq \mathbb{R}^n\) if</p>
+    <ol type="i">
+      <li>\(\mathcal{P}v \in V\) for every \(v \in \mathbb{R}^n\)</li>
+      <li>\(\mathcal{P}v = v\) for every \(v \in V.\)</li>
+    </ol>
+    <p>Further, \(\mathcal{P}\) is called an <em>orthogonal projection</em> onto \(V\) if it also satisfies</p>
+    <ol type="i" start="3">
+      <li>\((\mathcal{P}v)'(u - \mathcal{P}u) = (v - \mathcal{P}v)'\mathcal{P}u = 0\) \(\forall\, v, u \in \mathbb{R}^n\).</li>
+    </ol>
+    <p>Observe that for a projection matrix \(\mathcal{P}\), of any \(v \in \mathbb{R}^n\)</p>
+    <div class="math-block" role="math" aria-label="P squared v equals P P v equals P v since P v is in V">
+      \[
+        \mathcal{P}^2 v = \mathcal{P}\mathcal{P}v = \mathcal{P}v \qquad \text{since } \mathcal{P}v \in V;
+      \]
+    </div>
+
+    <figure aria-label="Diagram showing vector v, its projection P v onto a subspace, and the orthogonality condition">
+      <svg viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg" style="display:block;max-width:360px;margin:.75rem 0;" role="img" aria-label="Vector v projected onto subspace, with perpendicular indicating orthogonality">
+        <!-- axes -->
+        <line x1="40" y1="180" x2="40" y2="20" stroke="#111" stroke-width="1.5"/>
+        <line x1="40" y1="180" x2="280" y2="180" stroke="#111" stroke-width="1.5"/>
+        <!-- subspace line -->
+        <line x1="40" y1="180" x2="240" y2="60" stroke="#111" stroke-width="1.5"/>
+        <!-- v vector -->
+        <line x1="40" y1="180" x2="200" y2="40" stroke="#111" stroke-width="1.5" marker-end="url(#arr)"/>
+        <!-- Pv vector (projection onto horizontal axis) -->
+        <line x1="40" y1="180" x2="200" y2="180" stroke="#111" stroke-width="1.5" marker-end="url(#arr)"/>
+        <!-- perpendicular dashed line -->
+        <line x1="200" y1="40" x2="200" y2="180" stroke="#111" stroke-width="1" stroke-dasharray="4,3"/>
+        <!-- labels -->
+        <text x="205" y="35" font-family="Georgia,serif" font-size="14" font-style="italic">v</text>
+        <text x="205" y="178" font-family="Georgia,serif" font-size="14" font-style="italic">&#x1D4AB;v</text>
+        <text x="215" y="110" font-family="Georgia,serif" font-size="13">(\(\mathcal{P}v\))&#x2019;(\(v - \mathcal{P}v\)) = 0</text>
+        <text x="32" y="17" font-family="Georgia,serif" font-size="13">|</text>
+        <text x="36" y="190" font-family="Georgia,serif" font-size="13">0</text>
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#111"/>
+          </marker>
+        </defs>
+      </svg>
+      <div style="text-align:right; font-family:Georgia,serif; font-size:1rem;">
+        \((\mathcal{P}v)'(v - \mathcal{P}v) = 0\)
+      </div>
+    </figure>
+
+    <p>\(\mathcal{P}\) is &ldquo;idempotent&rdquo;. In fact, any idempotent matrix is a projection matrix, and any symmetric idempotent matrix is an orthogonal projection matrix.</p>
+    <p>Verify that \(\mathcal{P}_X\) is an orthogonal projection matrix onto \(\text{col}(X)\).</p>
+    <ol type="i">
+      <li>
+        <p>Suppose \(v \in \mathbb{R}^n\). Then</p>
+        <div class="math-block" role="math" aria-label="P_X v equals X X prime X inverse X prime v which is in col X">
+          \[ \mathcal{P}_X v = X(X'X)^{-1}X'v \in \text{col}(X) \]
+        </div>
+      </li>
+      <li>
+        <p>Suppose \(v \in \text{col}(X)\). Then \(v = Xa\) for some \(a \in \mathbb{R}^p\), and so</p>
+        <div class="math-block" role="math" aria-label="P_X v equals X X prime X inverse X prime v equals X X prime X inverse X prime X a equals X a equals v">
+          \[ \mathcal{P}_X v = X(X'X)^{-1}X'v = X(X'X)^{-1}X'Xa = Xa = v \]
+        </div>
+      </li>
+      <li>
+        <p>Let \(v, u \in \mathbb{R}^n\). Then</p>
+        <div class="math-block" role="math" aria-label="orthogonality conditions for P_X">
+          \[
+            (\mathcal{P}_X v)'(u - \mathcal{P}_X u) = v'(\mathcal{P}_X u - \mathcal{P}_X \mathcal{P}_X u) = 0
+          \]
+          \[
+            (v - \mathcal{P}_X v)'\mathcal{P}_X u = (\mathcal{P}_X' v - \mathcal{P}_X' \mathcal{P}_X v)'\, u = 0
+          \]
+        </div>
+        <p>since \(\mathcal{P}_X' = \bigl(X(X'X)^{-1}X'\bigr)' = X(X'X)^{-1}X' = \mathcal{P}_X\)</p>
+      </li>
+    </ol>
+
+    <!-- Example: X = 1_n -->
+    <div class="env-block" aria-label="Example: X equals 1 sub n">
+      <p><span class="env-label">Example.</span> Let \(X = \mathbf{1}_n\). Then \(\text{col}(X)\) is the subspace of vectors that have all components equal to the same value. That being true, projecting onto \(\text{col}(X)\) is a projection of a vector to a single value.</p>
+      <div class="math-block" role="math" aria-label="P_X equals X times X prime X inverse times X prime equals 1 over n times X X prime equals 1 over n times matrix of all ones">
+        \[
+          \mathcal{P}_X = X(X'X)^{-1}X' = \tfrac{1}{n}\, XX' = \tfrac{1}{n}
+          \begin{pmatrix}
+            1 & \cdots & 1 \\
+            \vdots & \ddots & \vdots \\
+            1 & \cdots & 1
+          \end{pmatrix}
+        \]
+      </div>
+      <p>Then for any \(y \in \mathbb{R}^n\),</p>
+      <div class="math-block" role="math" aria-label="P_X y equals 1 over n times vector of sum y i equals y bar n times 1 n">
+        \[
+          \mathcal{P}_X y = \tfrac{1}{n}
+          \begin{pmatrix} \displaystyle\sum_i y_i \\ \vdots \\ \displaystyle\sum_i y_i \end{pmatrix}
+          = \bar{y}_n \cdot \mathbf{1}_n
+        \]
+      </div>
+      <p style="text-align:right;">\(\square\)</p>
+    </div>
+
+    <p>What happens if \(\text{rank}(X) < p\) since in this case \((X'X)^{-1}\) does not exist?</p>
+    <p>Consider the orthogonal diagonalization \(XX' = UDU' \in \mathbb{R}^{n \times n}\) and use the fact that \(\text{col}(X) = \text{col}(\widetilde{U})\), where if \(k := \text{rank}(X)\) then</p>
+    <div class="math-block" role="math" aria-label="U tilde defined as U 1 through U k">
+      \[
+        \widetilde{U} := (U_1, \ldots, U_k)
+      \]
+    </div>
+    <p>and \(U_i\) for \(i \in \{1, \ldots, k\}\) corresponds to the \(i\)th nonzero eigenvalue of \(XX'\). Then</p>
+    <div class="math-block" role="math" aria-label="P_X equals U tilde times U tilde prime U tilde inverse times U tilde prime equals U tilde U tilde prime">
+      \[
+        \mathcal{P}_X = \widetilde{U}(\widetilde{U}'\widetilde{U})^{-1}\widetilde{U}' = \widetilde{U}\widetilde{U}'.
+      \]
+    </div>
+
   </main>
 
   <footer role="contentinfo">
