@@ -776,6 +776,121 @@
       \]
     </div>
 
+    <h2 id="gram-schmidt">Gram-Schmidt Orthonormalization</h2>
+
+    <p>Here we study a procedure for how to construct a set of mutually orthogonal vectors from a set of linearly independent vectors. Suppose that \(x_1, \ldots, x_p \in \mathbb{R}^n\) are linearly independent. The result of the Gram-Schmidt orthonormalization procedure is a set of orthonormal vectors \(u_1, \ldots, u_p \in \mathbb{R}^n\) such that</p>
+    <div class="math-block" role="math" aria-label="span of u 1 to u p equals span of x 1 to x p">
+      \[
+        \text{span}\{u_1, \ldots, u_p\} = \text{span}\{x_1, \ldots, x_p\}.
+      \]
+    </div>
+    <p>In matrix form with \(U := (u_1, \ldots, u_p)\) and \(X := (x_1, \ldots, x_p)\), that is</p>
+    <div class="math-block" role="math" aria-label="col U equals col X">
+      \[
+        \text{col}(U) = \text{col}(X).
+      \]
+    </div>
+
+    <p>How to construct \(u_1\)?</p>
+    <ul>
+      <li>Take \(u_1 := x_1\)</li>
+    </ul>
+
+    <p>Next, for \(u_2\), modify \(x_2\) so that it is orthogonal to \(u_1\). Such a vector is in the orthogonal complement of the span of \(u_1\),</p>
+    <ul>
+      <li>Take \(u_2 := (I_n - \mathcal{P}_{u_1})\, x_2\)</li>
+    </ul>
+    <p>Verify that</p>
+    <div class="math-block" role="math" aria-label="u 2 prime u 1 equals x 2 prime I minus P u1 times u 1 equals 0">
+      \[
+        u_2' u_1 = x_2'(I_n - \mathcal{P}_{u_1})\, u_1 = 0.
+      \]
+    </div>
+
+    <p>Continuing on, the third vector must be orthogonal to both \(u_1\) and \(u_2\). That is,</p>
+    <ul>
+      <li>Take \(u_3 := (I_n - \mathcal{P}_{u_1} - \mathcal{P}_{u_2})\, x_3\)</li>
+    </ul>
+    <p>so that</p>
+    <div class="math-block" role="math" aria-label="u 3 prime u 2 equals 0">
+      \[
+        \begin{aligned}
+          u_3' u_2 &= x_3'(I_n - \mathcal{P}_{u_1} - \mathcal{P}_{u_2})\, u_2 \\
+                   &= -x_3' \mathcal{P}_{u_1} u_2 \\
+                   &= -x_3' u_1 (u_1' u_1)^{-1} u_1' u_2 \\
+                   &= 0,
+        \end{aligned}
+      \]
+    </div>
+    <p>and</p>
+    <div class="math-block" role="math" aria-label="u 3 prime u 1 equals 0">
+      \[
+        \begin{aligned}
+          u_3' u_1 &= x_3'(I_n - \mathcal{P}_{u_1} - \mathcal{P}_{u_2})\, u_1 \\
+                   &= -x_3' \mathcal{P}_{u_2} u_1 \\
+                   &= -x_3' u_2 (u_2' u_2)^{-1} u_2' u_1 \\
+                   &= 0.
+        \end{aligned}
+      \]
+    </div>
+
+    <p>Accordingly,</p>
+    <div class="math-block" role="math" aria-label="Gram-Schmidt recurrence for u 1 u 2 u 3">
+      \[
+        \begin{aligned}
+          u_1 &= x_1 \\[.5em]
+          u_2 &= x_2 - \frac{u_1 u_1' x_2}{\|u_1\|^2} \\[.5em]
+          u_3 &= x_3 - \frac{u_1 u_1' x_3}{\|u_1\|^2} - \frac{u_2 u_2' x_3}{\|u_2\|^2} \\
+          &\vdots
+        \end{aligned}
+      \]
+    </div>
+
+    <p>More concisely, for \(j \in \{1, \ldots, n\}\),</p>
+    <div class="math-block" role="math" aria-label="u j equals x j minus sum from k equals 1 to j minus 1 of u k u k prime over norm u k squared times x j">
+      \[
+        u_j = x_j - \left(\sum_{k=1}^{j-1} \frac{u_k u_k'}{\|u_k\|^2}\right) x_j.
+      \]
+    </div>
+
+    <p>So now we have an orthogonal set \(\{u_1, \ldots, u_p\}\). How to show that,</p>
+    <div class="math-block" role="math" aria-label="span u 1 to u p equals span x 1 to x p">
+      \[
+        \text{span}\{u_1, \ldots, u_p\} = \text{span}\{x_1, \ldots, x_p\}\text{ ?}
+      \]
+    </div>
+    <p>Since this is equivalent to \(\text{col}(U) = \text{col}(X)\), express</p>
+    <div class="math-block" role="math" aria-label="X equals U times upper triangular matrix S">
+      \[
+        X = (u_1, \ldots, u_p) \cdot
+        \underbrace{
+        \begin{pmatrix}
+          1 & \dfrac{u_1' x_2}{\|u_1\|^2} & \dfrac{u_1' x_3}{\|u_1\|^2} & \dfrac{u_1' x_4}{\|u_1\|^2} & \cdots & \dfrac{u_1' x_p}{\|u_1\|^2} \\[10pt]
+          0 & 1 & \dfrac{u_2' x_3}{\|u_2\|^2} & \dfrac{u_2' x_4}{\|u_2\|^2} & \cdots & \dfrac{u_2' x_p}{\|u_2\|^2} \\[10pt]
+          0 & 0 & 1 & \dfrac{u_3' x_4}{\|u_3\|^2} & \cdots & \dfrac{u_3' x_p}{\|u_3\|^2} \\[10pt]
+          0 & 0 & 0 & 1 & \cdots & \dfrac{u_4' x_p}{\|u_4\|^2} \\[6pt]
+          \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\[4pt]
+          0 & 0 & 0 & 0 & \cdots & 1
+        \end{pmatrix}
+        }_{=:\, S}
+      \]
+    </div>
+
+    <div class="math-block" role="math" aria-label="X equals Q times R, where Q has normalized columns and R is diagonal times S">
+      \[
+        = \underbrace{\left(\frac{u_1}{\|u_1\|}, \ldots, \frac{u_p}{\|u_p\|}\right)}_{=:\, Q} \cdot
+          \underbrace{\begin{pmatrix} \|u_1\| & & \\ & \ddots & \\ & & \|u_p\| \end{pmatrix} \cdot S}_{=:\, R}
+      \]
+    </div>
+
+    <p>Note that \(X = QR\) is commonly called the &ldquo;QR decomposition&rdquo; for an orthogonal matrix \(Q\), and an upper triangular matrix \(R\). This expression also yields the Cholesky decomposition of \(X'X\),</p>
+    <div class="math-block" role="math" aria-label="X prime X equals R prime Q prime Q R equals R prime R">
+      \[
+        X'X = R'Q'QR = R'R,
+      \]
+    </div>
+    <p>where \(R\) is upper triangular. Think about the uniqueness of these decompositions.</p>
+
   </main>
 
   <footer role="contentinfo">
