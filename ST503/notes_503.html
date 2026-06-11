@@ -891,6 +891,43 @@
     </div>
     <p>where \(R\) is upper triangular. Think about the uniqueness of these decompositions.</p>
 
+    <h2 id="general-linear-model">The General Linear Model</h2>
+
+    <p>Suppose \(x_1, \ldots, x_p \in \mathbb{R}\) are covariates/features with a meaningful interpretation in some setting such that a random variable \(Y\) is generated as</p>
+    <div class="math-block" role="math" aria-label="Y equals beta 0 plus beta 1 x 1 plus dots plus beta p x p plus U">
+      \[
+        Y = \beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p + U
+      \]
+    </div>
+    <p>for some coefficients \(\beta_0, \beta_1, \ldots, \beta_p \in \mathbb{R}\) and some random variable \(U\) with \(E(U) = 0\). This is regarded as the general linear model, and repeated sampling from it leads to a sample of size \(n\), where</p>
+    <div class="math-block" role="math" aria-label="Y sub 1 equals beta 0 plus beta 1 x 11 plus dots plus beta p x p1 plus U sub 1, through Y sub n equals beta 0 plus beta 1 x 1n plus dots plus beta p x pn plus U sub n">
+      \[
+        \begin{aligned}
+          Y_1 &= \beta_0 + \beta_1 x_{1,1} + \cdots + \beta_p x_{p,1} + U_1 \\[.3em]
+              &\quad\vdots \\[.3em]
+          Y_n &= \beta_0 + \beta_1 x_{1,n} + \cdots + \beta_p x_{p,n} + U_n
+        \end{aligned}
+      \]
+    </div>
+    <p>Equivalently,</p>
+    <div class="math-block" role="math" aria-label="Y equals X beta plus U">
+      \[ Y = X\beta + U \]
+    </div>
+    <p>where \(Y \in \mathbb{R}^n\), \(X \in \mathbb{R}^{n \times p}\), \(\beta \in \mathbb{R}^p\), and \(U \in \mathbb{R}^n\). Note that only the vector \(Y\) is commonly understood as the data. The matrix \(X\) is referred to as the design matrix, and \(\beta\) is regarded as fixed but unknown.</p>
+    <p>The statistical inference problem is to estimate the unknown parameters \(\beta\). A natural candidate for an estimate of \(\beta\) is the more general idea of the least squares solution</p>
+    <div class="math-block" role="math" aria-label="argmin over beta of Q of beta equals the set of beta such that X prime X beta equals X prime y">
+      \[
+        \underset{\beta}{\operatorname{argmin}}\{Q(\beta)\} = \{\beta : X'X\beta = X'y\}
+      \]
+    </div>
+    <p>If we propose this estimator, then we need to study its sampling distribution. For example, if \(U \sim N_n(0, \sigma^2 I_n)\), then</p>
+    <div class="math-block" role="math" aria-label="beta hat distributed as N sub p of beta comma sigma squared times X prime X inverse">
+      \[
+        \hat{\beta} \sim N_p(\beta,\, \sigma^2(X'X)^{-1})
+      \]
+    </div>
+    <p>if \(\text{rank}(X) = p\).</p>
+
   </main>
 
   <footer role="contentinfo">
