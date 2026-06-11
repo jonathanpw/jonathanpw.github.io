@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ST 503 – Problem Set 4</title>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+        tags: 'none'
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" defer></script>
+
+  <style>
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 720px;
+      margin: 2rem auto;
+      padding: 0 1.25rem 3rem;
+      color: #111;
+      background: #fff;
+    }
+
+    a { color: #00f; }
+    a:focus { outline: 2px solid #00f; outline-offset: 2px; }
+
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 0;
+      background: #fff;
+      color: #00f;
+      padding: .3rem .7rem;
+      border: 1px solid #00f;
+      text-decoration: none;
+      z-index: 9999;
+    }
+    .skip-link:focus { top: 0; }
+
+    h1 { font-size: 1.3rem; margin-bottom: .25rem; }
+
+    p { margin: .5rem 0; }
+    ol, ul { padding-left: 1.6rem; margin: .5rem 0; }
+    li { margin-bottom: .3rem; }
+
+    .math-block {
+      margin: .75rem 0;
+      overflow-x: auto;
+    }
+
+    @media (prefers-contrast: more) { a { color: #00008b; } }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header role="banner">
+    <h1>ST 503 Fundamentals of Linear Models and Regression</h1>
+    <p>Problem Set 4 &mdash; 10 June 2026</p>
+    <p role="note"><strong>Note:</strong> No R packages are permitted for use in this assignment.</p>
+  </header>
+
+  <main id="main-content" role="main">
+    <ol aria-label="Problem set questions">
+
+      <li id="problem-1">
+        <p>In previous assignments you were asked to propose a statistical model with population features that may be appropriate to estimate from the real data set you have chosen for your class project, and you were asked to consider various estimation procedures and algorithms. To evaluate an estimation procedure and algorithm, you will want to generate synthetic data from your posited statistical model. The &ldquo;true&rdquo; parameter values should be set as the parameter estimates from the real data set, and the point of a simulation study of synthetic data is to determine if you are able to correctly estimate the &ldquo;true&rdquo; parameter values on synthetic data. If so, the simulation study will lend credibility to the fitted real data model, and if not, the simulation study will help to identify and correct any mistakes in the estimation procedure/algorithm code or any shortcomings in the model formulation. Using pseudocode, describe how you will be able to generate synthetic data from your posited statistical model.</p>
+      </li>
+
+      <li id="problem-2">
+        <p>Let \(S\) be a nonempty subset of an inner product space \(V\). The orthogonal complement to the set \(S\) is defined as</p>
+        <div class="math-block" role="math" aria-label="S perp defined as the set of x in V such that inner product of x and y equals 0 for every y in S">
+          \[
+            S^\perp := \{x \in V : \langle x, y \rangle = 0 \text{ for every } y \in S\}.
+          \]
+        </div>
+        <ol type="a">
+          <li>Show that \(S^\perp\) is a subspace of \(V\) for any \(S \subseteq V\).</li>
+          <li>Let \(W \subseteq V\) be a finite dimensional subspace, and let \(y \in V\). Show that there exist unique vectors \(u \in W\) and \(z \in W^\perp\) such that \(y = u + z\).</li>
+          <li>Let \(X \in \mathbb{R}^{n \times p}\). Verify that \(\text{col}(X)\) and \(\text{null}(X')\) are orthogonal complements.</li>
+        </ol>
+      </li>
+
+      <li id="problem-3">
+        <p>Recall that in the case that \(X \in \mathbb{R}^{n \times p}\) does not have full column rank, \((X'X)^{-1}\) does not exist, and so \(\mathcal{P}_X := X(X'X)^{-1}X'\) does not exist. However, using the SVD of \(X\) we can still construct an orthogonal projection matrix onto \(\text{col}(X)\). Write an R function that takes as input \((X)\), where \(X\) is an \(n \times p\) matrix, and returns the orthogonal projection matrix onto \(\text{col}(X)\), regardless of the column rank of \(X\).</p>
+      </li>
+
+      <li id="problem-4">
+        <p>By hand, find an orthonormal basis of vectors for the subspace spanned by the set</p>
+        <div class="math-block" role="math" aria-label="set of three vectors in R 5">
+          \[
+            \left\{
+            \begin{pmatrix} 1 \\ 1 \\ 1 \\ 1 \\ 1 \end{pmatrix},\;
+            \begin{pmatrix} 1 \\ 0 \\ 1 \\ 1 \\ 0 \end{pmatrix},\;
+            \begin{pmatrix} 0 \\ 1 \\ 1 \\ 0 \\ 1 \end{pmatrix}
+            \right\}.
+          \]
+        </div>
+      </li>
+
+      <li id="problem-5">
+        <p>Write an R function that takes as input \((X)\), where \(X\) is an \(n \times p\) matrix with full column rank, and returns, via the Gram-Schmidt orthonormalization algorithm, an \(n \times p\) orthonormal matrix \(Q\) such that \(\text{col}(Q) = \text{col}(X)\), along with a \(p \times p\) upper-triangular matrix \(R\) such that \(X = QR\).</p>
+      </li>
+
+      <li id="problem-6">
+        <ol type="a">
+          <li>
+            <p>Write an R function that takes as input \((y, X)\), where \(y\) is an \(n\)-dimensional vector and \(X\) is an \(n \times p\) matrix, and returns the least squares coefficient estimates by solving the normal equations</p>
+            <div class="math-block" role="math" aria-label="X prime X b equals X prime y">
+              \[
+                X'Xb = X'y
+              \]
+            </div>
+            <p>using the QR decomposition of \(X\).</p>
+          </li>
+          <li>
+            <p>Generate synthetic regression data for various choices of \(n\) and \(p\) to test whether your least squares estimation procedure in part (a) works. Note, you should compare your least squares solution to the &ldquo;true&rdquo; coefficient values that you used to generate the data. Show that the quantity \(\|\hat{b} - b\|_2 < 10^{-4}\) for sufficiently large values of \(n\).</p>
+          </li>
+          <li>
+            <p>Plot the regression line using the coefficients from part (a), for synthetic simple linear regression data (i.e., \(p = 2\) and \(b_0\) is an intercept).</p>
+          </li>
+        </ol>
+      </li>
+
+    </ol>
+  </main>
+
+  <footer role="contentinfo">
+    <p>ST 503 &mdash; Problem Set 4 &mdash; 10 June 2026</p>
+  </footer>
+
+</body>
+</html>
