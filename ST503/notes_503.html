@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ST 503 – Review of Linear Algebra</title>
+  <title>ST 503 – Fundamentals of Linear Models and Regression</title>
 
   <script>
     window.MathJax = {
@@ -83,7 +83,7 @@
   <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <header role="banner">
-    <h1>Review of Linear Algebra</h1>
+    <h1>Fundamentals of Linear Models and Regression</h1>
   </header>
 
   <main id="main-content" role="main">
@@ -928,10 +928,206 @@
     </div>
     <p>if \(\text{rank}(X) = p\).</p>
 
+    <p>Next,</p>
+    <div class="math-block" role="math" aria-label="y hat defined as X beta hat, an element of col X">
+      \[
+        \hat{y} := X\hat{\beta} \in \text{col}(X).
+      \]
+    </div>
+    <p>If we decompose</p>
+    <div class="math-block" role="math" aria-label="y equals X beta hat plus the quantity y minus X beta hat, defined as e hat">
+      \[
+        y = X\hat{\beta} + \underbrace{y - X\hat{\beta}}_{=:\, \hat{e}},
+      \]
+    </div>
+    <p>it turns out that \(\hat{e} \in \text{null}(X')\) since</p>
+    <div class="math-block" role="math" aria-label="X prime e hat equals X prime y minus X prime X beta hat equals 0">
+      \[
+        X'\hat{e} = X'y - X'X\hat{\beta} = 0.
+      \]
+    </div>
+    <p>Moreover, note that this decomposition is unique because \(\text{col}(X) \perp \text{null}(X')\), and</p>
+    <div class="math-block" role="math" aria-label="norm y squared equals X beta hat plus e hat prime times X beta hat plus e hat equals norm X beta hat squared plus 2 beta hat prime X prime e hat plus norm e hat squared equals norm y hat squared plus norm e hat squared">
+      \[
+        \begin{aligned}
+          \|y\|^2 &= (X\hat{\beta} + \hat{e})'(X\hat{\beta} + \hat{e}) \\
+                  &= \|X\hat{\beta}\|^2 + 2\hat{\beta}'X'\hat{e} + \|\hat{e}\|^2 \\
+                  &= \|\hat{y}\|^2 + \|\hat{e}\|^2.
+        \end{aligned}
+      \]
+    </div>
+
+    <p>The uniqueness of this decomposition/Pythagorean theorem implies that for the orthogonal projection matrix \(P\) onto \(\text{col}(X)\),</p>
+    <div class="math-block" role="math" aria-label="y equals P y plus the quantity I minus P times y equals X beta hat plus e hat">
+      \[
+        y = Py + (I - P)y = X\hat{\beta} + \hat{e}
+      \]
+    </div>
+    <p>with \(Py = X\hat{\beta}\) and \((I - P)y = \hat{e}\).</p>
+
+    <p>Goals:</p>
+    <ol type="i">
+      <li>Determine whether certain functions of parameters are &ldquo;estimable&rdquo;.</li>
+      <li>Construct &ldquo;unbiased estimators&rdquo; for the &ldquo;estimable&rdquo; functions.</li>
+    </ol>
+
+    <!-- Definition: Unbiased estimator -->
+    <div class="env-block" aria-label="Definition: unbiased estimator">
+      <p><span class="env-label">Definition.</span> An estimator \(t(y)\) is an <em>unbiased estimator</em> for the scalar \(\lambda'\beta\) if and only if \(E(t(Y)) = \lambda'\beta\), \(\forall\, \beta\). <span class="label">\(\square\)</span></p>
+    </div>
+
+    <!-- Definition: Linear estimator -->
+    <div class="env-block" aria-label="Definition: linear estimator">
+      <p><span class="env-label">Definition.</span> An estimator \(t(y)\) is a <em>linear estimator</em> in \(y\) if and only if \(t(y) = c + a'y\), for some constants \(a\) and \(c\). <span class="label">\(\square\)</span></p>
+    </div>
+
+    <!-- Definition: Linearly estimable -->
+    <div class="env-block" aria-label="Definition: linearly estimable">
+      <p><span class="env-label">Definition.</span> A function \(\lambda'\beta\) is <em>linearly estimable</em> if and only if there exists a linear unbiased estimator of it. If no such estimator exists, then the function is called <em>nonestimable</em>. <span class="label">\(\square\)</span></p>
+    </div>
+
+    <!-- Theorem: Characterization of linear estimability -->
+    <div class="env-block" aria-label="Theorem: characterization of linear estimability">
+      <p><span class="env-label">Theorem.</span> \(\lambda'\beta\) is linearly estimable if and only if there exists a vector \(a\) such that \(E(a'Y) = \lambda'\beta\), \(\forall\, \beta\). <span class="label">\(\square\)</span></p>
+      <p><em>Proof.</em> First suppose that \(\exists\, a \in \mathbb{R}^n\) such that \(E(a'Y) = \lambda'\beta\), \(\forall\, \beta \in \mathbb{R}^p\). Then \(t(y) = a'y\) is an unbiased linear estimator of \(\lambda'\beta\), \(\forall\, \beta\), with \(c = 0\). Conversely, if \(\lambda'\beta\) is linearly estimable, then there exist constants \(a\) and \(c\) such that \(t(y) = c + a'y\), and \(\forall\, \beta\),</p>
+      <div class="math-block" role="math" aria-label="lambda prime beta equals E of t Y equals c plus a prime E of Y equals c plus a prime X beta">
+        \[
+          \lambda'\beta = E(t(Y)) = c + a'E(Y) = c + a'X\beta.
+        \]
+      </div>
+      <p>Choosing \(\beta = 0\) demonstrates that \(c = 0\), so that \(\forall\, \beta \in \mathbb{R}^p\), \(t(y) = a'y\) is a linear unbiased estimator of \(\lambda'\beta\). <span class="label">\(\square\)</span></p>
+    </div>
+
+    <p>In words, \(\lambda'\beta\) is linearly estimable if and only if it is equal to the expected value of a linear combination of the data. Observe the condition that</p>
+    <div class="math-block" role="math" aria-label="E of a prime Y equals lambda prime beta for all beta">
+      \[
+        E(a'Y) = \lambda'\beta, \quad \forall\, \beta
+      \]
+    </div>
+    <p>implies that \(\lambda = X'a\). So essentially, linear estimability of a function \(\lambda'\beta\) is equivalent to the condition that \(\lambda \in \text{col}(X')\).</p>
+
+    <!-- Example: One-sample mean model -->
+    <div class="env-block" aria-label="Example: estimability in the one-sample mean model">
+      <p><span class="env-label">Example.</span> Suppose \(Y = \mathbf{1}_n\beta + U\). Then for \(\lambda = 1\), \(\lambda'\beta = \beta\). Choosing \(a = e_1 \in \mathbb{R}^n\),</p>
+      <div class="math-block" role="math" aria-label="E of a prime Y equals a prime 1 n beta equals beta">
+        \[
+          E(a'Y) = a'\mathbf{1}_n\beta = \beta,
+        \]
+      </div>
+      <p>\(\forall\, \beta \in \mathbb{R}\). That being true, \(t(y) = y_1\) is a linear unbiased estimator of \(\beta\). Probably \(y_1\) is not a great estimator of \(\beta\) due to high variability, and the discard of the information \(y_2, \ldots, y_n\), but the theorem only gives the necessary and sufficient conditions for the existence of a linear estimator. A better choice would be \(a = \tfrac{1}{n} \cdot \mathbf{1}_n\). Then \(t(y) = a'y = \bar{y}_n\), and</p>
+      <div class="math-block" role="math" aria-label="E of y bar n equals E of a prime Y equals 1 over n times 1 n prime 1 n beta equals beta">
+        \[
+          E(\bar{y}_n) = E(a'Y) = \tfrac{1}{n}\mathbf{1}_n'\mathbf{1}_n\beta = \beta.
+        \]
+      </div>
+      <p style="text-align:right;">\(\square\)</p>
+    </div>
+
+    <!-- Example: Estimable alpha -->
+    <div class="env-block" aria-label="Example: estimability of alpha in a two-group mean model">
+      <p><span class="env-label">Example.</span> Suppose</p>
+      <div class="math-block" role="math" aria-label="Y equals the 4 by 2 matrix with rows 1 1, 1 1, 1 0, 1 0 times the vector mu alpha, defined as beta, plus U">
+        \[
+          Y =
+          \begin{pmatrix} 1 & 1 \\ 1 & 1 \\ 1 & 0 \\ 1 & 0 \end{pmatrix}
+          \underbrace{\begin{pmatrix} \mu \\ \alpha \end{pmatrix}}_{=:\, \beta}
+          + U
+        \]
+      </div>
+      <p>To estimate \(\alpha\), choose \(\lambda = (0, 1)'\) since \(\lambda'\beta = \alpha\). For \(\alpha\) to be estimable, it must be the case that \(\lambda \in \text{col}(X')\), so determine if there exists a solution to</p>
+      <div class="math-block" role="math" aria-label="the 2 by 4 matrix with rows 1 1 1 1 and 1 1 0 0 times the vector a1 a2 a3 a4 equals the vector 0 1">
+        \[
+          \begin{pmatrix} 1 & 1 & 1 & 1 \\ 1 & 1 & 0 & 0 \end{pmatrix}
+          \begin{pmatrix} a_1 \\ a_2 \\ a_3 \\ a_4 \end{pmatrix}
+          =
+          \begin{pmatrix} 0 \\ 1 \end{pmatrix}.
+        \]
+      </div>
+      <p>One solution is \(a = (1, 0, -1, 0)'\), and so \(t(y) = y_1 - y_3\) is a linear unbiased estimator of \(\alpha\).</p>
+      <p style="text-align:right;">\(\square\)</p>
+    </div>
+
+    <!-- Example: Nonestimable alpha1 -->
+    <div class="env-block" aria-label="Example: a nonestimable function">
+      <p><span class="env-label">Example.</span> Now let&rsquo;s consider an example where \(\lambda'\beta\) is not linearly estimable.</p>
+      <div class="math-block" role="math" aria-label="Y equals the 4 by 3 matrix with rows 1 1 0, 1 1 0, 1 0 1, 1 0 1 times the vector mu alpha1 alpha2, defined as beta, plus U">
+        \[
+          Y =
+          \begin{pmatrix} 1 & 1 & 0 \\ 1 & 1 & 0 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \end{pmatrix}
+          \underbrace{\begin{pmatrix} \mu \\ \alpha_1 \\ \alpha_2 \end{pmatrix}}_{=:\, \beta}
+          + U
+        \]
+      </div>
+      <p>In this case, \(\lambda = (0, 1, 0)'\) to estimate \(\alpha_1\), but</p>
+      <div class="math-block" role="math" aria-label="the 3 by 4 matrix with rows 1 1 1 1, 1 1 0 0, 0 0 1 1 times the vector a1 a2 a3 a4 equals the vector 0 1 0">
+        \[
+          \begin{pmatrix} 1 & 1 & 1 & 1 \\ 1 & 1 & 0 & 0 \\ 0 & 0 & 1 & 1 \end{pmatrix}
+          \begin{pmatrix} a_1 \\ a_2 \\ a_3 \\ a_4 \end{pmatrix}
+          =
+          \begin{pmatrix} 0 \\ 1 \\ 0 \end{pmatrix}
+        \]
+      </div>
+      <p>does not have a solution. Thus, there exists no linear unbiased estimator for \(\alpha_1\) because \(\lambda \neq X'a\) for any \(a \in \mathbb{R}^n\).</p>
+      <p style="text-align:right;">\(\square\)</p>
+    </div>
+
+    <p>Notice that the set of vectors \(\lambda\) for which \(\lambda'\beta\) is linearly estimable actually forms an entire subspace,</p>
+    <div class="math-block" role="math" aria-label="the set of lambda in R p such that lambda equals X prime a for some a in R n equals col of X prime">
+      \[
+        \{\lambda \in \mathbb{R}^p : \lambda = X'a \text{ for some } a \in \mathbb{R}^n\} = \text{col}(X').
+      \]
+    </div>
+    <p>Moreover, if \(\text{rank}(X') = p\), then \(\text{col}(X') = \mathbb{R}^p\) and so \(\lambda'\beta\) is linearly estimable \(\forall\, \lambda \in \mathbb{R}^p\). An important corollary of this discussion is that each component of \(\beta\) is linearly estimable (i.e., identifiable) if \(X\) has full column rank.</p>
+    <p>With the notion of linear estimability now established, what are some effective strategies for determining if a function \(\lambda'\beta\) is linearly estimable?</p>
+
+    <p><span class="env-label">Method 1.</span> If \(\lambda \in \text{col}(X')\), then \(\lambda'\beta\) is estimable. Accordingly, for any basis \(\{v_1, \ldots, v_k\}\) for \(\text{col}(X')\) determine if the system \(v_1 a_1 + \cdots + v_k a_k = \lambda\) has a solution. Equivalently, since \(\mathcal{P}_{X'} = X'(XX')^{-1}X\) projections onto \(\text{col}(X')\), it suffices to show that either \(\mathcal{P}_{X'}\lambda = \lambda\)</p>
+
+    <p><span class="env-label">Method 2.</span> Since \(\text{col}(X') \oplus \text{null}(X) = \mathbb{R}^n\), \(\lambda \in \text{col}(X')\) if and only if \(\lambda \perp \text{null}(X)\). That being so, construct a basis for \(\text{null}(X)\), \(\{w_1, \ldots, w_{p-k}\}\), and show that</p>
+    <div class="math-block" role="math" aria-label="lambda prime w sub j equals 0 for all j in 1 to p minus k">
+      \[
+        \lambda' w_j = 0 \quad \forall\, j \in \{1, \ldots, p-k\}.
+      \]
+    </div>
+
+    <p><span class="env-label">Method 3.</span> If \(\lambda'\beta\) can be expressed as a linear combination of \(E(Y_1), \ldots, E(Y_n)\), then \(\lambda'\beta\) is estimable.</p>
+
+    <!-- Theorem: Invariance of least squares estimator of estimable function -->
+    <div class="env-block" aria-label="Theorem: invariance of the least squares estimator of an estimable function">
+      <p><span class="env-label">Theorem.</span> If \(\lambda'\beta\) is estimable, then the least squares estimator \(\lambda'\hat{\beta}\) is the same for all solutions to the normal equations. <span class="label">\(\square\)</span></p>
+      <p><em>Proof.</em> Let \(\hat{\beta}_1, \hat{\beta}_2 \in \{X'X\beta = X'y\}\). Then</p>
+      <div class="math-block" role="math" aria-label="X prime X beta hat 1 equals X prime X beta hat 2, X prime X times the quantity beta hat 1 minus beta hat 2 equals 0">
+        \[
+          \begin{aligned}
+            X'X\hat{\beta}_1 &= X'X\hat{\beta}_2 \\
+            X'X(\hat{\beta}_1 - \hat{\beta}_2) &= 0,
+          \end{aligned}
+        \]
+      </div>
+      <p>and so \(\hat{\beta}_1 - \hat{\beta}_2 \in \text{null}(X'X) = \text{null}(X)\). For estimable \(\lambda'\beta\), \(\lambda \perp \text{null}(X)\) so it follows that \(\lambda'(\hat{\beta}_1 - \hat{\beta}_2) = 0\). <span class="label">\(\square\)</span></p>
+    </div>
+
+    <!-- Theorem: Least squares estimator of estimable function is linear unbiased -->
+    <div class="env-block" aria-label="Theorem: the least squares estimator of an estimable function is linear and unbiased">
+      <p><span class="env-label">Theorem.</span> The least squares estimator \(\lambda'\hat{\beta}\) of an estimable function \(\lambda'\beta\) is a linear unbiased estimator of \(\lambda'\beta\). <span class="label">\(\square\)</span></p>
+      <p><em>Proof.</em> First observe that for some \(a \in \mathbb{R}^n\) and \(\lambda \in \mathbb{R}^p\),</p>
+      <div class="math-block" role="math" aria-label="lambda prime beta hat equals a prime X times X prime X inverse X prime y equals a prime P_X y">
+        \[
+          \lambda'\hat{\beta} = a'X(X'X)^{-1}X'y = a'\mathcal{P}_X y.
+        \]
+      </div>
+      <p>Hence, \(\lambda'\hat{\beta} = v'y\) for some \(v \in \mathbb{R}^n\). Next,</p>
+      <div class="math-block" role="math" aria-label="E of lambda prime beta hat equals a prime P_X E of y equals a prime P_X X beta equals a prime X beta equals lambda prime beta">
+        \[
+          E(\lambda'\hat{\beta}) = a'\mathcal{P}_X E(y) = a'\mathcal{P}_X X\beta = a'X\beta = \lambda'\beta.
+        \]
+      </div>
+      <p style="text-align:right;">\(\square\)</p>
+    </div>
+
   </main>
 
   <footer role="contentinfo">
-    <p>ST 503 &mdash; Review of Linear Algebra</p>
+    <p>ST 503 &mdash; Fundamentals of Linear Models and Regression</p>
   </footer>
 
 </body>
