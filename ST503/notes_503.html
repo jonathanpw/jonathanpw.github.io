@@ -1124,6 +1124,68 @@
       <p style="text-align:right;">\(\square\)</p>
     </div>
 
+    <h2 id="gauss-markov-model">Gauss-Markov Model</h2>
+
+    <p>The motivation here is to understand additional inferences that ensue from making assumptions on the variance of the errors in the general linear model. We begin with the Gauss-Markov assumptions/model,</p>
+    <div class="math-block" role="math" aria-label="Y equals X beta plus U">
+      \[ Y = X\beta + U, \]
+    </div>
+    <p>with \(E(U) = 0 \in \mathbb{R}^n\), \(\text{Var}(U) = \sigma^2 I_n\), and \(\sigma \in \mathbb{R}_+\). In particular, \(E(U_i) = 0\) for \(i \in \{1, \ldots, n\}\), and the errors are homoskedastic; that is,</p>
+    <div class="math-block" role="math" aria-label="Cov of U sub i and U sub j equals sigma squared for i equal to j and 0 for i not equal to j">
+      \[
+        \text{Cov}(U_i, U_j) = \begin{cases} \sigma^2 & \text{for } i = j \\ 0 & \text{for } i \neq j \end{cases}.
+      \]
+    </div>
+
+    <!-- Example: Variance of lambda'beta-hat under Gauss-Markov -->
+    <div class="env-block" aria-label="Example: variance of the least squares estimator of an estimable function under the Gauss-Markov model">
+      <p><span class="env-label">Example.</span> Suppose that \(\lambda'\beta\) is an estimable function. Then for \(\hat{\beta} \in \{X'X\beta = X'y\}\),</p>
+      <div class="math-block" role="math" aria-label="Var of lambda prime beta hat equals lambda prime Var of X prime X inverse X prime Y lambda, expanding to sigma squared lambda prime X prime X inverse lambda">
+        \[
+          \begin{aligned}
+            \text{Var}(\lambda'\hat{\beta})
+              &= \lambda'\,\text{Var}\!\left[(X'X)^{-1}X'Y\right]\lambda \\
+              &= \lambda'(X'X)^{-1}X'\,\text{Var}(Y)\,X(X'X)^{-1}\lambda \\
+              &= a'X(X'X)^{-1}X'\,\text{Var}(Y)\,X(X'X)^{-1}X'a, \quad \text{for some } a, \text{ since } \lambda \in \text{col}(X') \\
+              &= \sigma^2 \cdot a'X(X'X)^{-1}X'X(X'X)^{-1}X'a \\
+              &= \sigma^2 \cdot a'X(X'X)^{-1}X'a \\
+              &= \sigma^2\,\lambda'(X'X)^{-1}\lambda.
+          \end{aligned}
+        \]
+      </div>
+      <p style="text-align:right;">\(\square\)</p>
+    </div>
+
+    <p>It turns out that the least squares estimate plays an important role under the Gauss-Markov assumptions, as described by the following result.</p>
+
+    <!-- Theorem: Gauss-Markov theorem -->
+    <div class="env-block" aria-label="Theorem: Gauss-Markov theorem">
+      <p><span class="env-label">Theorem.</span> (Gauss-Markov theorem) Under the Gauss-Markov assumptions, if \(\lambda'\beta\) is estimable, then \(\lambda'\hat{\beta}\) is the best (minimum variance) linear unbiased estimator (BLUE) of \(\lambda'\beta\), where \(\hat{\beta} \in \{X'X\beta = X'y\}\). <span class="label">\(\square\)</span></p>
+      <p><em>Proof.</em> Assume that \(c + d'y\) is another unbiased estimator of \(\lambda'\beta\). Then, \(\forall\, \beta \in \mathbb{R}^p\),</p>
+      <div class="math-block" role="math" aria-label="lambda prime beta equals E of c plus d prime Y equals c plus d prime X beta">
+        \[
+          \lambda'\beta = E(c + d'Y) = c + d'X\beta.
+        \]
+      </div>
+      <p>Choosing \(\beta = 0\) demonstrates that \(c = 0\). Accordingly, \(\lambda = X'd\), and</p>
+      <div class="math-block" role="math" aria-label="Var of c plus d prime Y equals Var of d prime Y equals Var of lambda prime beta hat plus d prime Y minus lambda prime beta hat equals Var of lambda prime beta hat plus 2 Cov of lambda prime beta hat comma d prime Y minus lambda prime beta hat plus Var of d prime Y minus lambda prime beta hat">
+        \[
+          \begin{aligned}
+            \text{Var}(c + d'Y)
+              &= \text{Var}(d'Y) \\
+              &= \text{Var}(\lambda'\hat{\beta} + d'Y - \lambda'\hat{\beta}) \\
+              &= \text{Var}(\lambda'\hat{\beta}) + 2\,\text{Cov}(\lambda'\hat{\beta},\, d'Y - \lambda'\hat{\beta}) + \text{Var}(d'Y - \lambda'\hat{\beta}).
+          \end{aligned}
+        \]
+      </div>
+      <p>Next,</p>
+      <div class="math-block" role="math" aria-label="Cov of lambda prime beta hat and d prime Y minus lambda prime beta hat equals dot dot dot. To be continued.">
+        \[
+          \text{Cov}(\lambda'\hat{\beta},\, d'Y - \lambda'\hat{\beta}) = \ldots \quad \text{To be continued}
+        \]
+      </div>
+    </div>
+
   </main>
 
   <footer role="contentinfo">
