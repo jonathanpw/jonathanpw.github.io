@@ -1179,12 +1179,76 @@
         \]
       </div>
       <p>Next,</p>
-      <div class="math-block" role="math" aria-label="Cov of lambda prime beta hat and d prime Y minus lambda prime beta hat equals dot dot dot. To be continued.">
+      <div class="math-block" role="math" aria-label="Cov of lambda prime beta hat and d prime Y minus lambda prime beta hat equals Cov of lambda prime X prime X inverse X prime Y and d prime Y minus lambda prime X prime X inverse X prime Y, equals lambda prime X prime X inverse X prime times Var of Y times the quantity d minus X X prime X inverse lambda, equals sigma squared lambda prime X prime X inverse X prime times the quantity d minus X X prime X inverse lambda, equals 0">
         \[
-          \text{Cov}(\lambda'\hat{\beta},\, d'Y - \lambda'\hat{\beta}) = \ldots \quad \text{To be continued}
+          \begin{aligned}
+            \text{Cov}(\lambda'\hat{\beta},\, d'Y - \lambda'\hat{\beta})
+              &= \text{Cov}\!\left(\lambda'(X'X)^{-1}X'Y,\; d'Y - \lambda'(X'X)^{-1}X'Y\right) \\
+              &= \lambda'(X'X)^{-1}X'\cdot \text{Var}(Y)\cdot\left(d - X(X'X)^{-1}\lambda\right) \\
+              &= \sigma^2\,\lambda'(X'X)^{-1}X'\left(d - X(X'X)^{-1}\lambda\right) \\
+              &= 0.
+          \end{aligned}
         \]
       </div>
+      <p>Hence,</p>
+      <div class="math-block" role="math" aria-label="Var of c plus d prime Y equals Var of lambda prime beta hat plus Var of d prime Y minus lambda prime beta hat, which is greater than or equal to Var of lambda prime beta hat">
+        \[
+          \text{Var}(c + d'Y) = \text{Var}(\lambda'\hat{\beta}) + \text{Var}(d'Y - \lambda'\hat{\beta}) \geq \text{Var}(\lambda'\hat{\beta})
+        \]
+      </div>
+      <p>with equality if and only if</p>
+      <div class="math-block" role="math" aria-label="0 equals Var of d prime Y minus lambda prime beta hat, equals the quantity d prime minus lambda prime X prime X inverse X prime times Var of Y times the quantity d prime minus lambda prime X prime X inverse X prime transpose, equals sigma squared times the squared 2 norm of d minus X X prime X inverse lambda">
+        \[
+          \begin{aligned}
+            0 &= \text{Var}(d'Y - \lambda'\hat{\beta}) \\
+              &= \left(d' - \lambda'(X'X)^{-1}X'\right)\text{Var}(Y)\left(d' - \lambda'(X'X)^{-1}X'\right)' \\
+              &= \sigma^2\left\lVert d - X(X'X)^{-1}\lambda\right\rVert_2^2.
+          \end{aligned}
+        \]
+      </div>
+      <p>That is, \(\text{Var}(c + d'Y) = \text{Var}(\lambda'\hat{\beta})\) if and only if \(d = X(X'X)^{-1}\lambda\), in which case</p>
+      <div class="math-block" role="math" aria-label="d prime y equals lambda prime X prime X inverse X prime y equals lambda prime beta hat">
+        \[
+          d'y = \lambda'(X'X)^{-1}X'y = \lambda'\hat{\beta},
+        \]
+      </div>
+      <p>so that \(\lambda'\hat{\beta}\) is the unique BLUE of \(\lambda'\beta\). <span class="label">\(\square\)</span></p>
     </div>
+
+    <h2 id="variance-estimation">Variance Estimation</h2>
+
+    <p>Recall the unique decomposition,</p>
+    <div class="math-block" role="math" aria-label="Y equals P sub X Y plus the quantity I minus P sub X times Y, equals X beta hat plus the quantity I minus P sub X times the quantity X beta plus U, equals X beta hat plus the quantity I minus P sub X times U">
+      \[
+        \begin{aligned}
+          Y &= \mathcal{P}_X Y + (I - \mathcal{P}_X)Y \\
+            &= X\hat{\beta} + (I - \mathcal{P}_X)(X\beta + U) \\
+            &= X\hat{\beta} + (I - \mathcal{P}_X)U
+        \end{aligned}
+      \]
+    </div>
+    <p>for any \(\hat{\beta} \in \{X'X\beta = X'Y\} = \{X\beta = \mathcal{P}_X Y\}\). Since \(\mathcal{P}_X Y\) is related to the estimation of \(\beta\), in the decomposition, the intuition is that \((I - \mathcal{P}_X)Y\) is related to the estimation of \(\sigma^2\).</p>
+
+    <!-- Theorem: unbiased estimator of sigma^2 -->
+    <div class="env-block" aria-label="Theorem: an unbiased estimator of sigma squared under the Gauss-Markov assumptions">
+      <p><span class="env-label">Theorem.</span> Under the Gauss-Markov assumptions, \(\widehat{\sigma^2} := Y'(I - \mathcal{P}_X)Y / (n - r)\) is an unbiased estimator of \(\sigma^2\), where \(r := \text{rank}(X) \leq p\). <span class="label">\(\square\)</span></p>
+      <p><em>Proof.</em></p>
+      <div class="math-block" role="math" aria-label="E of sigma squared hat equals 1 over n minus r times E of the quantity X beta plus U transpose times the quantity I minus P sub X times the quantity X beta plus U, equals 1 over n minus r times E of U transpose times the quantity I minus P sub X times U, equals 1 over n minus r times E of the trace of U transpose times the quantity I minus P sub X times U, equals 1 over n minus r times the trace of the quantity I minus P sub X times E of U U transpose, equals 1 over n minus r times the trace of I minus P sub X times sigma squared, equals sigma squared">
+        \[
+          \begin{aligned}
+            E(\widehat{\sigma^2}) &= \frac{1}{n-r}\,E\!\left[(X\beta + U)'(I - \mathcal{P}_X)(X\beta + U)\right] \\
+              &= \frac{1}{n-r}\,E\!\left[U'(I - \mathcal{P}_X)U\right] \\
+              &= \frac{1}{n-r}\,E\!\left[\text{tr}\!\left(U'(I - \mathcal{P}_X)U\right)\right] \\
+              &= \frac{1}{n-r}\,\text{tr}\!\left[(I - \mathcal{P}_X)E(UU')\right] \\
+              &= \frac{1}{n-r}\,\text{tr}(I - \mathcal{P}_X)\cdot\sigma^2 \\
+              &= \sigma^2.
+          \end{aligned}
+        \]
+      </div>
+      <p style="text-align:right;">\(\square\)</p>
+    </div>
+
+    <p>Note that we have not shown that \(\sqrt{\widehat{\sigma^2}}\) is an unbiased estimator for \(\sigma\).</p>
 
   </main>
 

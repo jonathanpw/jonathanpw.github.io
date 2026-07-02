@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ST 503 – Problem Set 6</title>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" defer></script>
+
+  <style>
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 720px;
+      margin: 2rem auto;
+      padding: 0 1.25rem 3rem;
+      color: #111;
+      background: #fff;
+    }
+
+    a { color: #00f; }
+    a:focus { outline: 2px solid #00f; outline-offset: 2px; }
+
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 0;
+      background: #fff;
+      color: #00f;
+      padding: .3rem .7rem;
+      border: 1px solid #00f;
+      text-decoration: none;
+      z-index: 9999;
+    }
+    .skip-link:focus { top: 0; }
+
+    .course-title { text-align: center; margin: 0; }
+    h1 { font-size: 1.3rem; margin: .25rem 0; text-align: center; }
+    .date { text-align: center; margin: .5rem 0 1.5rem; }
+
+    h2 { font-size: 1.1rem; margin-top: 1.75rem; margin-bottom: .4rem; border-bottom: 1px solid #ccc; padding-bottom: .2rem; }
+
+    p { margin: .5rem 0; }
+    ol, ul { padding-left: 1.6rem; margin: .5rem 0; }
+    li { margin-bottom: .9rem; }
+
+    .math-block {
+      margin: .75rem 0 .75rem 2rem;
+      overflow-x: auto;
+    }
+
+    .label {
+      float: right;
+      clear: right;
+    }
+
+    .env-label {
+      font-variant: small-caps;
+      font-weight: bold;
+    }
+
+    .env-block {
+      margin: 1rem 0;
+    }
+
+    .env-block p:first-child { display: inline; }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: .95em;
+    }
+
+    @media (prefers-contrast: more) { a { color: #00008b; } }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header role="banner">
+    <p class="course-title">ST 503 Fundamentals of Linear Models and Regression</p>
+    <h1>Problem Set 6</h1>
+    <p class="date">1 July 2026</p>
+  </header>
+
+  <main id="main-content" role="main">
+
+    <p><strong>No <code>R</code> packages are permitted for use in this assignment.</strong></p>
+
+    <ol>
+      <li>
+        If \(P\) is a symmetric and idempotent matrix, show that the Pythagorean relationship holds:
+        <div class="math-block" role="math" aria-label="The squared norm of y equals the squared norm of P y plus the squared norm of the quantity I minus P, times y.">
+          \[ \|y\|^2 = \|Py\|^2 + \|(I - P)y\|^2. \]
+        </div>
+      </li>
+
+      <li>
+        Let \(G : \mathbb{R}^p \to \mathbb{R}\) defined by \(G(\beta) := (y - X\beta)'W(y - X\beta)\). Derive an expression for \(\nabla_\beta G(\beta)\).
+      </li>
+
+      <li>
+        Suppose that \(Y_i \sim \text{Binomial}(p, n_i)\) for \(i \in \{1, \ldots, N\}\), and assume that \(Y_1, \ldots, Y_N\) are independent.
+        <ol type="a">
+          <li>Write this as a linear model.</li>
+          <li>Find the BLUE of \(p\).</li>
+          <li>Find the MLE of \(p\). How does the variance of the MLE compare to the variance of the BLUE?</li>
+        </ol>
+      </li>
+
+      <li>
+        Suppose that \(Y_1, \ldots, Y_n \overset{\text{iid}}{\sim} \text{Uniform}(0, 2\theta)\), and define \(U_i := Y_i - \theta\) for \(i \in \{1, \ldots, n\}\).
+        <ol type="a">
+          <li>Find the mean and variance of \(U := (U_1, \ldots, U_n)'\).</li>
+          <li>Show that \(Y := (Y_1, \ldots, Y_n)'\) is generated according to a linear model that satisfies the Gauss-Markov assumptions.</li>
+          <li>Find the BLUE of \(\theta\), and denote the BLUE by \(\hat{\theta}_{\text{OLS}}\).</li>
+          <li>Find \(c\) so that the estimator \(\hat{\theta} = cY_{(n)}\) is unbiased for \(\theta\), where \(Y_{(i)}\) denotes the \(i\)th order statistic, and compute the variance of \(\hat{\theta}\).</li>
+          <li>Compare the variances of \(\hat{\theta}_{\text{OLS}}\) and \(\hat{\theta}\), and provide intuition for your finding.</li>
+        </ol>
+      </li>
+
+      <li>
+        Show that if \(X\) is a \(p\)-dimensional random vector with mean \(\mu\) and covariance \(\Sigma\), \(A\) is a \(p \times p\) matrix, and \(Y = X'AX\), then \(E(Y) = \text{tr}(A\Sigma) + \mu'A\mu\).
+      </li>
+
+      <li>
+        For a random vector \(Y\), with finite second moment, verify the following properties.
+        <ol type="a">
+          <li>\(E(a'Y) = a'E(Y)\), for a fixed vector \(a\).</li>
+          <li>\(\text{Var}(a'Y) = a'\text{Var}(Y)a\), for a fixed vector \(a\).</li>
+          <li>\(\text{Cov}(a'Y, c'Y) = a'\text{Var}(Y)c\), for fixed vectors \(a\) and \(c\).</li>
+          <li>\(\text{Var}(A'Y) = A'\text{Var}(Y)A\), for a fixed matrix \(A\).</li>
+        </ol>
+      </li>
+    </ol>
+
+  </main>
+
+  <footer role="contentinfo">
+    <p>ST 503 &mdash; Problem Set 6</p>
+  </footer>
+
+</body>
+</html>
