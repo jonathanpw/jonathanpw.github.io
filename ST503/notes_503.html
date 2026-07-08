@@ -48,6 +48,7 @@
 
     h1 { font-size: 1.3rem; margin-bottom: .25rem; }
     h2 { font-size: 1.1rem; margin-top: 1.75rem; margin-bottom: .4rem; border-bottom: 1px solid #ccc; padding-bottom: .2rem; }
+    h3 { font-size: 1rem; margin-top: 1.4rem; margin-bottom: .4rem; }
 
     p { margin: .5rem 0; }
     ol, ul { padding-left: 1.6rem; margin: .5rem 0; }
@@ -1249,6 +1250,112 @@
     </div>
 
     <p>Note that we have not shown that \(\sqrt{\widehat{\sigma^2}}\) is an unbiased estimator for \(\sigma\).</p>
+
+    <h2 id="model-selection">Implications on Model Selection</h2>
+
+    <p>Here we make a distinction between the true data-generating model and the model being fit. In the context of a linear model, two discrepancies are:</p>
+    <ol>
+      <li>Underfitting (missing covariates)</li>
+      <li>Overfitting (redundant covariates)</li>
+    </ol>
+
+    <h3 id="underfitting">Misspecification from Underfitting</h3>
+
+    <p>Consider the true model \(Y = X\beta + \eta + U\), against the model used by the practitioner,</p>
+    <div class="math-block" role="math" aria-label="Y equals X beta plus U, the model used by the practitioner">
+      \[
+        Y = X\beta + U.
+      \]
+    </div>
+    <p>Using the practitioner&rsquo;s model, \(Y = X\beta + U\), under the Gauss-Markov assumptions results in an omitted-variable bias. Consider the effect on the least squares estimator. For \(\lambda \in \text{col}(X')\), where \(\lambda = X'a\) for some \(a \in \mathbb{R}^n\),</p>
+    <div class="math-block" role="math" aria-label="E of lambda prime beta hat equals lambda prime X prime X inverse X prime E of Y, equals lambda prime X prime X inverse X prime times the quantity X beta plus eta, equals lambda prime beta plus lambda prime X prime X inverse X prime eta, equals lambda prime beta plus a prime P sub X eta, the misspecification bias">
+      \[
+        \begin{aligned}
+          E(\lambda'\hat{\beta}) &= \lambda'(X'X)^{-1}X'E(Y) \\
+            &= \lambda'(X'X)^{-1}X'(X\beta + \eta) \\
+            &= \lambda'\beta + \lambda'(X'X)^{-1}X'\eta \\
+            &= \lambda'\beta + \underbrace{a'\mathcal{P}_X\eta}_{\text{misspecification bias}}
+        \end{aligned}
+      \]
+    </div>
+    <p>Observe that if \(\eta \perp \text{col}(X)\), then \(\lambda'\hat{\beta}\) is unbiased. How about estimation of \(\sigma^2\)?</p>
+    <div class="math-block" role="math" aria-label="E of Y prime times the quantity I minus P sub X times Y, equals the quantity X beta plus eta transpose times the quantity I minus P sub X times the quantity X beta plus eta, plus sigma squared times the trace of I minus P sub X, equals eta prime times the quantity I minus P sub X times eta, plus sigma squared times the quantity n minus r">
+      \[
+        \begin{aligned}
+          E\!\left(Y'(I - \mathcal{P}_X)Y\right) &= (X\beta+\eta)'(I - \mathcal{P}_X)(X\beta+\eta) + \sigma^2\,\text{tr}(I - \mathcal{P}_X) \\
+            &= \eta'(I - \mathcal{P}_X)\eta + \sigma^2(n-r)
+        \end{aligned}
+      \]
+    </div>
+    <p>That is, if \(\eta \in \text{col}(X)\) then \(\widehat{\sigma^2}\) is unbiased. In the case that \(\eta \in \text{col}(X)\), \(\exists\, \delta\) such that</p>
+    <div class="math-block" role="math" aria-label="Y equals X beta plus eta plus U, equals X times the quantity beta plus delta, plus U">
+      \[
+        Y = X\beta + \eta + U = X(\beta+\delta) + U.
+      \]
+    </div>
+
+    <h3 id="overfitting-multicollinearity">Overfitting and Multicollinearity</h3>
+
+    <p>Practitioner&rsquo;s model: \(Y = X\beta + W\gamma + U\), where \(\gamma = 0\) in the true data-generating model. Assume that the concatenated matrix \((X, W)\) has full column rank. Then under the Gauss-Markov assumptions,</p>
+    <div class="math-block" role="math" aria-label="beta hat gamma hat equals the inverse of the block matrix X prime X, X prime W, W prime X, W prime W, times the block vector X prime Y, W prime Y, with expectation of beta hat gamma hat equal to beta gamma equal to beta 0">
+      \[
+        \begin{pmatrix} \hat{\beta} \\ \hat{\gamma} \end{pmatrix} = \begin{pmatrix} X'X & X'W \\ W'X & W'W \end{pmatrix}^{-1}\begin{pmatrix} X'Y \\ W'Y \end{pmatrix}, \quad \text{with} \quad E\begin{pmatrix} \hat{\beta} \\ \hat{\gamma} \end{pmatrix} = \begin{pmatrix} \beta \\ \gamma \end{pmatrix} = \begin{pmatrix} \beta \\ 0 \end{pmatrix}.
+      \]
+    </div>
+    <p>It can be worked out that,</p>
+    <div class="math-block" role="math" aria-label="Var of beta hat equals sigma squared X prime X inverse plus sigma squared X prime X inverse X prime W times the quantity W prime times I minus P sub X times W inverse W prime X X prime X inverse">
+      \[
+        \text{Var}(\hat{\beta}) = \sigma^2(X'X)^{-1} + \sigma^2(X'X)^{-1}X'W\left(W'(I-\mathcal{P}_X)W\right)^{-1}W'X(X'X)^{-1},
+      \]
+    </div>
+    <p>where the second term can be understood as the increase in variability of the least squares estimator that results from including redundant covariates. However, estimation of \(\sigma^2\) remains unbiased:</p>
+    <div class="math-block" role="math" aria-label="E of Y prime times the quantity I minus P sub X comma W times Y, equals sigma squared times the quantity n minus rank of X comma W">
+      \[
+        E\!\left[Y'(I - \mathcal{P}_{(X,W)})Y\right] = \sigma^2\left(n - \text{rank}(X,W)\right).
+      \]
+    </div>
+    <p>Notice that if the columns of \(W\) are not only linearly independent but are also orthogonal to the columns of \(X\), then the variance penalty is zero. In this case, there is no cost to overfitting. More generally, though, if \(W\) is not orthogonal to \(X\), then a loss of efficiency from overfitting ensues.</p>
+    <p>A measure to gauge the influence of multicollinearity relates to the SVD of \((X, W)\).</p>
+
+    <!-- Definition: Mean Squared Error -->
+    <div class="env-block" aria-label="Definition: mean squared error">
+      <p><span class="env-label">Definition.</span> The mean squared error (MSE) of an estimator \(\hat{\theta}\) for some parameter \(\theta\) is</p>
+      <div class="math-block" role="math" aria-label="MSE of theta hat defined as E of the squared 2 norm of theta hat minus theta">
+        \[
+          \text{MSE}(\hat{\theta}) := E\left[\lVert \hat{\theta} - \theta \rVert_2^2\right].
+        \]
+      </div>
+      <p><span class="label">\(\square\)</span></p>
+    </div>
+
+    <p>For some unbiased estimator \(\hat{\beta}\) of \(\beta\),</p>
+    <div class="math-block" role="math" aria-label="MSE of beta hat equals E of the squared 2 norm of beta hat minus beta, equals the trace of E of the quantity beta hat minus beta times the quantity beta hat minus beta transpose, equals the trace of Var of beta hat">
+      \[
+        \begin{aligned}
+          \text{MSE}(\hat{\beta}) &= E\left[\lVert \hat{\beta} - \beta \rVert_2^2\right] \\
+            &= \text{tr}\!\left(E\left[(\hat{\beta}-\beta)(\hat{\beta}-\beta)'\right]\right) \\
+            &= \text{tr}\!\left(\text{Var}(\hat{\beta})\right).
+        \end{aligned}
+      \]
+    </div>
+    <p>Further, denoting the SVD of the design matrix as \(X = U\Sigma V'\),</p>
+    <div class="math-block" role="math" aria-label="MSE of beta hat equals the trace of Var of beta hat, equals sigma squared times the trace of X prime X inverse, equals sigma squared times the trace of V Sigma to the negative 2 V prime, equals sigma squared times the sum from i equals 1 to p of 1 over lambda sub i">
+      \[
+        \begin{aligned}
+          \text{MSE}(\hat{\beta}) &= \text{tr}\!\left(\text{Var}(\hat{\beta})\right) \\
+            &= \sigma^2\,\text{tr}\!\left[(X'X)^{-1}\right] \\
+            &= \sigma^2\,\text{tr}\!\left(V\Sigma^{-2}V'\right) \\
+            &= \sigma^2\sum_{i=1}^{p}\frac{1}{\lambda_i},
+        \end{aligned}
+      \]
+    </div>
+    <p>where \(\lambda_i\) is the \(i\)th eigenvalue of \(X'X\). In the case that multicollinearity is severe, \(X'X\) is nearly singular. As such, \(\min_i\{\lambda_i\}\) will be close to zero, and so \(\text{MSE}(\hat{\beta})\) will be excessively large. Another measure of multicollinearity is the condition number,</p>
+    <div class="math-block" role="math" aria-label="kappa defined as the max over i of lambda sub i divided by the min over i of lambda sub i">
+      \[
+        \kappa := \frac{\max_i\{\lambda_i\}}{\min_i\{\lambda_i\}}.
+      \]
+    </div>
+    <p>Alternatively, there is a residual-sum-of-squares approach to assessing the severity of multicollinearity, called variance inflation factors.</p>
 
   </main>
 
