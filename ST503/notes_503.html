@@ -1357,6 +1357,209 @@
     </div>
     <p>Alternatively, there is a residual-sum-of-squares approach to assessing the severity of multicollinearity, called variance inflation factors.</p>
 
+    <h2 id="distributional-theory">Distributional Theory</h2>
+
+    <p>To this point we have considered the following assumptions on the general linear model, \(Y = X\beta + U\):</p>
+    <ol>
+      <li>\(E(U) = 0\) in the context of the least squares problem</li>
+      <li>\(E(U) = 0\) in the context of estimation</li>
+      <li>\(E(U) = 0\) and \(\text{Var}(U) = \sigma^2 I_n\)</li>
+      <li>\(E(U) = 0\) and \(\text{Var}(U) = \sigma^2 V\), for some known positive-definite \(V\).</li>
+    </ol>
+    <p>In this section we consider the implications of a distributional assumption on \(U\).</p>
+
+    <!-- Definition: Multivariate Normal Distribution -->
+    <div class="env-block" aria-label="Definition: multivariate normal distribution">
+      <p><span class="env-label">Definition.</span> A random vector \(Y \in \mathbb{R}^p\) is said to follow the <em>multivariate normal</em> distribution with mean \(\mu\) and covariance matrix \(\Sigma\) if, \(\forall\, v \in \mathbb{R}^p\) such that \(v'\Sigma v \neq 0\),</p>
+      <div class="math-block" role="math" aria-label="v prime Y is distributed as normal with mean v prime mu and variance v prime Sigma v">
+        \[
+          v'Y \sim N(v'\mu,\, v'\Sigma v).
+        \]
+      </div>
+      <p>Denote \(Y \sim N_p(\mu, \Sigma)\). <span class="label">\(\square\)</span></p>
+    </div>
+
+    <!-- Theorem: density of the multivariate normal -->
+    <div class="env-block" aria-label="Theorem: density function of the multivariate normal distribution">
+      <p><span class="env-label">Theorem.</span> A random vector \(Y \sim N_p(\mu, \Sigma)\) for some nonsingular matrix \(\Sigma\) if and only if \(Y\) has density,</p>
+      <div class="math-block" role="math" aria-label="f of y equals det of 2 pi Sigma to the negative one half, times e to the negative one half times the quantity y minus mu transpose times Sigma inverse times the quantity y minus mu">
+        \[
+          f(y) = \det(2\pi\Sigma)^{-1/2}\, e^{-\frac{1}{2}(y-\mu)'\Sigma^{-1}(y-\mu)}.
+        \]
+      </div>
+      <p style="text-align:right;">\(\square\)</p>
+      <p><em>Proof.</em> Exercise. <span class="label">\(\square\)</span></p>
+    </div>
+
+    <p>Note that if \(Z \sim N_p(0, I_p)\), then \(Y := \mu + \Sigma^{1/2}Z \sim N_p(\mu, \Sigma)\). Other than the density function, another quantity that uniquely defines the distribution of a random variable is the moment generating function.</p>
+
+    <!-- Definition: Moment Generating Function -->
+    <div class="env-block" aria-label="Definition: moment generating function">
+      <p><span class="env-label">Definition.</span> The <em>moment generating function</em> of a random vector \(X \in \mathbb{R}^p\) is</p>
+      <div class="math-block" role="math" aria-label="m sub X of t defined as E of e to the t prime X, for t in R to the p">
+        \[
+          m_X(t) := E\!\left(e^{t'X}\right), \quad t \in \mathbb{R}^p
+        \]
+      </div>
+      <p>provided that the expectation exists in a neighborhood of \(t = 0\). <span class="label">\(\square\)</span></p>
+    </div>
+
+    <p>Recall two important properties of moment generating functions:</p>
+    <ol>
+      <li>If the moment generating functions for two random variables \(X\) and \(Y\) exist, then they share identical CDFs if and only if \(m_X(t) = m_Y(t)\) for every \(t\) in some neighborhood of zero.</li>
+      <li>
+        Let
+        <div class="math-block" role="math" aria-label="X defined as the column vector with entries X sub 1 through X sub k">
+          \[
+            X := \begin{pmatrix} X_1 \\ \vdots \\ X_k \end{pmatrix}
+          \]
+        </div>
+        for some \(k\). Then \(X_1, \ldots, X_k\) are mutually independent if and only if
+        <div class="math-block" role="math" aria-label="m sub X of t equals the product of m sub X 1 of t 1 through m sub X k of t k">
+          \[
+            m_X(t) = m_{X_1}(t_1) \cdots m_{X_k}(t_k)
+          \]
+        </div>
+        for every \(t\) in some neighborhood of zero.
+      </li>
+    </ol>
+
+    <p>Using property (2), if \(Z_1, \ldots, Z_p \overset{\text{iid}}{\sim} N(0,1)\), then for \(Z := (Z_1, \ldots, Z_p)'\),</p>
+    <div class="math-block" role="math" aria-label="m sub Z of t equals the product of m sub Z i of t i, which simplifies to e to the one half t prime t">
+      \[
+        \begin{aligned}
+          m_Z(t) &= m_{Z_1}(t_1) \cdots m_{Z_p}(t_p) \\
+            &= e^{\frac{1}{2}t_1^2} \cdots e^{\frac{1}{2}t_p^2} \\
+            &= e^{\frac{1}{2}t't}.
+        \end{aligned}
+      \]
+    </div>
+    <p>Then if \(Y := \mu + \Sigma^{1/2}Z \sim N_p(\mu, \Sigma)\) for \(Z \sim N_p(0, I_p)\),</p>
+    <div class="math-block" role="math" aria-label="m sub Y of t equals E of e to the t prime Y, equals e to the t prime mu times E of e to the t prime Sigma to the one half Z, equals e to the t prime mu times m sub Z of Sigma to the one half t, equals e to the t prime mu plus one half t prime Sigma t">
+      \[
+        m_Y(t) = E\!\left(e^{t'Y}\right) = e^{t'\mu}\,E\!\left(e^{t'\Sigma^{1/2}Z}\right) = e^{t'\mu}\,m_Z\!\left(\Sigma^{1/2}t\right) = e^{\,t'\mu\, +\, \frac{1}{2}t'\Sigma t}.
+      \]
+    </div>
+    <p>More generally, linear transformations of multivariate normal random variables can be summarized as in the following result.</p>
+
+    <!-- Theorem: linear transformations of multivariate normal random variables -->
+    <div class="env-block" aria-label="Theorem: linear transformations of multivariate normal random variables">
+      <p><span class="env-label">Theorem.</span> If \(X \sim N_p(\mu, \Sigma)\) and \(Y = a + BX\) for some \(a \in \mathbb{R}^q\) and \(B \in \mathbb{R}^{q \times p}\), then</p>
+      <div class="math-block" role="math" aria-label="Y is distributed as N sub q of a plus B mu, comma, B Sigma B prime">
+        \[
+          Y \sim N_q(a + B\mu,\; B\Sigma B').
+        \]
+      </div>
+      <p style="text-align:right;">\(\square\)</p>
+      <p><em>Proof.</em> Generalize the above argument. <span class="label">\(\square\)</span></p>
+    </div>
+
+    <p>Next, we will study quadratic forms of multivariate normal random variables.</p>
+
+    <!-- Definition: Chi-squared distribution -->
+    <div class="env-block" aria-label="Definition: chi-squared distribution">
+      <p><span class="env-label">Definition.</span> Let \(Z \sim N_p(0, I_p)\). Then \(U := Z'Z = \sum_{i=1}^{p} Z_i^2\) is said to follow the \(\chi^2_p\) distribution. The parameter \(p\) denotes the degrees of freedom. <span class="label">\(\square\)</span></p>
+    </div>
+
+    <p>Some properties of the \(\chi^2_p\) distribution:</p>
+    <div class="math-block" role="math" aria-label="m sub U of t equals the quantity 1 minus 2 t to the negative p over 2, for t less than one half; E of U equals p; Var of U equals 2 p">
+      \[
+        \begin{aligned}
+          m_U(t) &= (1-2t)^{-p/2}, \quad t < \tfrac{1}{2} \\
+          E(U) &= p \\
+          \text{Var}(U) &= 2p
+        \end{aligned}
+      \]
+    </div>
+    <p>Observe that the variance grows on the same order as the mean.</p>
+
+    <!-- Definition: Noncentral chi-squared distribution -->
+    <div class="env-block" aria-label="Definition: noncentral chi-squared distribution">
+      <p><span class="env-label">Definition.</span> Let \(J \sim \text{Poisson}(\Phi)\) and \(U \mid J = j \sim \chi^2_{p+2j}\). Then (unconditionally) \(U\) is said to follow a <em>noncentral chi-squared distribution</em> with noncentrality parameter \(\Phi\), denoted \(U \sim \chi^2_p(\Phi)\). <span class="label">\(\square\)</span></p>
+    </div>
+
+    <p>We will see shortly that if \(Z_i \sim N(\mu_i, 1)\) independently, then \(U := \sum_{i=1}^{p} Z_i^2 \sim \chi^2_p(\Phi)\), where</p>
+    <div class="math-block" role="math" aria-label="Phi equals one half times the sum from i equals 1 to p of mu sub i squared">
+      \[
+        \Phi = \frac{1}{2}\sum_{i=1}^{p} \mu_i^2.
+      \]
+    </div>
+    <p>The density for \(U\) can be derived as</p>
+    <div class="math-block" role="math" aria-label="f sub U of u equals the sum over j greater than or equal to 0 of f sub U given J of u given j, times f sub J of j, which equals the sum over j greater than or equal to 0 of the quantity u to the p plus 2 j minus 2 over 2, times e to the negative u over 2, divided by Gamma of p plus 2 j over 2 times 2 to the j plus p over 2, times the quantity e to the negative Phi, times Phi to the j, divided by j factorial">
+      \[
+        \begin{aligned}
+          f_U(u) &= \sum_{j \geq 0} f_{U \mid J}(u \mid j)\cdot f_J(j) \\
+            &= \sum_{j \geq 0} \frac{u^{\frac{p+2j-2}{2}}\,e^{-u/2}}{\Gamma\!\left(\frac{p+2j}{2}\right) 2^{\,j+p/2}} \cdot \frac{e^{-\Phi}\Phi^{j}}{j!},
+        \end{aligned}
+      \]
+    </div>
+    <p>and the moment generating function is</p>
+    <div class="math-block" role="math" aria-label="m sub U of t equals the quantity 1 minus 2 t to the negative p over 2, times e to the 2 Phi t over the quantity 1 minus 2 t, for t less than one half; E of U equals p plus 2 Phi; Var of U equals 2 p plus 8 Phi">
+      \[
+        \begin{aligned}
+          m_U(t) &= (1-2t)^{-p/2}\cdot e^{\frac{2\Phi t}{1-2t}}, \quad t < \tfrac{1}{2} \\
+          E(U) &= p + 2\Phi \\
+          \text{Var}(U) &= 2p + 8\Phi
+        \end{aligned}
+      \]
+    </div>
+
+    <!-- Theorem: sum of independent noncentral chi-squared random variables -->
+    <div class="env-block" aria-label="Theorem: sum of independent noncentral chi-squared random variables">
+      <p><span class="env-label">Theorem.</span> If \(U_1, \ldots, U_m\) are mutually independent and \(U_i \sim \chi^2_{p_i}(\Phi_i)\), then</p>
+      <div class="math-block" role="math" aria-label="U defined as the sum from i equals 1 to m of U sub i, is distributed as chi-squared sub p of Phi">
+        \[
+          U := \sum_{i=1}^{m} U_i \sim \chi^2_p(\Phi),
+        \]
+      </div>
+      <p>where \(p := \sum_{i=1}^{m} p_i\) and \(\Phi := \sum_{i=1}^{m} \Phi_i\). <span class="label">\(\square\)</span></p>
+      <p><em>Proof.</em></p>
+      <div class="math-block" role="math" aria-label="m sub U of t equals E of e to the t U, equals E of e to the t times the sum of U sub i, equals the product from i equals 1 to m of E of e to the t U sub i, equals the quantity 1 minus 2 t to the negative one half times the sum of p sub i, times e to the 2 t times the sum of Phi sub i, divided by 1 minus 2 t, for t less than one half">
+        \[
+          \begin{aligned}
+            m_U(t) &= E\!\left(e^{tU}\right) \\
+              &= E\!\left(e^{t\sum_{i=1}^{m} U_i}\right) \\
+              &= \prod_{i=1}^{m} E\!\left(e^{tU_i}\right) \\
+              &= (1-2t)^{-\frac{1}{2}\sum_{i=1}^{m} p_i}\, e^{\frac{2t\sum_{i=1}^{m}\Phi_i}{1-2t}}, \quad t < \tfrac{1}{2}
+          \end{aligned}
+        \]
+      </div>
+      <p style="text-align:right;">\(\square\)</p>
+    </div>
+
+    <!-- Theorem: square of a univariate normal is noncentral chi-squared -->
+    <div class="env-block" aria-label="Theorem: the square of a univariate normal random variable follows a noncentral chi-squared distribution">
+      <p><span class="env-label">Theorem.</span> If \(X \sim N(\mu, 1)\), then \(X^2 \sim \chi^2_1\!\left(\tfrac{1}{2}\mu^2\right)\). <span class="label">\(\square\)</span></p>
+      <p><em>Proof.</em></p>
+      <div class="math-block" role="math" aria-label="m sub X squared of t equals E of e to the t X squared, equals the integral over the reals of e to the t x squared, times 1 over the square root of 2 pi, times e to the negative one half times the quantity x minus mu squared, d x">
+        \[
+          \begin{aligned}
+            m_{X^2}(t) &= E\!\left(e^{tX^2}\right) \\
+              &= \int_{\mathbb{R}} e^{tx^2}\,\frac{1}{\sqrt{2\pi}}\,e^{-\frac{1}{2}(x-\mu)^2}\,dx
+          \end{aligned}
+        \]
+      </div>
+      <p>Then &ldquo;complete the square&rdquo; to show \(m_{X^2}(t) = (1-2t)^{-1/2}\,e^{\frac{2t(\mu^2/2)}{1-2t}}\). <span class="label">\(\square\)</span></p>
+    </div>
+
+    <!-- Theorem: quadratic form of a standard multivariate normal is noncentral chi-squared -->
+    <div class="env-block" aria-label="Theorem: quadratic form of a multivariate normal random vector with identity covariance follows a noncentral chi-squared distribution">
+      <p><span class="env-label">Theorem.</span> If \(X \sim N_p(\mu, I_p)\), then \(X'X \sim \chi^2_p\!\left(\tfrac{1}{2}\mu'\mu\right)\). <span class="label">\(\square\)</span></p>
+      <p><em>Proof.</em> Since \(\text{Cov}(X_i, X_j) = 0\) for every \(i \neq j\), joint normality gives independence. Thus, by the previous theorem,</p>
+      <div class="math-block" role="math" aria-label="X sub i squared is distributed as chi-squared sub 1 of one half mu sub i squared, for all i in the set 1 through p">
+        \[
+          X_i^2 \sim \chi^2_1\!\left(\tfrac{1}{2}\mu_i^2\right), \quad \forall\, i \in \{1, \ldots, p\},
+        \]
+      </div>
+      <p>and so, by the two previous theorems, since \(X_1^2, \ldots, X_p^2\) are independent,</p>
+      <div class="math-block" role="math" aria-label="X prime X equals the sum from i equals 1 to p of X sub i squared, is distributed as chi-squared sub p of one half mu prime mu">
+        \[
+          X'X = \sum_{i=1}^{p} X_i^2 \sim \chi^2_p\!\left(\tfrac{1}{2}\mu'\mu\right).
+        \]
+      </div>
+      <p style="text-align:right;">\(\square\)</p>
+    </div>
+
   </main>
 
   <footer role="contentinfo">
