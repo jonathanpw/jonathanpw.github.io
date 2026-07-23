@@ -89,6 +89,8 @@
 
   <main id="main-content" role="main">
 
+    <h2 id="linear-algebra-review">Linear Algebra Review</h2>
+
     <p>Linear algebra is the study of vector spaces, linear transformations, matrices, and inner product spaces.</p>
 
     <!-- Definition: Vector Space -->
@@ -1558,6 +1560,148 @@
         \]
       </div>
       <p style="text-align:right;">\(\square\)</p>
+    </div>
+
+    <!-- Corollary: quadratic form of a multivariate normal random vector with nonsingular covariance -->
+    <div class="env-block" aria-label="Corollary: quadratic form of a multivariate normal random vector with nonsingular covariance follows a noncentral chi-squared distribution">
+      <p><span class="env-label">Corollary.</span> If \(X \sim N_p(\mu, V)\) for some nonsingular \(V\), then \(X'V^{-1}X \sim \chi^2_p\!\left(\tfrac{1}{2}\mu'V^{-1}\mu\right)\). <span class="label">\(\square\)</span></p>
+      <p><em>Proof.</em> Rescale \(X\) and apply the previous theorem. <span class="label">\(\square\)</span></p>
+    </div>
+
+    <!-- Definition: F distribution -->
+    <div class="env-block" aria-label="Definition: F distribution">
+      <p><span class="env-label">Definition.</span> Let \(U_1\) and \(U_2\) be independent random variables with \(U_1 \sim \chi^2_{p_1}\) and \(U_2 \sim \chi^2_{p_2}\). Then the \(F\) distribution is defined as \(F_{p_1,p_2} := \dfrac{U_1/p_1}{U_2/p_2}\). <span class="label">\(\square\)</span></p>
+    </div>
+
+    <!-- Definition: Noncentral F distribution -->
+    <div class="env-block" aria-label="Definition: noncentral F distribution">
+      <p><span class="env-label">Definition.</span> Let \(U_1\) and \(U_2\) be independent random variables with \(U_1 \sim \chi^2_{p_1}(\Phi)\) and \(U_2 \sim \chi^2_{p_2}\). Then the <em>noncentral \(F\) distribution</em> is defined as \(F_{p_1,p_2}(\Phi) := \dfrac{U_1/p_1}{U_2/p_2}\). <span class="label">\(\square\)</span></p>
+    </div>
+
+    <!-- Definition: T distribution -->
+    <div class="env-block" aria-label="Definition: T distribution">
+      <p><span class="env-label">Definition.</span> Let \(X \sim N(\mu, 1)\) and \(U \sim \chi^2_p\), with \(X\) and \(U\) independent. Then the \(T\) distribution is defined as \(T_p := \dfrac{X}{\sqrt{U/p}}\). <span class="label">\(\square\)</span></p>
+    </div>
+
+    <p>Now we are ready to consider the Gaussian linear model,</p>
+    <div class="math-block" role="math" aria-label="Y equals X beta plus U">
+      \[
+        Y = X\beta + U,
+      \]
+    </div>
+    <p>where \(U \sim N(0, \sigma^2 I_n)\). The goal for the remainder of this chapter is to study the distributions of the components of</p>
+    <div class="math-block" role="math" aria-label="Y equals P sub X Y plus the quantity I minus P sub X times Y">
+      \[
+        Y = \mathcal{P}_X Y + (I - \mathcal{P}_X)Y.
+      \]
+    </div>
+    <p>These are all quadratic forms of multivariate normal random vectors with projection matrices.</p>
+
+    <h3 id="quadratic-forms-glm">Quadratic Forms in the Gaussian Linear Model</h3>
+
+    <!-- Lemma: characterization of symmetric idempotent matrices -->
+    <div class="env-block" aria-label="Lemma: characterization of symmetric idempotent matrices via orthonormal factorization">
+      <p><span class="env-label">Lemma.</span> A \(p \times p\) matrix \(A\) is symmetric and idempotent with rank \(s\) if and only if there exists a \(p \times s\) matrix \(G\) with orthonormal columns (i.e., \(G'G = I_s\)) such that \(GG' = A\). <span class="label">\(\square\)</span></p>
+      <p><em>Proof.</em> Exercise. <span class="label">\(\square\)</span></p>
+    </div>
+
+    <!-- Theorem: quadratic form with a symmetric idempotent matrix is noncentral chi-squared -->
+    <div class="env-block" aria-label="Theorem: quadratic form of a multivariate normal random vector with a symmetric idempotent matrix follows a noncentral chi-squared distribution">
+      <p><span class="env-label">Theorem.</span> Let \(Y \sim N_p(\mu, I_p)\). If \(A\) is a symmetric and idempotent matrix with \(\text{rank}(A) = s\), then</p>
+      <div class="math-block" role="math" aria-label="Y prime A Y is distributed as chi-squared sub s of one half mu prime A mu">
+        \[
+          Y'AY \sim \chi^2_s\!\left(\tfrac{1}{2}\mu'A\mu\right).
+        \]
+      </div>
+      <p style="text-align:right;">\(\square\)</p>
+      <p><em>Proof.</em> By the previous lemma, there exists a \(p \times s\) matrix \(G\) with \(G'G = I_s\) such that \(GG' = A\). Then \(G'Y \sim N_s(G'\mu, I_s)\), so that, by a previous theorem,</p>
+      <div class="math-block" role="math" aria-label="Y prime A Y equals Y prime G G prime Y equals the quantity G prime Y transpose times G prime Y, is distributed as chi-squared sub s of one half mu prime G G prime mu, which equals chi-squared sub s of one half mu prime A mu">
+        \[
+          Y'AY = Y'GG'Y = (G'Y)'(G'Y) \sim \chi^2_s\!\left(\tfrac{1}{2}\mu'GG'\mu\right) = \chi^2_s\!\left(\tfrac{1}{2}\mu'A\mu\right).
+        \]
+      </div>
+      <p style="text-align:right;">\(\square\)</p>
+    </div>
+
+    <p>Note that for the general linear model, \(Y \sim N(X\beta, \sigma^2 I_n)\), so \(\sigma^{-1}Y \sim N(\sigma^{-1}X\beta, I_n)\). Since \(I - \mathcal{P}_X\) is symmetric and idempotent with rank \(n - r\),</p>
+    <div class="math-block" role="math" aria-label="sigma to the negative 2 times Y prime times the quantity I minus P sub X times Y, equals the quantity sigma inverse Y transpose times the quantity I minus P sub X times sigma inverse Y, is distributed as chi-squared sub n minus r">
+      \[
+        \sigma^{-2}\,Y'(I - \mathcal{P}_X)Y = (\sigma^{-1}Y)'(I - \mathcal{P}_X)(\sigma^{-1}Y) \sim \chi^2_{n-r},
+      \]
+    </div>
+    <p>with noncentrality parameter zero, since \((I - \mathcal{P}_X)X\beta = 0\). Similarly, since \(\mathcal{P}_X\) is symmetric and idempotent with rank \(r\),</p>
+    <div class="math-block" role="math" aria-label="sigma to the negative 2 times Y prime P sub X Y is distributed as chi-squared sub r of the quantity beta prime X prime X beta, over 2 sigma squared">
+      \[
+        \sigma^{-2}\,Y'\mathcal{P}_X Y \sim \chi^2_r\!\left(\frac{\beta'X'X\beta}{2\sigma^2}\right).
+      \]
+    </div>
+    <p>Moreover,</p>
+    <div class="math-block" role="math" aria-label="the column vector Y hat, U hat is distributed as normal with mean the column vector X beta, 0, and covariance sigma squared times the block diagonal matrix with P sub X and the quantity I minus P sub X">
+      \[
+        \begin{pmatrix} \hat{Y} \\ \hat{U} \end{pmatrix} \sim N\!\left(\begin{pmatrix} X\beta \\ 0 \end{pmatrix},\; \sigma^2\begin{pmatrix} \mathcal{P}_X & 0 \\ 0 & I - \mathcal{P}_X \end{pmatrix}\right).
+      \]
+    </div>
+    <p>Since \(\hat{Y}\) and \(\hat{U}\) are jointly normal and have zero covariance, they are independent, and so</p>
+    <div class="math-block" role="math" aria-label="the ratio of Y prime P sub X Y over r, to Y prime times the quantity I minus P sub X times Y over n minus r, is distributed as F sub r comma n minus r, of the quantity beta prime X prime X beta over 2 sigma squared">
+      \[
+        \frac{Y'\mathcal{P}_X Y / r}{Y'(I - \mathcal{P}_X)Y/(n-r)} \sim F_{r,\,n-r}\!\left(\frac{\beta'X'X\beta}{2\sigma^2}\right).
+      \]
+    </div>
+
+    <!-- Theorem: Cochran's theorem -->
+    <div class="env-block" aria-label="Theorem: Cochran's theorem">
+      <p><span class="env-label">Theorem.</span> (Cochran&rsquo;s theorem) Let \(Y \sim N(\mu, \sigma^2 I_n)\), and let \(A_1, \ldots, A_k\) be symmetric idempotent matrices with \(\text{rank}(A_i) = s_i\) for \(i \in \{1, \ldots, k\}\). If \(\sum_{i=1}^{k} A_i = I_n\), then</p>
+      <div class="math-block" role="math" aria-label="sigma to the negative 2 times Y prime A sub i Y is distributed as chi-squared sub s sub i of the quantity one half sigma to the negative 2 mu prime A sub i mu, for i equals 1 through k">
+        \[
+          \sigma^{-2}\,Y'A_iY \sim \chi^2_{s_i}\!\left(\tfrac{1}{2\sigma^2}\mu'A_i\mu\right), \quad i = 1, \ldots, k,
+        \]
+      </div>
+      <p>where \(n = \sum_{i=1}^{k} s_i\), and \(\sigma^{-2}Y'A_1Y, \ldots, \sigma^{-2}Y'A_kY\) are independent. <span class="label">\(\square\)</span></p>
+      <p><em>Proof.</em> See a linear algebra book. <span class="label">\(\square\)</span></p>
+    </div>
+
+    <p>Consider again the Gaussian linear model, \(Y \sim N(X\beta, \sigma^2 I_n)\). Up to this point, we have shown that the BLUE for an estimable \(\lambda'\beta\) is \(\lambda'\hat{\beta}\), for \(\hat{\beta} \in \{X'X\beta = X'y\}\), and that</p>
+    <div class="math-block" role="math" aria-label="lambda prime beta hat is distributed as normal with mean lambda prime beta and variance sigma squared lambda prime X prime X inverse lambda">
+      \[
+        \lambda'\hat{\beta} \sim N\!\left(\lambda'\beta,\; \sigma^2\lambda'(X'X)^{-1}\lambda\right),
+      \]
+    </div>
+    <p>independent of</p>
+    <div class="math-block" role="math" aria-label="sigma hat squared defined as Y prime times the quantity I minus P sub X times Y, over n minus r">
+      \[
+        \widehat{\sigma^2} := \frac{Y'(I - \mathcal{P}_X)Y}{n - r},
+      \]
+    </div>
+    <p>where \(\dfrac{(n-r)\,\widehat{\sigma^2}}{\sigma^2} \sim \chi^2_{n-r}\).</p>
+
+    <!-- Theorem: maximum likelihood estimators in the Gaussian linear model -->
+    <div class="env-block" aria-label="Theorem: maximum likelihood estimators in the Gaussian linear model">
+      <p><span class="env-label">Theorem.</span> In the model \(Y \sim N(X\beta, \sigma^2 I_n)\), with unknown parameters \(\beta\) and \(\sigma^2\), the maximum likelihood estimators are \(\hat{\beta} = (X'X)^{-1}X'y\) and \(\widehat{\sigma^2} = \dfrac{1}{n}Y'(I - \mathcal{P}_X)Y\), respectively. <span class="label">\(\square\)</span></p>
+      <p><em>Proof.</em> The log-likelihood of the data is given by</p>
+      <div class="math-block" role="math" aria-label="script ell of beta comma sigma squared equals negative n over 2 times the log of 2 pi sigma squared, minus Q of beta over 2 sigma squared">
+        \[
+          \ell(\beta, \sigma^2) = -\frac{n}{2}\log(2\pi\sigma^2) - \frac{Q(\beta)}{2\sigma^2},
+        \]
+      </div>
+      <p>where \(Q(\beta) := (y - X\beta)'(y - X\beta)\). Maximizing with respect to \(\beta\) is equivalent to minimizing \(Q(\beta)\) with respect to \(\beta\). Accordingly, the MLE of \(\beta\) is</p>
+      <div class="math-block" role="math" aria-label="beta hat defined as the argument that minimizes over beta of Q of beta, equals X prime X inverse X prime y">
+        \[
+          \hat{\beta} := \operatorname*{argmin}_{\beta}\; Q(\beta) = (X'X)^{-1}X'y.
+        \]
+      </div>
+      <p>Next,</p>
+      <div class="math-block" role="math" aria-label="the partial derivative of script ell with respect to sigma squared equals negative n over 2 sigma squared, plus Q of beta hat over 2 sigma to the fourth, equals 0">
+        \[
+          \frac{\partial \ell}{\partial \sigma^2} = -\frac{n}{2\sigma^2} + \frac{Q(\hat{\beta})}{2\sigma^4} = 0
+        \]
+      </div>
+      <p>gives</p>
+      <div class="math-block" role="math" aria-label="sigma hat squared equals Q of beta hat over n, equals Y prime times the quantity I minus P sub X times Y, over n">
+        \[
+          \widehat{\sigma^2} = \frac{Q(\hat{\beta})}{n} = \frac{Y'(I - \mathcal{P}_X)Y}{n}.
+        \]
+      </div>
+      <p>(Left to verify the second-order conditions.) <span class="label">\(\square\)</span></p>
     </div>
 
   </main>
