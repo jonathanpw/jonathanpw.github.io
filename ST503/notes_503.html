@@ -1704,6 +1704,128 @@
       <p>(Left to verify the second-order conditions.) <span class="label">\(\square\)</span></p>
     </div>
 
+    <h2 id="bootstrapping">Bootstrapping</h2>
+
+    <p>The basic idea of bootstrapping techniques is to subsample from an observed data set to approximate the sampling distribution of a statistic. The motivation for why this is a reasonable idea comes from Glivenko&ndash;Cantelli theory, which establishes that, under usual conditions, the empirical distribution function (EDF) will approximate the CDF.</p>
+
+    <!-- Definition: Empirical Distribution Function -->
+    <div class="env-block" aria-label="Definition: empirical distribution function">
+      <p><span class="env-label">Definition.</span> The EDF is defined, for a sample \(x_1, \ldots, x_n\), as</p>
+      <div class="math-block" role="math" aria-label="F hat sub n of x equals 1 over n times the sum from i equals 1 to n of the indicator that x sub i is less than or equal to x">
+        \[
+          \widehat{F}_n(x) = \frac{1}{n}\sum_{i=1}^{n} \mathbb{1}\{x_i \le x\},
+        \]
+      </div>
+      <p>equivalently, as the step function</p>
+      <div class="math-block" role="math" aria-label="F hat sub n of x equals 0 for x less than x parenthesis 1 parenthesis, equals 1 over n for x parenthesis 1 parenthesis less than or equal to x less than x parenthesis 2 parenthesis, equals 2 over n for x parenthesis 2 parenthesis less than or equal to x less than x parenthesis 3 parenthesis, and so on, equals 1 for x greater than or equal to x parenthesis n parenthesis">
+        \[
+          \widehat{F}_n(x) =
+          \begin{cases}
+            0, & x < x_{(1)} \\
+            \dfrac{1}{n}, & x_{(1)} \le x < x_{(2)} \\
+            \dfrac{2}{n}, & x_{(2)} \le x < x_{(3)} \\
+            \;\;\vdots & \\
+            1, & x \ge x_{(n)}
+          \end{cases}
+        \]
+      </div>
+      <p>where \(x_{(1)}, \ldots, x_{(n)}\) are the order statistics of the sample. The corresponding empirical density function places a point mass of \(\tfrac{1}{n}\) at each observed value,</p>
+      <div class="math-block" role="math" aria-label="f hat sub n of x equals 1 over n times the sum from i equals 1 to n of delta of x minus x sub i">
+        \[
+          \widehat{f}_n(x) = \frac{1}{n}\sum_{i=1}^{n} \delta(x - x_i).
+        \]
+      </div>
+      <p style="text-align:right;">\(\square\)</p>
+    </div>
+
+    <!-- Definition: Bootstrap Sample -->
+    <div class="env-block" aria-label="Definition: bootstrap sample">
+      <p><span class="env-label">Definition.</span> A bootstrapped sample of size \(n\) is defined as</p>
+      <div class="math-block" role="math" aria-label="X star sub 1 through X star sub n are independently and identically distributed as F hat sub n">
+        \[
+          X_1^*, \ldots, X_n^* \overset{\text{iid}}{\sim} \widehat{F}_n.
+        \]
+      </div>
+      <p>Note that bootstrapped sampling is sampling <em>with replacement</em>. <span class="label">\(\square\)</span></p>
+    </div>
+
+    <p>Consider, in <em>R</em>, an example of bootstrapping to approximate the sampling distribution of the sample mean of both Gaussian and Cauchy data. In both cases, compare to confidence intervals from \(t\)-distributed critical values.</p>
+
+    <p>Next, consider how to bootstrap the sampling distributions of the coefficients in the simple linear regression model,</p>
+    <div class="math-block" role="math" aria-label="y sub i equals beta 0 plus beta 1 x sub i plus u sub i, for i in the set 1 through n">
+      \[
+        y_i = \beta_0 + \beta_1 x_i + u_i \qquad \text{for } i \in \{1, \ldots, n\}.
+      \]
+    </div>
+    <p>Note that the errors are the stochastic component to be resampled, because the \(y_i\) and \(x_i\) come in pairs. There are two obvious approaches for bootstrapping the errors.</p>
+
+    <h3 id="bootstrap-approach-1">Approach 1</h3>
+    <p>Since the \(u_1, \ldots, u_n\) are unobservable, we could instead think of the pairs</p>
+    <div class="math-block" role="math" aria-label="the pair x sub i comma y sub i is distributed independently and identically as f sub X Y">
+      \[
+        (x_i, y_i) \overset{\text{iid}}{\sim} f_{X,Y},
+      \]
+    </div>
+    <p>for some joint distribution \(f_{X,Y}\). As such, bootstrap samples as</p>
+    <div class="math-block" role="math" aria-label="the pair x star sub i comma y star sub i is distributed independently and identically as f hat sub X Y, for i equals 1 through n">
+      \[
+        (x_i^*, y_i^*) \overset{\text{iid}}{\sim} \widehat{f}_{X,Y}, \qquad i = 1, \ldots, n.
+      \]
+    </div>
+    <p>Remember that this is still sampling with replacement. Next, compute the bootstrapped coefficient estimates as</p>
+    <div class="math-block" role="math" aria-label="beta 1 hat star equals the sum from i equals 1 to n of the quantity x star sub i minus x star bar, times the quantity y star sub i minus y star bar, over the sum from i equals 1 to n of the quantity x star sub i minus x star bar squared; and beta 0 hat star equals y star bar minus beta 1 hat star times x star bar">
+      \[
+        \hat{\beta}_1^{*} = \frac{\sum_{i=1}^{n}(x_i^{*} - \bar{x}^{*})(y_i^{*} - \bar{y}^{*})}{\sum_{i=1}^{n}(x_i^{*} - \bar{x}^{*})^2}
+        \qquad \text{and} \qquad
+        \hat{\beta}_0^{*} = \bar{y}^{*} - \hat{\beta}_1^{*}\bar{x}^{*}.
+      \]
+    </div>
+    <p>Repeat this procedure some \(N\) number of times to approximate the sampling distributions of \(\hat{\beta}_0\) and \(\hat{\beta}_1\).</p>
+    <p>(Illustrate in <em>R</em>.)</p>
+
+    <h3 id="bootstrap-approach-2">Approach 2</h3>
+    <p>Since the \(u_1, \ldots, u_n\) are unobservable, we could instead estimate the errors as</p>
+    <div class="math-block" role="math" aria-label="u sub i hat equals y sub i minus beta 0 hat minus beta 1 hat x sub i, for i equals 1 through n">
+      \[
+        \hat{u}_i = y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i, \qquad i = 1, \ldots, n.
+      \]
+    </div>
+    <p>Then bootstrap the \(n\) response values as</p>
+    <div class="math-block" role="math" aria-label="y star sub i equals beta 0 hat plus beta 1 hat x sub i plus u star sub i, with u star sub i distributed independently and identically as F hat sub u hat, for i equals 1 through n">
+      \[
+        y_i^{*} = \hat{\beta}_0 + \hat{\beta}_1 x_i + u_i^{*}, \qquad u_i^{*} \overset{\text{iid}}{\sim} \widehat{F}_{\hat{u}}, \qquad i = 1, \ldots, n.
+      \]
+    </div>
+    <p>Then compute the bootstrapped coefficient estimates \(\hat{\beta}_0^{*}\) and \(\hat{\beta}_1^{*}\) as above. Repeat this procedure some \(N\) number of times to approximate the sampling distributions of \(\hat{\beta}_0\) and \(\hat{\beta}_1\).</p>
+    <p>(Illustrate in <em>R</em>.)</p>
+
+    <p>Observe that there is a subtle problem with sampling \(u_i^{*} \sim \text{Uniform}\{\hat{u}_1, \ldots, \hat{u}_n\}\), in that</p>
+    <div class="math-block" role="math" aria-label="u hat equals the quantity I minus P sub X, times U">
+      \[
+        \hat{u} = (I - \mathcal{P}_X)U,
+      \]
+    </div>
+    <p>so that \(E[\hat{u}] = 0\), but</p>
+    <div class="math-block" role="math" aria-label="the variance of u hat equals sigma squared times the quantity I minus P sub X">
+      \[
+        \text{Var}(\hat{u}) = \sigma^2(I - \mathcal{P}_X).
+      \]
+    </div>
+    <p>Accordingly, \(E[\hat{u}_i] = 0\) and \(\text{Var}(\hat{u}_i) = \sigma^2(1 - h_i)\), where \(h_i := [\mathcal{P}_X]_{ii}\). This is problematic because \(u_1, \ldots, u_n\) are assumed to be i.i.d. with mean zero and a common variance &mdash; a condition the raw residuals \(\hat{u}_i\) do not satisfy, since their variance depends on \(h_i\). That being so, a correction is achieved by bootstrapping the \(n\) response values as</p>
+    <div class="math-block" role="math" aria-label="y star sub i equals beta 0 hat plus beta 1 hat x sub i plus u star sub i, with u star sub i distributed uniformly over the set u tilde sub 1 through u tilde sub n, for i equals 1 through n">
+      \[
+        y_i^{*} = \hat{\beta}_0 + \hat{\beta}_1 x_i + u_i^{*}, \qquad u_i^{*} \sim \text{Uniform}\{\tilde{u}_1, \ldots, \tilde{u}_n\}, \qquad i = 1, \ldots, n,
+      \]
+    </div>
+    <p>where</p>
+    <div class="math-block" role="math" aria-label="u tilde sub i defined as u hat sub i over the square root of the quantity 1 minus h sub i, for i equals 1 through n, and h sub i defined as the i i entry of P sub X">
+      \[
+        \tilde{u}_i := \frac{\hat{u}_i}{\sqrt{1 - h_i}}, \qquad i = 1, \ldots, n, \qquad h_i := [\mathcal{P}_X]_{ii}.
+      \]
+    </div>
+    <p>Then repeat the above procedure.</p>
+    <p>(Illustrate in <em>R</em>.)</p>
+
   </main>
 
   <footer role="contentinfo">
